@@ -28,7 +28,10 @@ const Root = styled.button`
   border: solid 1px transparent;
   background-color: ${colors.lightBlue};
   box-shadow: 0 0 4px 0 rgb(72 187 255 / 0%);
-
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 4px 0 rgb(72 187 255 / 80%);
+  }
   &&:focus,
   &&:active {
     outline: none;

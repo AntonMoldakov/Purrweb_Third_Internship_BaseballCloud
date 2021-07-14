@@ -1,25 +1,16 @@
-import React, { InputHTMLAttributes, ReactNode } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import colors from 'styles/colors';
 import styled from 'styled-components';
 
-const Input = ({ children, ...input }: InputProps) => {
-  return (
-    <>
-      {children && children}
-      <Root {...input} />
-    </>
-  );
+const InputIcon = (props: InputHTMLAttributes<HTMLInputElement>) => {
+  return <Root {...props} />;
 };
 
-export default Input;
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  children?: ReactNode;
-}
+export default InputIcon;
 
 const Root = styled.input`
-  display: block;
-  width: 100%;
+  display: flex;
+  flex: 1;
   height: 50px;
   border-radius: 4px;
   padding: 6px 12px 10px 37px;
@@ -27,6 +18,7 @@ const Root = styled.input`
   line-height: 1.13;
   font-weight: 400;
   border: 1px solid transparent;
+  background-color: ${colors.opacityWhite};
 
   &&:focus,
   &&:active {

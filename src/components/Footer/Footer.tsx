@@ -1,0 +1,50 @@
+import React from 'react';
+import styled from 'styled-components';
+import colors from 'styles/colors';
+
+const Footer = () => {
+  return (
+    <Root>
+      <div>
+        <span>© 2018 BaseballCloud</span>
+        <a href="/legal/terms">Terms of Service</a>
+        <a href="/legal/privacy">Privacy Policy</a>
+      </div>
+      <div>
+        <a href="https://baseballcloud.blog" target="_blank">
+          Blog
+        </a>
+        <a href="http://twitter.com/baseballcloudus" target="_blank">
+          Twitter
+        </a>
+        <a href="http://www.instagram.com/baseballcloudus/" target="_blank">
+          Instagram
+        </a>
+        <a href="http://www.facebook.com/BaseballCloudUS/" target="_blank">
+          Facebook
+        </a>
+      </div>
+    </Root>
+  );
+};
+
+export default Footer;
+
+const Root = styled.div`
+  grid-area: ft;
+  background: ${colors.white};
+  border-top: 1px solid rgb(0 0 0 / 10%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  height: 40px;
+  font-size: 14px;
+  color: ${colors.darkGray};
+  && a {
+    padding: 8px;
+  }
+  && div {
+    align-items: center;
+  }
+`;

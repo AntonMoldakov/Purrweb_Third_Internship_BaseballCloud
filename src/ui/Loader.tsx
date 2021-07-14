@@ -23,7 +23,7 @@ const Loader = () => {
 
 export default Loader;
 
-const Root = styled.section`
+const Root = styled.div`
   display: inline-block;
   position: relative;
   width: 80px;
