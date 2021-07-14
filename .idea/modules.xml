@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/baseballCloud.iml" filepath="$PROJECT_DIR$/.idea/baseballCloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/baseballcloud.iml" filepath="$PROJECT_DIR$/.idea/baseballcloud.iml" />
     </modules>
   </component>
 </project>
