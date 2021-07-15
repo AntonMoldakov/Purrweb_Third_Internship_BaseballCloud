@@ -7,8 +7,8 @@ const Footer = () => {
     <Root>
       <div>
         <span>© 2018 BaseballCloud</span>
-        <a href="/legal/terms">Terms of Service</a>
-        <a href="/legal/privacy">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
       </div>
       <div>
         <a href="https://baseballcloud.blog" target="_blank">
@@ -46,5 +46,8 @@ const Root = styled.div`
   }
   && div {
     align-items: center;
+  }
+  && span {
+    margin-right: 10px;
   }
 `;

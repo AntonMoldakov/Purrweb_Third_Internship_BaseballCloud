@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createGlobalStyle } from 'styled-components';
 import colors from 'styles/colors';
+import { BrowserRouter } from 'react-router-dom';
 
 const Global = createGlobalStyle`
 @font-face {
@@ -13,6 +14,13 @@ const Global = createGlobalStyle`
   src:  local('Lato'), 
   url('assets/fonts/Lato-Regular.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'Lato-Bold';
+  font-weight: 700;
+  font-style: normal;
+  src:  local('Lato-Bold'), 
+  url('assets/fonts/Lato-Bold.ttf') format('truetype');
+}
 
 * {
     margin: 0;
@@ -20,8 +28,9 @@ const Global = createGlobalStyle`
     box-sizing: border-box;
 }
 body {
+    color: ${colors.darkGray};
     font-family: Lato, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
 }
 a {
 		color: ${colors.lightBlue2};
@@ -36,8 +45,10 @@ a {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Global />
-    <App />
+    <BrowserRouter>
+      <Global />
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
 );

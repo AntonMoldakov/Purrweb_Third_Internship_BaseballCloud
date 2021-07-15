@@ -9,6 +9,7 @@ const InputIcon = (props: InputHTMLAttributes<HTMLInputElement>) => {
 export default InputIcon;
 
 const Root = styled.input`
+  color: ${colors.gray};
   display: flex;
   flex: 1;
   height: 50px;

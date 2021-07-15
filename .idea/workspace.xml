@@ -20,13 +20,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68f0b6af-b93b-4c01-af65-ab82e5142f9e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/routes/Routes.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/icons/components/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/icons/components/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Footer/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pagination/Pagination.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/colors.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/InputIcon.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Input.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/InputIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/InputIcon.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/Loader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Loader.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
@@ -62,7 +68,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/node_modules/.bin/eslint" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../06/Prayer" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.jscs" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -83,8 +89,15 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\pages" />
       <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src" />
-      <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud" />
+      <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\pagination\pages" />
+      <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\pagination\pages\Auth\pages" />
+      <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\pagination\pages\Auth" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\pagination\Unauthorized" />
+      <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\pagination\Authorized" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -106,7 +119,8 @@
       <workItem from="1626170834124" duration="25000" />
       <workItem from="1626170860702" duration="1220000" />
       <workItem from="1626172104860" duration="21543000" />
-      <workItem from="1626253344445" duration="2312000" />
+      <workItem from="1626253344445" duration="6911000" />
+      <workItem from="1626260551361" duration="20404000" />
     </task>
     <servers />
   </component>
@@ -130,41 +144,53 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="638" y="323" key="#ESLint/0.0.1536.824@0.0.1536.824" timestamp="1626239077958" />
+    <state x="395" y="91" key="#Inspections" timestamp="1626325791239">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="395" y="91" key="#Inspections/0.0.1536.824@0.0.1536.824" timestamp="1626325791239" />
     <state x="714" y="235" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1626237460703">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="714" y="235" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1626237460703" />
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1626322566179">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1626322566179" />
     <state x="417" y="147" width="714" height="677" key="EditFileWatcherDialog" timestamp="1626239544808">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="417" y="147" width="714" height="677" key="EditFileWatcherDialog/0.0.1536.824@0.0.1536.824" timestamp="1626239544808" />
-    <state x="829" y="321" key="FileChooserDialogImpl" timestamp="1626239430247">
+    <state x="829" y="321" key="FileChooserDialogImpl" timestamp="1626321296139">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="829" y="321" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1626239430247" />
-    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1626254768086">
+    <state x="829" y="321" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1626321296139" />
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1626334125285">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1626254768086" />
-    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1626254768086">
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1626334125285" />
+    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1626334125285">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1626254768086" />
-    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1626254768085">
+    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1626334125285" />
+    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1626334125284">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1626254768085" />
-    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1626254768086">
+    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1626334125284" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1626334125285">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1626254768086" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1626334125285" />
     <state x="171" y="93" width="981" height="707" key="SettingsEditor" timestamp="1626240676114">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="171" y="93" width="981" height="707" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1626240676114" />
-    <state x="425" y="187" width="672" height="677" key="run.anything.popup" timestamp="1626254481719">
+    <state x="425" y="187" width="672" height="677" key="run.anything.popup" timestamp="1626334637731">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1626254481719" />
+    <state x="425" y="187" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1626334637731" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1626334312285">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1626334312285" />
   </component>
 </project>

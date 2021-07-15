@@ -26,5 +26,5 @@ const Root = styled.div`
 `;
 const Icon = styled.div`
   position: absolute;
-  left: 10px;
+  left: 15px;
 `;

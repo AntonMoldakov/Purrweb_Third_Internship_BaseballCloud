@@ -1,26 +1,26 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import colors from 'styles/colors';
 import styled from 'styled-components';
 import Loader from 'ui/Loader';
 
-const Button = (props: ButtonProps) => {
-  return <Root>{props.isLoading ? <Loader /> : props.title}</Root>;
+const Button = ({ isLoading = false, title, ...props }: ButtonProps) => {
+  return <Root {...props}>{isLoading ? <Loader size={40} color={colors.white} /> : title}</Root>;
 };
 
 export default Button;
 
-interface ButtonProps {
-  isLoading: boolean;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  isLoading?: boolean;
   title: string;
 }
 
 const Root = styled.button`
+  height: 52px;
   flex: 1 1 auto;
   width: 100%;
-  padding-top: 15px;
-  padding-bottom: 17px;
-  margin-bottom: 15px;
+  align-items: center;
   color: ${colors.white};
+  font-family: Lato, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
