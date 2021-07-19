@@ -1,12 +1,12 @@
 import { LockIcon, UserIcon } from 'assets/icons/components';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
-import Button from 'ui/Button';
 import { CustomField } from 'components';
 import { Field, Form } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import FormContainer from 'ui/FormContainer';
+import { FormContainer, Button } from 'ui';
+import { AuthPages } from 'layouts';
 
 interface HandleSubmitProps {
   email: string;
@@ -22,54 +22,56 @@ function SignIn() {
   };
 
   return (
-    <FormContainer>
-      <Header>
-        <Title>Welcome to BaseballCloud!</Title>
-        <Text>Sign into your account here:</Text>
-      </Header>
+    <AuthPages>
+      <FormContainer>
+        <Header>
+          <Title>Welcome to BaseballCloud!</Title>
+          <Text>Sign into your account here:</Text>
+        </Header>
 
-      <Form
-        onSubmit={handleSubmit}
-        render={({ handleSubmit, submitting, pristine }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
+        <Form
+          onSubmit={handleSubmit}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form onSubmit={handleSubmit}>
+              <div>
+                <FormItem>
+                  <Field
+                    maxLength={30}
+                    name="email"
+                    title="Email"
+                    type="email"
+                    placeholder="Email"
+                    children={<UserIcon color={colors.gray} />}
+                    component={CustomField}
+                  />
+                </FormItem>
+                <FormItem>
+                  <Field
+                    maxLength={30}
+                    type="password"
+                    name="password"
+                    title="Password"
+                    placeholder="Password"
+                    children={<LockIcon color={colors.gray} />}
+                    component={CustomField}
+                  />
+                </FormItem>
+              </div>
               <FormItem>
-                <Field
-                  maxLength={30}
-                  name="email"
-                  title="Email"
-                  type="email"
-                  placeholder="Email"
-                  children={<UserIcon color={colors.gray} />}
-                  component={CustomField}
-                />
+                <Button type="submit" isLoading={isLoading} disabled={submitting || pristine} title={'Sign In'} />
               </FormItem>
-              <FormItem>
-                <Field
-                  maxLength={30}
-                  type="password"
-                  name="password"
-                  title="Password"
-                  placeholder="Password"
-                  children={<LockIcon color={colors.gray} />}
-                  component={CustomField}
-                />
-              </FormItem>
-            </div>
-            <FormItem>
-              <Button type="submit" isLoading={isLoading} disabled={submitting || pristine} title={'Sign In'} />
-            </FormItem>
-          </form>
-        )}
-      />
-      <Help>
-        <Link to={'#'}>Forgotten password?</Link>
-      </Help>
-      <Footer>
-        <Text>Don’t have an account?</Text>
-        <Link to={'/registration'}>Sign Up</Link>
-      </Footer>
-    </FormContainer>
+            </form>
+          )}
+        />
+        <Help>
+          <Link to={'#'}>Forgotten password?</Link>
+        </Help>
+        <Footer>
+          <Text>Don’t have an account?</Text>
+          <Link to={'/registration'}>Sign Up</Link>
+        </Footer>
+      </FormContainer>
+    </AuthPages>
   );
 }
 

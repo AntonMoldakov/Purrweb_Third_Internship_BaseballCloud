@@ -11,15 +11,22 @@ const Global = createGlobalStyle`
   font-family: 'Lato';
   font-weight: 400;
   font-style: normal;
-  src:  local('Lato'), 
-  url('assets/fonts/Lato-Regular.ttf') format('truetype');
+  src: 
+  url('assets/fonts/Lato-Regular.ttf') format('ttf');
 }
 @font-face {
   font-family: 'Lato-Bold';
   font-weight: 700;
   font-style: normal;
-  src:  local('Lato-Bold'), 
-  url('assets/fonts/Lato-Bold.ttf') format('truetype');
+  src: 
+  url('assets/fonts/Lato-Bold.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'Lato-Black';
+  font-weight: 700;
+  font-style: normal;
+  src:
+  url('assets/fonts/Lato-Black.ttf') format('ttf');
 }
 
 * {

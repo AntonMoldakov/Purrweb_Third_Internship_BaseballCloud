@@ -1,13 +1,13 @@
 import React, { InputHTMLAttributes, ReactNode } from 'react';
-import colors from 'styles/colors';
 import styled from 'styled-components';
-import Input from 'ui/Input';
+import { Input } from 'ui';
+import colors from 'styles/colors';
 
 const InputIcon = ({ children, ...input }: InputProps) => {
   return (
     <Root>
       {children && <Icon>{children}</Icon>}
-      <Input {...input} />
+      <Input style={{ paddingLeft: 37, paddingTop: 6, paddingBottom: 10, height: 50 }} {...input} />
     </Root>
   );
 };
@@ -23,6 +23,7 @@ const Root = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  background-color: ${colors.opacityWhite};
 `;
 const Icon = styled.div`
   position: absolute;
