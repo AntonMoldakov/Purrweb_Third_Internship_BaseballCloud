@@ -1,12 +1,16 @@
 import { LockIcon, UserIcon } from 'assets/icons/components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { CustomField } from 'components';
 import { Field, Form } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { FormContainer, Button } from 'ui';
 import { AuthPages } from 'layouts';
+import { signIn } from 'store/auth/operations';
+import { useAppDispatch } from 'store';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../store/auth/selectors';
 
 interface HandleSubmitProps {
   email: string;
@@ -15,12 +19,23 @@ interface HandleSubmitProps {
 
 function SignIn() {
   const [isLoading, setLoading] = useState(false);
-  const handleSubmit = ({ email }: HandleSubmitProps) => {
-    setLoading(true);
-    alert(email);
-    setTimeout(() => setLoading(false), 30000);
-  };
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+  const user = useSelector(selectUser);
 
+  useEffect(() => {
+    user.token && history.push('/profile');
+  }, [user]);
+
+  const handleSubmit = ({ email, password }: HandleSubmitProps) => {
+    setLoading(true);
+    dispatch(signIn({ email, password })).then(response => {
+      setLoading(false);
+      if (response.meta.requestStatus === 'fulfilled') {
+        history.push('/profile');
+      }
+    });
+  };
   return (
     <AuthPages>
       <FormContainer>

@@ -1,26 +1,43 @@
 import { LockIcon, UserIcon, CheckIcon } from 'assets/icons/components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { CustomField } from 'components';
 import { Field, Form } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { FormContainer, Button } from 'ui';
 import { Player, Scout } from './components';
 import { Tab, Tabs, TabList, TabPanel, TabProps } from 'react-tabs';
 import { AuthPages } from 'layouts';
+import { signUp } from 'store/auth/operations';
+import { useAppDispatch } from 'store';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../store/auth/selectors';
 
 interface HandleSubmitProps {
   email: string;
   password: string;
+  password_confirmation: string;
 }
 
 function SignUp() {
   const [isLoading, setLoading] = useState(false);
-  const handleSubmit = ({ email }: HandleSubmitProps) => {
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    user.token && history.push('/profile');
+  }, [user]);
+
+  const handleSubmit = ({ email, password, password_confirmation }: HandleSubmitProps) => {
     setLoading(true);
-    alert(email);
-    setTimeout(() => setLoading(false), 30000);
+    dispatch(signUp({ email, password, password_confirmation })).then(response => {
+      setLoading(false);
+      if (response.meta.requestStatus === 'fulfilled') {
+        history.push('/profile');
+      }
+    });
   };
 
   return (

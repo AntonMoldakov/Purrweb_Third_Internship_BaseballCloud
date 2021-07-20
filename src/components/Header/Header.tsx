@@ -1,15 +1,19 @@
 import { LogoIcon } from 'assets/icons/components';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { signOut } from 'store/auth/operations';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 import { NavItem } from 'ui';
+import { useAppDispatch } from 'store';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'store/auth/selectors';
+import avatar from 'assets/img/avatar.png';
+import DropdownMenu from '../../ui/DropdownMenu';
 
 const Header = () => {
-  const user = {
-    token: 'bebebeb',
-    avatar: 'https://images4.alphacoders.com/273/273904.jpg',
-  };
+  const dispatch = useAppDispatch();
+  const user = useSelector(selectUser);
   const navItems = [
     {
       id: '1',
@@ -35,9 +39,13 @@ const Header = () => {
             ))}
           </StyledNav>
           <Profile>
-            <Link to={'/profile'}>
-              <Avatar src={user.avatar} />
-            </Link>
+            <AvatarLink to={'/profile'}>
+              <Avatar src={avatar} />
+            </AvatarLink>
+            <DropdownMenu title={user.email}>
+              <Link to={'/profile'}>My Profile</Link>
+              <a onClick={() => dispatch(signOut())}>Log Out</a>
+            </DropdownMenu>
           </Profile>
         </RightNav>
       )}
@@ -58,9 +66,6 @@ const Root = styled.div`
   height: 52px;
   font-size: 14px;
   color: ${colors.darkGray};
-  && a {
-    padding: 0 8px;
-  }
   && svg {
     display: flex;
   }
@@ -78,8 +83,12 @@ const StyledNav = styled.nav`
 `;
 
 const Profile = styled.nav`
+  align-items: center;
   display: flex;
   margin-left: 16px;
+`;
+const AvatarLink = styled(Link)`
+  line-height: 0;
 `;
 
 const Avatar = styled.img`
