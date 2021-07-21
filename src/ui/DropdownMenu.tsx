@@ -5,11 +5,15 @@ import colors from 'styles/colors';
 const DropdownMenu = ({ children, title, ...props }: IconButtonProps) => {
   const [isOpen, setOpen] = useState(false);
   return (
-    <Root onBlur={() => setOpen(false)}>
+    <Root>
       <Button onClick={() => setOpen(!isOpen)} {...props}>
         {title}
       </Button>
-      {isOpen && <Menu>{children}</Menu>}
+      {isOpen && (
+        <Menu tabIndex={0} onBlur={() => setOpen(false)}>
+          {children}
+        </Menu>
+      )}
     </Root>
   );
 };

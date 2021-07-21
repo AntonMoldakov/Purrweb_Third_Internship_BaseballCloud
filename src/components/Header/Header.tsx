@@ -10,10 +10,15 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
 import avatar from 'assets/img/avatar.png';
 import DropdownMenu from '../../ui/DropdownMenu';
+import { useQuery } from '@apollo/client';
+import { ICurrentUser } from 'graphql/types';
+import { CURRENT_USER } from 'graphql/consts';
 
 const Header = () => {
   const dispatch = useAppDispatch();
-  const user = useSelector(selectUser);
+  const { token } = useSelector(selectUser);
+  const { data, loading } = useQuery<ICurrentUser>(CURRENT_USER);
+  const user = data?.current_profile;
   const navItems = [
     {
       id: '1',
@@ -31,7 +36,7 @@ const Header = () => {
       <Link to={'/profile'}>
         <LogoIcon width="198" height="28" />
       </Link>
-      {user.token && (
+      {token && !loading && user && (
         <RightNav>
           <StyledNav>
             {navItems.map(item => (
@@ -40,9 +45,9 @@ const Header = () => {
           </StyledNav>
           <Profile>
             <AvatarLink to={'/profile'}>
-              <Avatar src={avatar} />
+              <Avatar src={user.avatar ? user.avatar : avatar} />
             </AvatarLink>
-            <DropdownMenu title={user.email}>
+            <DropdownMenu title={user.first_name + ' ' + user.last_name}>
               <Link to={'/profile'}>My Profile</Link>
               <a onClick={() => dispatch(signOut())}>Log Out</a>
             </DropdownMenu>

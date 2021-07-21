@@ -6,7 +6,9 @@ import { FieldRenderProps } from 'react-final-form';
 
 interface CustomSelectProps
   extends FieldRenderProps<
-    Array<{ value: string | number; label: string }> | { value: string | number; label: string },
+    | Array<{ value: string | number; label: string | undefined; data: string }>
+    | { value: string | number; label: string | undefined; data: string }
+    | undefined,
     HTMLSelectElement
   > {}
 

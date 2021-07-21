@@ -5,6 +5,8 @@ import reportWebVitals from './reportWebVitals';
 import { createGlobalStyle } from 'styled-components';
 import colors from 'styles/colors';
 import { BrowserRouter } from 'react-router-dom';
+import store from './store';
+import { Provider } from 'react-redux';
 
 const Global = createGlobalStyle`
 @font-face {
@@ -54,7 +56,9 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Global />
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),

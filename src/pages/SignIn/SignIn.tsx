@@ -10,7 +10,7 @@ import { AuthPages } from 'layouts';
 import { signIn } from 'store/auth/operations';
 import { useAppDispatch } from 'store';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../store/auth/selectors';
+import { selectUser } from 'store/auth/selectors';
 
 interface HandleSubmitProps {
   email: string;

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Default } from 'react-spinners-css';
+import colors from '../styles/colors';
 
 interface LoaderProps {
-  color: string;
+  color?: string;
   size: number;
 }
 
-const Loader = ({ color, size }: LoaderProps) => {
+const Loader = ({ color = colors.lightBlue, size }: LoaderProps) => {
   return <Default color={color} size={size} />;
 };
 
