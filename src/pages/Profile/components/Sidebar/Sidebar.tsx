@@ -1,19 +1,44 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IconButton, Loader } from 'ui';
-import { AgeIcon, BallIcon, BatIcon, EditIcon, HeightIcon, WeightIcon } from 'assets/icons/components';
+import {
+  AgeIcon,
+  BallIcon,
+  BatIcon,
+  EditIcon,
+  FollowIcon,
+  HeightIcon,
+  UnFollowIcon,
+  WeightIcon,
+} from 'assets/icons/components';
 import colors from 'styles/colors';
 import avatar from 'assets/img/avatar.png';
 import { ProfileForm } from '../ProfileForm';
-import { useQuery } from '@apollo/client';
-import { ICurrentProfile } from 'graphql/types';
-import { CURRENT_PROFILE } from 'graphql/consts';
-import { ToNormalState } from 'utils/Normalizers';
+import { toNormalState } from 'utils/Normalizers';
+import { DesiredProfile } from 'interface';
+import { useMutation } from '@apollo/client';
+import { UPDATE_FAVORITE_PROFILE } from 'graphql/consts';
+import { IUpdateFavoriteProfile, IUpdateFavoriteProfileProps } from 'graphql/types';
 
-function Sidebar() {
-  const { data, loading } = useQuery<ICurrentProfile>(CURRENT_PROFILE);
-  const [editMode, setEditMode] = useState(false);
-  const user = data?.current_profile;
+function Sidebar({ profile, edit = false }: SidebarProps) {
+  const { data, loading } = profile.profile;
+  const user = data;
+  const [editMode, setEditMode] = useState(edit);
+  const [updateProfile, { data: updatedProfileData }] = useMutation<
+    IUpdateFavoriteProfile,
+    IUpdateFavoriteProfileProps
+  >(UPDATE_FAVORITE_PROFILE);
+  const updateFavorite = updatedProfileData?.update_favorite_profile.favorite;
+  const handleFavorite = () => {
+    updateProfile({
+      variables: {
+        form: { profile_id: '' + data?.id, favorite: updateFavorite !== undefined ? !updateFavorite : !data?.favorite },
+      },
+    });
+  };
+  const handleCheckFavorite = (): boolean | undefined =>
+    updateFavorite !== undefined ? updateFavorite : data?.favorite;
+
   return (
     <Root>
       {loading ? (
@@ -27,15 +52,21 @@ function Sidebar() {
               <>
                 <UserInfo>
                   <EditButton>
-                    <IconButton onClick={() => setEditMode(true)}>
-                      <EditIcon />
-                    </IconButton>
+                    {profile.currentProfile ? (
+                      <IconButton onClick={() => setEditMode(!editMode)}>
+                        <EditIcon />
+                      </IconButton>
+                    ) : (
+                      <IconButton onClick={() => handleFavorite()}>
+                        {handleCheckFavorite() ? <UnFollowIcon /> : <FollowIcon />}
+                      </IconButton>
+                    )}
                   </EditButton>
                   <UserPhoto src={!user.avatar ? avatar : `${user.avatar}`} />
                   <UserName>{user.first_name + ' ' + user.last_name}</UserName>
                   <UserPosition>
-                    <p>{ToNormalState(user.position)}</p>
-                    <p>{ToNormalState(user.position2)}</p>
+                    <p>{user.position ? toNormalState(user.position) : ''}</p>
+                    {user.position2 && <p> {toNormalState(user.position2)} </p>}
                   </UserPosition>
                 </UserInfo>
                 <PersonalInfo>
@@ -88,18 +119,30 @@ function Sidebar() {
                   </PersonalInfoItem>
                 </PersonalInfo>
                 <SchoolInfo>
-                  <SchoolInfoItem>
-                    <h3>School</h3>
-                    <p>{user.school.name}</p>
-                  </SchoolInfoItem>
-                  <SchoolInfoItem>
-                    <h3>School Year</h3>
-                    <p>{user.school_year}</p>
-                  </SchoolInfoItem>
-                  <SchoolInfoItem>
-                    <h3>Team</h3>
-                    <p>{user.teams.map(team => team.name)}</p>
-                  </SchoolInfoItem>
+                  {user.school && (
+                    <SchoolInfoItem>
+                      <h3>School</h3>
+                      <p>{user.school.name}</p>
+                    </SchoolInfoItem>
+                  )}
+                  {user.school_year && (
+                    <SchoolInfoItem>
+                      <h3>School Year</h3>
+                      <p>{user.school_year}</p>
+                    </SchoolInfoItem>
+                  )}
+                  {user.teams.length > 0 && (
+                    <SchoolInfoItem>
+                      <h3>Team</h3>
+                      <p>{user.teams.map(team => team.name + ' ')}</p>
+                    </SchoolInfoItem>
+                  )}
+                  {user.facilities.length > 0 && (
+                    <SchoolInfoItem>
+                      <h3>Facilities</h3>
+                      <p>{user.facilities.map(item => item.u_name)}</p>
+                    </SchoolInfoItem>
+                  )}
                   {user.biography && (
                     <>
                       <AboutTitle>
@@ -121,6 +164,11 @@ function Sidebar() {
 
 export default Sidebar;
 
+interface SidebarProps {
+  profile: DesiredProfile;
+  edit?: boolean;
+}
+
 const Root = styled.aside`
   overflow: auto;
   display: flex;
@@ -129,6 +177,7 @@ const Root = styled.aside`
   width: 300px;
   flex-direction: column;
 `;
+
 const PersonalInfoItem = styled.div`
   width: 100%;
   display: flex;
@@ -139,6 +188,7 @@ const PersonalInfoItem = styled.div`
     align-items: center;
   }
 `;
+
 const UserInfo = styled.div`
   position: relative;
   width: 100%;
@@ -148,16 +198,19 @@ const UserInfo = styled.div`
   text-align: center;
   align-items: center;
 `;
+
 const PersonalInfo = styled.div`
   width: 100%;
   display: flex;
   flex-flow: column;
 `;
+
 const EditButton = styled.div`
   position: absolute;
   top: 12px;
   right: 15px;
 `;
+
 const UserPhoto = styled.img`
   width: 100px;
   height: 100px;
@@ -165,6 +218,7 @@ const UserPhoto = styled.img`
   background-position: 50% 50%;
   border-radius: 50%;
 `;
+
 const UserName = styled.h3`
   margin-top: 5px;
   font-size: 20px;
@@ -172,6 +226,7 @@ const UserName = styled.h3`
   color: ${colors.gray3};
   font-weight: 300;
 `;
+
 const UserPosition = styled.div`
   display: flex;
   flex-flow: column;
@@ -181,22 +236,25 @@ const UserPosition = styled.div`
   align-items: center;
   && p {
     width: fit-content;
-    &:last-child {
+    &:nth-child(2n) {
       border-top: 1px solid ${colors.gray4};
     }
   }
 `;
+
 const Icon = styled.div`
   justify-content: center;
   width: 24px;
   height: 24px;
   margin-right: 16px;
 `;
+
 const SchoolInfo = styled.div`
   width: 100%;
   display: flex;
   flex-flow: column;
 `;
+
 const SchoolInfoItem = styled.div`
   margin-bottom: 11px;
   width: 100%;
@@ -215,6 +273,7 @@ const SchoolInfoItem = styled.div`
     word-wrap: break-word;
   }
 `;
+
 const AboutTitle = styled.div`
   width: 100%;
   display: flex;
@@ -234,6 +293,7 @@ const AboutTitle = styled.div`
     background-color: ${colors.opacityWhite};
   }
 `;
+
 const AboutText = styled.p`
   font-size: 16px;
   color: ${colors.gray2};

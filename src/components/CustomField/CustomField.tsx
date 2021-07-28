@@ -4,10 +4,6 @@ import { FieldRenderProps } from 'react-final-form';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 
-interface CustomFieldProps extends FieldRenderProps<string | number, HTMLInputElement> {
-  children?: ReactNode;
-}
-
 const CustomField = ({ input, meta, children, ...rest }: CustomFieldProps) => {
   return (
     <div>
@@ -25,7 +21,13 @@ const CustomField = ({ input, meta, children, ...rest }: CustomFieldProps) => {
 
 export default CustomField;
 
+interface CustomFieldProps extends FieldRenderProps<string | number, HTMLInputElement> {
+  children?: ReactNode;
+}
+
 const Error = styled.section`
+  width: 100%;
+  text-align: start;
   margin-top: 8px;
   color: ${colors.red};
 `;

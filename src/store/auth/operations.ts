@@ -13,6 +13,7 @@ export const signUp = createAsyncThunk('auth/signUp', async (payload: SignUpProp
   const data = response.data.data;
   return { ...data, token: response.headers['access-token'], clientToken: response.headers.client };
 });
+
 export const signOut = createAsyncThunk('auth/signOut', async () => {
   await authAPI.signOut();
 });

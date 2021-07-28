@@ -11,11 +11,7 @@ import { signIn } from 'store/auth/operations';
 import { useAppDispatch } from 'store';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
-
-interface HandleSubmitProps {
-  email: string;
-  password: string;
-}
+import validate from 'utils/validate';
 
 function SignIn() {
   const [isLoading, setLoading] = useState(false);
@@ -56,6 +52,7 @@ function SignIn() {
                     title="Email"
                     type="email"
                     placeholder="Email"
+                    validate={validate.requiredEmail}
                     children={<UserIcon color={colors.gray} />}
                     component={CustomField}
                   />
@@ -67,6 +64,7 @@ function SignIn() {
                     name="password"
                     title="Password"
                     placeholder="Password"
+                    validate={validate.required}
                     children={<LockIcon color={colors.gray} />}
                     component={CustomField}
                   />
@@ -92,9 +90,15 @@ function SignIn() {
 
 export default SignIn;
 
+interface HandleSubmitProps {
+  email: string;
+  password: string;
+}
+
 const Header = styled.div`
   margin-bottom: 48px;
 `;
+
 const Title = styled.h2`
   margin: 0 0 8px 0;
   font-size: 24px;
@@ -102,6 +106,7 @@ const Title = styled.h2`
   font-weight: 400;
   color: ${colors.gray};
 `;
+
 const Text = styled.span`
   ont-size: 24px;
   line-height: 1.25;
@@ -109,6 +114,7 @@ const Text = styled.span`
   color: ${colors.gray};
   font-size: 16px;
 `;
+
 const FormItem = styled.div`
   margin-bottom: 15px;
 `;

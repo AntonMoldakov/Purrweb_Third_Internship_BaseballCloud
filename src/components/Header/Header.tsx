@@ -1,5 +1,5 @@
 import { LogoIcon } from 'assets/icons/components';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signOut } from 'store/auth/operations';
 import styled from 'styled-components';
@@ -9,12 +9,13 @@ import { useAppDispatch } from 'store';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
 import avatar from 'assets/img/avatar.png';
-import DropdownMenu from '../../ui/DropdownMenu';
+import DropdownMenu from 'ui/DropdownMenu';
 import { useQuery } from '@apollo/client';
 import { ICurrentUser } from 'graphql/types';
 import { CURRENT_USER } from 'graphql/consts';
 
 const Header = () => {
+  const [isOpenMenu, setOpenMenu] = useState(false);
   const dispatch = useAppDispatch();
   const { token } = useSelector(selectUser);
   const { data, loading } = useQuery<ICurrentUser>(CURRENT_USER);
@@ -37,7 +38,7 @@ const Header = () => {
         <LogoIcon width="198" height="28" />
       </Link>
       {token && !loading && user && (
-        <RightNav>
+        <StyledNav>
           <StyledNav>
             {navItems.map(item => (
               <NavItem to={item.src} title={item.title} key={item.id} />
@@ -47,12 +48,19 @@ const Header = () => {
             <AvatarLink to={'/profile'}>
               <Avatar src={user.avatar ? user.avatar : avatar} />
             </AvatarLink>
-            <DropdownMenu title={user.first_name + ' ' + user.last_name}>
-              <Link to={'/profile'}>My Profile</Link>
-              <a onClick={() => dispatch(signOut())}>Log Out</a>
-            </DropdownMenu>
+            <MenuWrapper>
+              <Button onClick={() => setOpenMenu(!isOpenMenu)}>
+                {user.first_name ? user.first_name + ' ' + user.last_name : 'Profile Name'}
+              </Button>
+              <DropdownMenu isOpen={isOpenMenu}>
+                <Link onClick={() => setOpenMenu(false)} to={'/profile'}>
+                  My Profile
+                </Link>
+                <a onClick={() => dispatch(signOut()).then(() => setOpenMenu(false))}>Log Out</a>
+              </DropdownMenu>
+            </MenuWrapper>
           </Profile>
-        </RightNav>
+        </StyledNav>
       )}
     </Root>
   );
@@ -79,12 +87,12 @@ const Root = styled.div`
   }
 `;
 
-const RightNav = styled.nav`
+const StyledNav = styled.nav`
   display: flex;
 `;
 
-const StyledNav = styled.nav`
-  display: flex;
+const MenuWrapper = styled.nav`
+  position: relative;
 `;
 
 const Profile = styled.nav`
@@ -102,4 +110,26 @@ const Avatar = styled.img`
   background-size: cover;
   background-position: 50% 50%;
   border-radius: 50%;
+`;
+
+const Button = styled.button`
+  padding: 10px 18px;
+  border-radius: 4px;
+  box-shadow: none;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 400;
+  background: none;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+  color: ${colors.gray2};
+  &&:focus,
+  &&:active {
+    outline: none;
+    border: 0;
+  }
+  &:hover {
+    background: ${colors.opacityWhite2};
+  }
 `;

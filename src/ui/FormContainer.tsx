@@ -2,15 +2,15 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 
-interface FormContainerProps {
-  children: ReactNode;
-}
-
 function FormContainer({ children }: FormContainerProps) {
   return <Root>{children}</Root>;
 }
 
 export default FormContainer;
+
+interface FormContainerProps {
+  children: ReactNode;
+}
 
 const Root = styled.div`
   background: ${colors.white2};

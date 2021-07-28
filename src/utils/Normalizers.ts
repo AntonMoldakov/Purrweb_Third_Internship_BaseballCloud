@@ -1,4 +1,7 @@
-export const ToNormalState = (str: string): string => {
+export const toNormalState = (str: string): string => {
+  if (str?.length == 0) {
+    return str;
+  }
   return (
     str[0].toUpperCase() +
     str
@@ -8,7 +11,7 @@ export const ToNormalState = (str: string): string => {
   );
 };
 
-type ToNormalizeOptionsProps =
+type toNormalizeOptionsProps =
   | {
       name?: string;
       u_name?: string;
@@ -24,7 +27,10 @@ type ToNormalizeOptionsProps =
       id: number | string;
     }>;
 
-export const ToNormalizeOptions = (value: ToNormalizeOptionsProps) => {
+export const toNormalizeOptions = (value: toNormalizeOptionsProps) => {
+  if (value === null) {
+    return undefined;
+  }
   switch (typeof value) {
     case 'object': {
       return Array.isArray(value)
@@ -37,7 +43,7 @@ export const ToNormalizeOptions = (value: ToNormalizeOptionsProps) => {
       return value;
     }
     default: {
-      return { value: value, label: ToNormalState(value + ''), data: '' };
+      return { value: value, label: toNormalState(value + ''), data: '' };
     }
   }
 };

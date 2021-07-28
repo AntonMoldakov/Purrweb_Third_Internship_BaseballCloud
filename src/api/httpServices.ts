@@ -1,5 +1,5 @@
 import axios from 'axios';
-import store from '../store';
+import store from 'store';
 
 const api = axios.create({
   baseURL: 'https://baseballcloud-back.herokuapp.com/api/v1/',

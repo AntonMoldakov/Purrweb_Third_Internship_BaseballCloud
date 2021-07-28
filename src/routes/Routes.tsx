@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import { Profile, SignIn, SignUp } from 'pages';
 import { Header, Footer } from 'components';
 import { Content, Main } from 'layouts';
-import { PrivateRoute } from 'utils/PrivateRoute';
+import { PrivateRoute } from 'routes/PrivateRoute';
 
 const Routes = () => {
   return (
@@ -15,7 +15,7 @@ const Routes = () => {
             <Route exact path={'/'}>
               <Redirect to={'/profile'} />
             </Route>
-            <PrivateRoute path={'/profile'} component={Profile} />
+            <PrivateRoute exact path={['/profile', '/profile/:id']} component={Profile} />
             <Route path={'/login'} component={SignIn} />
             <Route path={'/registration'} component={SignUp} />
           </Switch>

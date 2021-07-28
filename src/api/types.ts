@@ -3,8 +3,15 @@ import { IUser } from 'interface';
 export type AuthResponse = {
   data: IUser;
 };
+
 export type DeleteResponse = {
   success: boolean;
+};
+
+export type ImageResponse = {
+  fileKey: string;
+  fileName: string;
+  signedUrl: string;
 };
 
 export type SignInProps = {

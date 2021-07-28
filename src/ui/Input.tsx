@@ -2,11 +2,11 @@ import React, { InputHTMLAttributes } from 'react';
 import colors from 'styles/colors';
 import styled from 'styled-components';
 
-const InputIcon = (props: InputHTMLAttributes<HTMLInputElement>) => {
+const Input = (props: InputHTMLAttributes<HTMLInputElement>) => {
   return <Root {...props} />;
 };
 
-export default InputIcon;
+export default Input;
 
 const Root = styled.input`
   color: ${colors.gray};

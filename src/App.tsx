@@ -17,9 +17,9 @@ function App() {
     operation.setContext(({ headers = {} }) => ({
       headers: {
         ...headers,
-        'Access-Token': user.token ? user.token : '',
-        Client: user.clientToken,
-        Uid: user.email,
+        'access-Token': user.token ? user.token : '',
+        client: user.clientToken,
+        uid: user.email,
       },
     }));
 

@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import avatar from 'assets/img/avatar.png';
 import { Field, Form } from 'react-final-form';
 import { CustomField } from 'components/CustomField';
-import { Button, CustomSelect, Loader, TextArea } from 'ui';
+import { FieldSelect } from 'components';
+import { Button, Loader, TextArea } from 'ui';
 import colors from 'styles/colors';
 import validate from 'utils/validate';
 import { useMutation, useQuery } from '@apollo/client';
@@ -16,87 +17,31 @@ import {
   IUpdateProfileProps,
 } from 'graphql/types';
 import { CURRENT_PROFILE, FACILITIES_DATA, SCHOOLS_DATA, TEAMS_DATA, UPDATE_PROFILE } from 'graphql/consts';
-import { ToNormalizeOptions } from 'utils/Normalizers';
-
-interface ProfileFormProps {
-  setEditMode: (mode: boolean) => void;
-}
-
-interface handleSubmitProps {
-  first_name: string;
-  last_name: string;
-  position: {
-    value: string;
-    label: string;
-  };
-  position2: {
-    value: string;
-    label: string;
-  };
-  avatar: string;
-  throws_hand: {
-    value: string;
-    label: string;
-  };
-  bats_hand: {
-    value: string;
-    label: string;
-  };
-  biography: string;
-  school_year: {
-    value: string;
-    label: string;
-  };
-  feet: string;
-  inches: string;
-  weight: string;
-  age: string;
-  school: {
-    value: string;
-    label: string;
-  };
-  teams: Array<{
-    value: string;
-    label: string;
-  }>;
-  facilities: Array<{
-    value: string;
-    label: string;
-    data: string;
-  }>;
-}
+import { toNormalizeOptions } from 'utils/Normalizers';
+import { profileAPI } from 'api';
+import { handData, positionData, schoolYearData } from 'consts';
+import { handleSubmitProps } from 'interface';
+import { ConvertFormData } from 'utils/ConvertFormData';
 
 function ProfileForm({ setEditMode }: ProfileFormProps) {
+  const [labelState, setLabelState] = useState<boolean>(true);
+  const [loadingPicture, setLoadingPicture] = useState<boolean>(false);
+  const [pictureInfo, setPictureInfo] = useState<File>();
+  const [pictureUrl, setPictureUrl] = useState<string>('');
   const { data, loading } = useQuery<ICurrentProfile>(CURRENT_PROFILE);
   const user = data?.current_profile;
-
-  const position = ToNormalizeOptions(user?.position);
-  const position2 = ToNormalizeOptions(user?.position2);
-  const teams = ToNormalizeOptions(user?.teams);
-  const facilities = ToNormalizeOptions(user?.facilities);
-  const school = ToNormalizeOptions(user?.school);
-  const school_years = ToNormalizeOptions(user?.school_year);
-  const throws_hand = ToNormalizeOptions(user?.throws_hand);
-  const bats_hand = ToNormalizeOptions(user?.bats_hand);
-
+  const userId = user ? '' + user.id : ' ';
   const defaultPicture = user?.avatar ? user.avatar : avatar;
+  const requestPicture = pictureUrl ? pictureUrl : user ? user.avatar : '';
 
-  const [labelState, setLabelState] = useState<boolean>(true);
-  const [pictureInfo, setPictureInfo] = useState<File>();
-
-  const handData = [
-    { value: 'l', label: 'L' },
-    { value: 'r', label: 'R' },
-  ];
-  const positionData = [
-    { value: 'catcher', label: 'Catcher' },
-    { value: 'first_base', label: 'First Base' },
-    { value: 'second_base', label: 'Second Base' },
-    { value: 'third_base', label: 'Third Base' },
-    { value: 'shortstop', label: 'Shortstop' },
-    { value: 'outfield', label: 'Outfield' },
-    { value: 'pitcher', label: 'Pitcher' },
-  ];
+  const position = toNormalizeOptions(user?.position);
+  const position2 = toNormalizeOptions(user?.position2);
+  const teams = toNormalizeOptions(user?.teams);
+  const facilities = toNormalizeOptions(user?.facilities);
+  const school = toNormalizeOptions(user?.school);
+  const school_years = toNormalizeOptions(user?.school_year);
+  const throws_hand = toNormalizeOptions(user?.throws_hand);
+  const bats_hand = toNormalizeOptions(user?.bats_hand);
 
   const schoolData = useQuery<ISchoolsData>(SCHOOLS_DATA, {
     variables: { search: '' },
@@ -110,65 +55,31 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
     variables: { search: '' },
   }).data?.facilities.facilities;
 
-  const schoolDataNorm = ToNormalizeOptions(schoolData);
-  const teamsDataNorm = ToNormalizeOptions(teamsData);
-  const facilitiesDataNorm = ToNormalizeOptions(facilitiesData);
-  const schoolYearData = [
-    { value: 'freshman', label: 'Freshman' },
-    { value: 'sophomore', label: 'Sophomore' },
-    { value: 'junior', label: 'Junior' },
-    { value: 'senior', label: 'Senior' },
-    { value: '', label: 'None' },
-  ];
+  const schoolDataNorm = toNormalizeOptions(schoolData);
+  const teamsDataNorm = toNormalizeOptions(teamsData);
+  const facilitiesDataNorm = toNormalizeOptions(facilitiesData);
 
-  const [updateProfile, { data: updatedProfileData, loading: updateLoading }] = useMutation<
-    IUpdateProfile,
-    IUpdateProfileProps
-  >(UPDATE_PROFILE);
-  const handleSubmit = ({
-    bats_hand,
-    throws_hand,
-    facilities,
-    position,
-    position2,
-    school,
-    school_year,
-    teams,
-    age,
-    feet,
-    weight,
-    inches,
-    ...values
-  }: handleSubmitProps) => {
+  const [updateProfile, { loading: updateLoading }] = useMutation<IUpdateProfile, IUpdateProfileProps>(UPDATE_PROFILE);
+  const handleSubmit = (props: handleSubmitProps) => {
     updateProfile({
       variables: {
         form: {
-          ...values,
-          avatar: pictureInfo ? URL.createObjectURL(pictureInfo) : user ? user.avatar : '',
-          feet: +feet,
-          weight: +weight,
-          inches: +inches,
-          age: +age,
-          id: user ? '' + user.id : ' ',
-          bats_hand: bats_hand.value,
-          throws_hand: throws_hand.value,
-          facilities: facilities
-            ? facilities.map(item => {
-                return { id: +item.value, u_name: item.label, email: item.data };
-              })
-            : [],
-          teams: teams
-            ? teams.map(item => {
-                return { id: +item.value, name: item.label };
-              })
-            : [],
-          school: { id: +school.value, name: school.label },
-          position: position.value,
-          position2: position2.value,
-          school_year: school_year.value,
+          ...ConvertFormData(props),
+          id: userId,
+          avatar: requestPicture,
         },
       },
     }).then(() => setEditMode(false));
+  };
+  const handleSubmitImage = () => {
+    if (pictureInfo) {
+      setLoadingPicture(true);
+      profileAPI.uploadImage(pictureInfo).then((response: string) => {
+        setPictureUrl(response);
+        setLabelState(true);
+        setLoadingPicture(false);
+      });
+    }
   };
   const handleCancelPhoto = () => {
     setPictureInfo(undefined);
@@ -205,7 +116,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                         <>
                           <PhotoLabel>{pictureInfo && pictureInfo.name}</PhotoLabel>
                           <div>
-                            <PhotoLabel onClick={() => pictureInfo && setLabelState(true)}>Upload photo</PhotoLabel>
+                            <PhotoLabel onClick={handleSubmitImage}>Upload photo</PhotoLabel>
                             <PhotoLabel onClick={handleCancelPhoto}>Cancel</PhotoLabel>
                           </div>
                         </>
@@ -214,7 +125,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
 
                     <section>
                       <UserName>
-                        <FormItem>
+                        <FormItem $twoItem>
                           <Field
                             maxLength={30}
                             name="first_name"
@@ -239,11 +150,12 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       </UserName>
                       <FormItem>
                         <Field
+                          validate={validate.requiredSelect}
                           defaultValue={position}
                           name={'position'}
                           placeholder={'Position in Game *'}
                           options={positionData}
-                          component={CustomSelect}
+                          component={FieldSelect}
                         />
                       </FormItem>
                       <FormItem>
@@ -252,7 +164,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           name={'position2'}
                           placeholder={'Secondary Position in Game'}
                           options={positionData}
-                          component={CustomSelect}
+                          component={FieldSelect}
                         />
                       </FormItem>
                     </section>
@@ -273,7 +185,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           component={CustomField}
                         />
                       </FormItem>
-                      <FormItem>
+                      <FormItem $twoItem>
                         <Field
                           defaultValue={user.feet}
                           validate={validate.required}
@@ -310,24 +222,26 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       <InputContainer>
                         <InputItem>
                           <Field
+                            validate={validate.requiredSelect}
                             defaultValue={throws_hand}
                             name="throws_hand"
                             title="Throws"
                             type="throws"
                             placeholder="Throws *"
                             options={handData}
-                            component={CustomSelect}
+                            component={FieldSelect}
                           />
                         </InputItem>
                         <InputItem>
                           <Field
+                            validate={validate.requiredSelect}
                             defaultValue={bats_hand}
                             name="bats_hand"
                             title="Bats"
                             type="bats"
                             placeholder="Bats *"
                             options={handData}
-                            component={CustomSelect}
+                            component={FieldSelect}
                           />
                         </InputItem>
                       </InputContainer>
@@ -343,7 +257,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           name={'school'}
                           placeholder={'School'}
                           options={schoolDataNorm}
-                          component={CustomSelect}
+                          component={FieldSelect}
                         />
                       </FormItem>
                       <FormItem>
@@ -352,7 +266,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           name={'school_year'}
                           placeholder={'School Year'}
                           options={schoolYearData}
-                          component={CustomSelect}
+                          component={FieldSelect}
                         />
                       </FormItem>
                       <FormItem>
@@ -362,7 +276,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           name={'teams'}
                           placeholder={'Team'}
                           options={teamsDataNorm}
-                          component={CustomSelect}
+                          component={FieldSelect}
                         />
                       </FormItem>
                     </section>
@@ -378,7 +292,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           name={'facilities'}
                           placeholder={'Facilities'}
                           options={facilitiesDataNorm}
-                          component={CustomSelect}
+                          component={FieldSelect}
                         />
                       </FormItem>
                     </section>
@@ -402,11 +316,16 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                     <Button
                       $white
                       type="reset"
-                      onClick={() => setEditMode(false)}
-                      disabled={submitting || pristine}
+                      onClick={() => (user?.first_name ? setEditMode(false) : null)}
+                      disabled={submitting || pristine || updateLoading || loadingPicture}
                       title={'Cancel'}
                     />
-                    <Button type="submit" isLoading={updateLoading} disabled={submitting || pristine} title={'Save'} />
+                    <Button
+                      type="submit"
+                      isLoading={updateLoading || loadingPicture}
+                      disabled={submitting || pristine || updateLoading || loadingPicture}
+                      title={'Save'}
+                    />
                   </ButtonsContainer>
                 </form>
               )}
@@ -420,12 +339,21 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
 
 export default ProfileForm;
 
+interface ProfileFormProps {
+  setEditMode: (mode: boolean) => void;
+}
+
+interface FormItemProps {
+  $twoItem?: boolean;
+}
+
 const Root = styled.aside`
   display: flex;
   justify-content: center;
   flex-flow: column;
   align-items: center;
 `;
+
 const PhotoContainer = styled.div`
   display: flex;
   flex-flow: column;
@@ -433,6 +361,7 @@ const PhotoContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const UserPhoto = styled.img`
   width: 100px;
   height: 100px;
@@ -440,6 +369,7 @@ const UserPhoto = styled.img`
   background-position: 50% 50%;
   border-radius: 50%;
 `;
+
 const PhotoLabel = styled.label`
   font-size: 14px;
   line-height: 1;
@@ -456,24 +386,24 @@ const PhotoLabel = styled.label`
 const UserName = styled.div`
   margin: 20px 0;
 `;
-const FormItem = styled.div`
+
+const FormItem = styled.div<FormItemProps>`
   margin-bottom: 11px;
-  ${props => {
-    // @ts-ignore
-    return props.children && props.children.length === 2
-      ? `
+  ${({ $twoItem }) =>
+    $twoItem &&
+    `
       display: flex;
       justify-content: space-between;
       && div {
         width: 48%;
-      }`
-      : ``;
-  }}
+      }`}
 `;
+
 const InputContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 const InputItem = styled.div`
   width: 48%;
 `;

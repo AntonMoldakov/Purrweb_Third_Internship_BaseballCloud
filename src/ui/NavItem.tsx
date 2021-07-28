@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import colors from 'styles/colors';
 import { Link, LinkProps } from 'react-router-dom';
 
-interface NavItemProps extends LinkProps {
-  title: string;
-}
-
 function NavItem({ title, ...props }: NavItemProps) {
   return <Root {...props}>{title}</Root>;
 }
 
 export default NavItem;
+
+interface NavItemProps extends LinkProps {
+  title: string;
+}
 
 const Root = styled(Link)`
   display: flex;

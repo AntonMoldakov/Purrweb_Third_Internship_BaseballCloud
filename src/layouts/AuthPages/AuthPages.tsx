@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
-interface AuthPagesProps {
-  children: ReactNode;
-}
-
 function AuthPages({ children }: AuthPagesProps) {
   return <Root>{children}</Root>;
 }
 
 export default AuthPages;
+
+interface AuthPagesProps {
+  children: ReactNode;
+}
 
 const Root = styled.div`
   width: 100%;
