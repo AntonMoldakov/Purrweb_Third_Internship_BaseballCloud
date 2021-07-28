@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
-interface MainProps {
-  children: ReactNode;
-}
-
 function Main({ children }: MainProps) {
   return <Root>{children}</Root>;
 }
 
 export default Main;
+
+interface MainProps {
+  children: ReactNode;
+}
 
 const Root = styled.div`
   height: 100vh;

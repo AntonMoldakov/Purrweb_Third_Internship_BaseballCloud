@@ -5,5 +5,7 @@ export { default as Button } from './Button';
 export { default as FormContainer } from './FormContainer';
 export { default as NavItem } from './NavItem';
 export { default as IconButton } from './IconButton';
-export { default as CustomSelect } from './CustomSelect';
 export { default as TextArea } from './TextArea';
+export { default as TableRow } from './TableRow';
+export { default as DropdownMenu } from './DropdownMenu';
+export { default as IconInput } from './IconInput';

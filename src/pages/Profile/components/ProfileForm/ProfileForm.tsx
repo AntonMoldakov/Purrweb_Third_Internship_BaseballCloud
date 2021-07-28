@@ -3,74 +3,83 @@ import styled from 'styled-components';
 import avatar from 'assets/img/avatar.png';
 import { Field, Form } from 'react-final-form';
 import { CustomField } from 'components/CustomField';
-import { Button, CustomSelect, TextArea } from 'ui';
+import { FieldSelect } from 'components';
+import { Button, Loader, TextArea } from 'ui';
 import colors from 'styles/colors';
 import validate from 'utils/validate';
-
-interface ProfileFormProps {
-  setEditMode: (mode: boolean) => void;
-}
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  ICurrentProfile,
+  IFacilitiesData,
+  ISchoolsData,
+  ITeamsData,
+  IUpdateProfile,
+  IUpdateProfileProps,
+} from 'graphql/types';
+import { CURRENT_PROFILE, FACILITIES_DATA, SCHOOLS_DATA, TEAMS_DATA, UPDATE_PROFILE } from 'graphql/consts';
+import { toNormalizeOptions } from 'utils/Normalizers';
+import { profileAPI } from 'api';
+import { handData, positionData, schoolYearData } from 'consts';
+import { handleSubmitProps } from 'interface';
+import { ConvertFormData } from 'utils/ConvertFormData';
 
 function ProfileForm({ setEditMode }: ProfileFormProps) {
-  const user = {
-    first_name: 'Anton',
-    last_name: 'Moldakov',
-    age: 20,
-    avatar: '',
-    position: { value: 'catcher', label: 'Catcher' },
-    position2: { value: 'secondBase', label: 'Second Base' },
-    feet: 10,
-    inches: 20,
-    weight: 70,
-    school: { value: 'sec', label: 'SEC' },
-    school_year: { value: 'junior', label: 'Junior' },
-    throws_hand: { value: 'r', label: 'R' },
-    bats_hand: { value: 'r', label: 'R' },
-    biography: 'moremore',
-    teams: [
-      { value: 'cats', label: 'Cats' },
-      { value: 'sharks', label: 'Sharks' },
-    ],
-  };
-  const [isLoading, setLoading] = useState(false);
-  const defaultPicture = user.avatar ? user.avatar : avatar;
-
   const [labelState, setLabelState] = useState<boolean>(true);
+  const [loadingPicture, setLoadingPicture] = useState<boolean>(false);
   const [pictureInfo, setPictureInfo] = useState<File>();
+  const [pictureUrl, setPictureUrl] = useState<string>('');
+  const { data, loading } = useQuery<ICurrentProfile>(CURRENT_PROFILE);
+  const user = data?.current_profile;
+  const userId = user ? '' + user.id : ' ';
+  const defaultPicture = user?.avatar ? user.avatar : avatar;
+  const requestPicture = pictureUrl ? pictureUrl : user ? user.avatar : '';
 
-  const handData = [
-    { value: 'l', label: 'L' },
-    { value: 'r', label: 'R' },
-  ];
-  const positionData = [
-    { value: 'catcher', label: 'Catcher' },
-    { value: 'firstBase', label: 'First Base' },
-    { value: 'secondBase', label: 'Second Base' },
-    { value: 'shortstop', label: 'Shortstop' },
-    { value: 'outfield', label: 'Outfield' },
-    { value: 'pitcher', label: 'Pitcher' },
-  ];
-  const schoolData = [
-    { value: 'ght', label: 'GHT' },
-    { value: 'ats', label: 'ATS' },
-    { value: 'sec', label: 'SEC' },
-  ];
-  const schoolYearData = [
-    { value: 'none', label: 'None' },
-    { value: 'junior', label: 'Junior' },
-    { value: 'senior', label: 'Senior' },
-  ];
-  const teamData = [
-    { value: 'bulls', label: 'Bulls' },
-    { value: 'cats', label: 'Cats' },
-    { value: 'sharks', label: 'Sharks' },
-  ];
+  const position = toNormalizeOptions(user?.position);
+  const position2 = toNormalizeOptions(user?.position2);
+  const teams = toNormalizeOptions(user?.teams);
+  const facilities = toNormalizeOptions(user?.facilities);
+  const school = toNormalizeOptions(user?.school);
+  const school_years = toNormalizeOptions(user?.school_year);
+  const throws_hand = toNormalizeOptions(user?.throws_hand);
+  const bats_hand = toNormalizeOptions(user?.bats_hand);
 
-  const handleSubmit = (values: any) => {
-    setLoading(true);
-    console.log(values);
-    setLoading(false);
-    setEditMode(false);
+  const schoolData = useQuery<ISchoolsData>(SCHOOLS_DATA, {
+    variables: { search: '' },
+  }).data?.schools.schools;
+
+  const teamsData = useQuery<ITeamsData>(TEAMS_DATA, {
+    variables: { search: '' },
+  }).data?.teams.teams;
+
+  const facilitiesData = useQuery<IFacilitiesData>(FACILITIES_DATA, {
+    variables: { search: '' },
+  }).data?.facilities.facilities;
+
+  const schoolDataNorm = toNormalizeOptions(schoolData);
+  const teamsDataNorm = toNormalizeOptions(teamsData);
+  const facilitiesDataNorm = toNormalizeOptions(facilitiesData);
+
+  const [updateProfile, { loading: updateLoading }] = useMutation<IUpdateProfile, IUpdateProfileProps>(UPDATE_PROFILE);
+  const handleSubmit = (props: handleSubmitProps) => {
+    updateProfile({
+      variables: {
+        form: {
+          ...ConvertFormData(props),
+          id: userId,
+          avatar: requestPicture,
+        },
+      },
+    }).then(() => setEditMode(false));
+  };
+  const handleSubmitImage = () => {
+    if (pictureInfo) {
+      setLoadingPicture(true);
+      profileAPI.uploadImage(pictureInfo).then((response: string) => {
+        setPictureUrl(response);
+        setLabelState(true);
+        setLoadingPicture(false);
+      });
+    }
   };
   const handleCancelPhoto = () => {
     setPictureInfo(undefined);
@@ -78,227 +87,265 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
   };
   return (
     <Root>
-      <Form
-        onSubmit={handleSubmit}
-        render={({ handleSubmit, submitting, pristine, hasValidationErrors }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <PhotoContainer>
-                <UserPhoto src={pictureInfo ? URL.createObjectURL(pictureInfo) : defaultPicture} />
-                <div>
-                  <input
-                    style={{ display: 'none' }}
-                    id="my-file"
-                    type="file"
-                    onChange={e => {
-                      e.target.files && setPictureInfo(e.target.files[0]);
-                      setLabelState(false);
-                    }}
-                  />
-                </div>
-                <PhotoLabel htmlFor="my-file">{labelState && 'Choose Photo'}</PhotoLabel>
+      {loading ? (
+        <Loader size={50} />
+      ) : (
+        user && (
+          <>
+            <Form
+              onSubmit={handleSubmit}
+              render={({ handleSubmit, submitting, pristine, hasValidationErrors }) => (
+                <form onSubmit={handleSubmit}>
+                  <div>
+                    <PhotoContainer>
+                      <UserPhoto src={pictureInfo ? URL.createObjectURL(pictureInfo) : defaultPicture} />
+                      <div>
+                        <input
+                          style={{ display: 'none' }}
+                          id="my-file"
+                          type="file"
+                          onChange={e => {
+                            e.target.files && setPictureInfo(e.target.files[0]);
+                            setLabelState(false);
+                          }}
+                        />
+                      </div>
+                      <PhotoLabel htmlFor="my-file">{labelState && 'Choose Photo'}</PhotoLabel>
 
-                {!labelState && (
-                  <>
-                    <PhotoLabel>{pictureInfo && pictureInfo.name}</PhotoLabel>
-                    <div>
-                      <PhotoLabel onClick={() => pictureInfo && setLabelState(true)}>Upload photo</PhotoLabel>
-                      <PhotoLabel onClick={handleCancelPhoto}>Cancel</PhotoLabel>
-                    </div>
-                  </>
-                )}
-              </PhotoContainer>
+                      {!labelState && (
+                        <>
+                          <PhotoLabel>{pictureInfo && pictureInfo.name}</PhotoLabel>
+                          <div>
+                            <PhotoLabel onClick={handleSubmitImage}>Upload photo</PhotoLabel>
+                            <PhotoLabel onClick={handleCancelPhoto}>Cancel</PhotoLabel>
+                          </div>
+                        </>
+                      )}
+                    </PhotoContainer>
 
-              <section>
-                <UserName>
-                  <FormItem>
-                    <Field
-                      maxLength={30}
-                      name="firstName"
-                      title="First Name"
-                      defaultValue={user.first_name}
-                      validate={validate.required}
-                      type="firstName"
-                      placeholder="First Name *"
-                      component={CustomField}
+                    <section>
+                      <UserName>
+                        <FormItem $twoItem>
+                          <Field
+                            maxLength={30}
+                            name="first_name"
+                            title="First Name"
+                            defaultValue={user.first_name}
+                            validate={validate.required}
+                            type="firstName"
+                            placeholder="First Name *"
+                            component={CustomField}
+                          />
+                          <Field
+                            maxLength={30}
+                            name="last_name"
+                            title="Last Name"
+                            defaultValue={user.last_name}
+                            validate={validate.required}
+                            type="lastName"
+                            placeholder="Last Name *"
+                            component={CustomField}
+                          />
+                        </FormItem>
+                      </UserName>
+                      <FormItem>
+                        <Field
+                          validate={validate.requiredSelect}
+                          defaultValue={position}
+                          name={'position'}
+                          placeholder={'Position in Game *'}
+                          options={positionData}
+                          component={FieldSelect}
+                        />
+                      </FormItem>
+                      <FormItem>
+                        <Field
+                          defaultValue={position2}
+                          name={'position2'}
+                          placeholder={'Secondary Position in Game'}
+                          options={positionData}
+                          component={FieldSelect}
+                        />
+                      </FormItem>
+                    </section>
+                    <section>
+                      <Title>
+                        <h3>Personal Info</h3>
+                        <div />
+                      </Title>
+                      <FormItem>
+                        <Field
+                          defaultValue={user.age}
+                          validate={validate.required}
+                          maxLength={3}
+                          name="age"
+                          title="Age"
+                          type="age"
+                          placeholder="Age *"
+                          component={CustomField}
+                        />
+                      </FormItem>
+                      <FormItem $twoItem>
+                        <Field
+                          defaultValue={user.feet}
+                          validate={validate.required}
+                          maxLength={2}
+                          name="feet"
+                          title="Feet"
+                          type="feet"
+                          placeholder="Feet *"
+                          component={CustomField}
+                        />
+                        <Field
+                          defaultValue={user.inches}
+                          validate={validate.required}
+                          maxLength={2}
+                          name="inches"
+                          title="Inches"
+                          type="inches"
+                          placeholder="Inches *"
+                          component={CustomField}
+                        />
+                      </FormItem>
+                      <FormItem>
+                        <Field
+                          defaultValue={user.weight}
+                          validate={validate.required}
+                          maxLength={3}
+                          name="weight"
+                          title="Weight"
+                          type="weight"
+                          placeholder="Weight *"
+                          component={CustomField}
+                        />
+                      </FormItem>
+                      <InputContainer>
+                        <InputItem>
+                          <Field
+                            validate={validate.requiredSelect}
+                            defaultValue={throws_hand}
+                            name="throws_hand"
+                            title="Throws"
+                            type="throws"
+                            placeholder="Throws *"
+                            options={handData}
+                            component={FieldSelect}
+                          />
+                        </InputItem>
+                        <InputItem>
+                          <Field
+                            validate={validate.requiredSelect}
+                            defaultValue={bats_hand}
+                            name="bats_hand"
+                            title="Bats"
+                            type="bats"
+                            placeholder="Bats *"
+                            options={handData}
+                            component={FieldSelect}
+                          />
+                        </InputItem>
+                      </InputContainer>
+                    </section>
+                    <section>
+                      <Title>
+                        <h3>School</h3>
+                        <div />
+                      </Title>
+                      <FormItem>
+                        <Field
+                          defaultValue={school}
+                          name={'school'}
+                          placeholder={'School'}
+                          options={schoolDataNorm}
+                          component={FieldSelect}
+                        />
+                      </FormItem>
+                      <FormItem>
+                        <Field
+                          defaultValue={school_years}
+                          name={'school_year'}
+                          placeholder={'School Year'}
+                          options={schoolYearData}
+                          component={FieldSelect}
+                        />
+                      </FormItem>
+                      <FormItem>
+                        <Field
+                          isMulti
+                          defaultValue={teams}
+                          name={'teams'}
+                          placeholder={'Team'}
+                          options={teamsDataNorm}
+                          component={FieldSelect}
+                        />
+                      </FormItem>
+                    </section>
+                    <section>
+                      <Title>
+                        <h3>Facilities</h3>
+                        <div />
+                      </Title>
+                      <FormItem>
+                        <Field
+                          isMulti
+                          defaultValue={facilities}
+                          name={'facilities'}
+                          placeholder={'Facilities'}
+                          options={facilitiesDataNorm}
+                          component={FieldSelect}
+                        />
+                      </FormItem>
+                    </section>
+                    <section>
+                      <Title>
+                        <h3>About</h3>
+                        <div />
+                      </Title>
+                      <FormItem>
+                        <Field
+                          defaultValue={user.biography}
+                          name={'biography'}
+                          placeholder={'About'}
+                          component={TextArea}
+                        />
+                      </FormItem>
+                    </section>
+                  </div>
+                  {hasValidationErrors && <Error>* Fill out the required fields</Error>}
+                  <ButtonsContainer>
+                    <Button
+                      $white
+                      type="reset"
+                      onClick={() => (user?.first_name ? setEditMode(false) : null)}
+                      disabled={submitting || pristine || updateLoading || loadingPicture}
+                      title={'Cancel'}
                     />
-                    <Field
-                      maxLength={30}
-                      name="lastName"
-                      title="Last Name"
-                      defaultValue={user.last_name}
-                      validate={validate.required}
-                      type="lastName"
-                      placeholder="Last Name *"
-                      component={CustomField}
+                    <Button
+                      type="submit"
+                      isLoading={updateLoading || loadingPicture}
+                      disabled={submitting || pristine || updateLoading || loadingPicture}
+                      title={'Save'}
                     />
-                  </FormItem>
-                </UserName>
-                <FormItem>
-                  <Field
-                    name={'firstPosition'}
-                    placeholder={'Position in Game *'}
-                    options={positionData}
-                    defaultValue={[user.position]}
-                    component={CustomSelect}
-                  />
-                </FormItem>
-                <FormItem>
-                  <Field
-                    name={'secondPosition'}
-                    defaultValue={[user.position2]}
-                    placeholder={'Secondary Position in Game'}
-                    options={positionData}
-                    component={CustomSelect}
-                  />
-                </FormItem>
-              </section>
-              <section>
-                <Title>
-                  <h3>Personal Info</h3>
-                  <div />
-                </Title>
-                <FormItem>
-                  <Field
-                    defaultValue={user.age}
-                    validate={validate.required}
-                    maxLength={3}
-                    name="age"
-                    title="Age"
-                    type="age"
-                    placeholder="Age *"
-                    component={CustomField}
-                  />
-                </FormItem>
-                <FormItem>
-                  <Field
-                    defaultValue={user.feet}
-                    validate={validate.required}
-                    maxLength={2}
-                    name="feet"
-                    title="Feet"
-                    type="feet"
-                    placeholder="Feet *"
-                    component={CustomField}
-                  />
-                  <Field
-                    defaultValue={user.inches}
-                    validate={validate.required}
-                    maxLength={2}
-                    name="inches"
-                    title="Inches"
-                    type="inches"
-                    placeholder="Inches *"
-                    component={CustomField}
-                  />
-                </FormItem>
-                <FormItem>
-                  <Field
-                    defaultValue={user.weight}
-                    validate={validate.required}
-                    maxLength={3}
-                    name="weight"
-                    title="Weight"
-                    type="weight"
-                    placeholder="Weight *"
-                    component={CustomField}
-                  />
-                </FormItem>
-                <InputContainer>
-                  <InputItem>
-                    <Field
-                      defaultValue={user.throws_hand}
-                      name="throws"
-                      title="Throws"
-                      type="throws"
-                      placeholder="Throws *"
-                      options={handData}
-                      component={CustomSelect}
-                    />
-                  </InputItem>
-                  <InputItem>
-                    <Field
-                      defaultValue={user.bats_hand}
-                      name="bats"
-                      title="Bats"
-                      type="bats"
-                      placeholder="Bats *"
-                      options={handData}
-                      component={CustomSelect}
-                    />
-                  </InputItem>
-                </InputContainer>
-              </section>
-              <section>
-                <Title>
-                  <h3>School</h3>
-                  <div />
-                </Title>
-                <FormItem>
-                  <Field
-                    name={'school'}
-                    placeholder={'School'}
-                    options={schoolData}
-                    defaultValue={user.school}
-                    component={CustomSelect}
-                  />
-                </FormItem>
-                <FormItem>
-                  <Field
-                    defaultValue={user.school_year}
-                    name={'schoolYear'}
-                    placeholder={'School Year'}
-                    options={schoolYearData}
-                    component={CustomSelect}
-                  />
-                </FormItem>
-                <FormItem>
-                  <Field
-                    defaultValue={user.teams}
-                    isMulti
-                    name={'team'}
-                    placeholder={'Team'}
-                    options={teamData}
-                    component={CustomSelect}
-                  />
-                </FormItem>
-              </section>
-              <section>
-                <Title>
-                  <h3>About</h3>
-                  <div />
-                </Title>
-                <FormItem>
-                  <Field
-                    defaultValue={user.biography}
-                    name={'about'}
-                    placeholder={'About'}
-                    options={teamData}
-                    component={TextArea}
-                  />
-                </FormItem>
-              </section>
-            </div>
-            {hasValidationErrors && <Error>* Fill out the required fields</Error>}
-            <ButtonsContainer>
-              <Button
-                $white
-                type="reset"
-                onClick={() => setEditMode(false)}
-                isLoading={isLoading}
-                disabled={submitting || pristine}
-                title={'Cancel'}
-              />
-              <Button type="submit" isLoading={isLoading} disabled={submitting || pristine} title={'Save'} />
-            </ButtonsContainer>
-          </form>
-        )}
-      />
+                  </ButtonsContainer>
+                </form>
+              )}
+            />
+          </>
+        )
+      )}
     </Root>
   );
 }
 
 export default ProfileForm;
+
+interface ProfileFormProps {
+  setEditMode: (mode: boolean) => void;
+}
+
+interface FormItemProps {
+  $twoItem?: boolean;
+}
 
 const Root = styled.aside`
   display: flex;
@@ -306,6 +353,7 @@ const Root = styled.aside`
   flex-flow: column;
   align-items: center;
 `;
+
 const PhotoContainer = styled.div`
   display: flex;
   flex-flow: column;
@@ -313,6 +361,7 @@ const PhotoContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const UserPhoto = styled.img`
   width: 100px;
   height: 100px;
@@ -320,6 +369,7 @@ const UserPhoto = styled.img`
   background-position: 50% 50%;
   border-radius: 50%;
 `;
+
 const PhotoLabel = styled.label`
   font-size: 14px;
   line-height: 1;
@@ -336,24 +386,24 @@ const PhotoLabel = styled.label`
 const UserName = styled.div`
   margin: 20px 0;
 `;
-const FormItem = styled.div`
+
+const FormItem = styled.div<FormItemProps>`
   margin-bottom: 11px;
-  ${props => {
-    // @ts-ignore
-    return props.children && props.children.length === 2
-      ? `
+  ${({ $twoItem }) =>
+    $twoItem &&
+    `
       display: flex;
       justify-content: space-between;
       && div {
         width: 48%;
-      }`
-      : ``;
-  }}
+      }`}
 `;
+
 const InputContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 const InputItem = styled.div`
   width: 48%;
 `;

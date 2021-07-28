@@ -1,26 +1,38 @@
 import { LockIcon, UserIcon, CheckIcon } from 'assets/icons/components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { CustomField } from 'components';
 import { Field, Form } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { FormContainer, Button } from 'ui';
 import { Player, Scout } from './components';
 import { Tab, Tabs, TabList, TabPanel, TabProps } from 'react-tabs';
 import { AuthPages } from 'layouts';
-
-interface HandleSubmitProps {
-  email: string;
-  password: string;
-}
+import { signUp } from 'store/auth/operations';
+import { useAppDispatch } from 'store';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'store/auth/selectors';
 
 function SignUp() {
   const [isLoading, setLoading] = useState(false);
-  const handleSubmit = ({ email }: HandleSubmitProps) => {
+  const [role, setRole] = useState('player');
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    user.token && history.push('/profile');
+  }, [user]);
+
+  const handleSubmit = ({ email, password, password_confirmation }: HandleSubmitProps) => {
     setLoading(true);
-    alert(email);
-    setTimeout(() => setLoading(false), 30000);
+    dispatch(signUp({ email, password, password_confirmation, role })).then(response => {
+      setLoading(false);
+      if (response.meta.requestStatus === 'fulfilled') {
+        history.push('/profile');
+      }
+    });
   };
 
   return (
@@ -28,8 +40,8 @@ function SignUp() {
       <FormContainer>
         <Tabs>
           <StyledTabList>
-            <StyledTab>Sign Up as Player</StyledTab>
-            <StyledTab>Sign Up as Scout</StyledTab>
+            <StyledTab onClick={() => setRole('player')}>Sign Up as Player</StyledTab>
+            <StyledTab onClick={() => setRole('player')}>Sign Up as Scout</StyledTab>
           </StyledTabList>
 
           <TabPanel>
@@ -58,6 +70,7 @@ function SignUp() {
                 </FormItem>
                 <FormItem>
                   <Field
+                    minLength={6}
                     maxLength={30}
                     type="password"
                     name="password"
@@ -100,10 +113,17 @@ function SignUp() {
 
 export default SignUp;
 
+interface HandleSubmitProps {
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
 const StyledTabList = styled(TabList)`
   display: flex;
   margin-bottom: 15px;
 `;
+
 const StyledTab = styled(Tab)<TabProps>`
   display: flex;
   width: 50%;
@@ -134,6 +154,7 @@ const StyledTab = styled(Tab)<TabProps>`
       background-color: ${colors.green};
   `}
 `;
+
 const Text = styled.span`
   ont-size: 24px;
   line-height: 1.25;
@@ -141,6 +162,7 @@ const Text = styled.span`
   color: ${colors.gray};
   font-size: 16px;
 `;
+
 const FormItem = styled.div`
   margin-bottom: 15px;
 `;

@@ -1,122 +1,133 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Sidebar, ProfileMain } from './components';
+import { useQuery } from '@apollo/client';
+import { ICurrentProfile, IProfile, IProfileById } from 'graphql/types';
+import { CURRENT_PROFILE, PROFILE_DATA_BY_ID } from 'graphql/consts';
+import { useParams } from 'react-router-dom';
 import colors from 'styles/colors';
-import { Line } from 'rc-progress';
-import { Sidebar } from './components';
+import { DesiredProfile } from 'interface';
+import { Arrow2Icon } from 'assets/icons/components';
+import { Loader } from 'ui';
+
+const loadingDesiredProfile = (requestId: string | undefined): DesiredProfile | undefined => {
+  const currentProfile = useQuery<ICurrentProfile>(CURRENT_PROFILE);
+  const profileById = useQuery<IProfileById>(PROFILE_DATA_BY_ID, { variables: { id: requestId } });
+
+  const currentProfileId = currentProfile.data?.current_profile.id;
+  let response;
+
+  if (!requestId || +requestId === currentProfileId) {
+    response = {
+      currentProfile: true,
+      profile: {
+        loading: currentProfile.loading,
+        data: currentProfile.data?.current_profile,
+      },
+    };
+  } else {
+    if (profileById.error) {
+      return undefined;
+    } else {
+      response = {
+        currentProfile: false,
+        profile: {
+          loading: profileById.loading,
+          data: profileById.data?.profile,
+        },
+      };
+    }
+  }
+  return response;
+};
+
+const checkNullProfile = (data: checkNullProfileProps): boolean => data?.first_name == null;
+
 function Profile() {
-  const percent = 10;
-  const widthProgressBar = 2.5;
+  const { id } = useParams<RouteParams>();
+  const profile = loadingDesiredProfile(id);
+
   return (
     <Root>
-      <Sidebar />
-      <Main>
-        <MainCard>
-          <CardTitle>Top Batting Values</CardTitle>
-          <CardBody>
-            <CardItem>
-              <CardItemHeader>
-                <span>Exit Velocity</span>
-                <Percent>{percent}</Percent>
-              </CardItemHeader>
-              <Line
-                percent={percent}
-                trailWidth={widthProgressBar}
-                strokeWidth={widthProgressBar}
-                strokeColor={colors.yellow}
-              />
-            </CardItem>
-            <CardItem>
-              <CardItemHeader>
-                <span>Carry Distance</span>
-                <Percent>{percent}</Percent>
-              </CardItemHeader>
-              <Line
-                percent={percent}
-                trailWidth={widthProgressBar}
-                strokeWidth={widthProgressBar}
-                strokeColor={colors.yellow}
-              />
-            </CardItem>
-            <CardItem>
-              <CardItemHeader>
-                <span>Launch Angle</span>
-                <Percent>{percent}</Percent>
-              </CardItemHeader>
-              <Line
-                percent={percent}
-                trailWidth={widthProgressBar}
-                strokeWidth={widthProgressBar}
-                strokeColor={colors.yellow}
-              />
-            </CardItem>
-          </CardBody>
-        </MainCard>
-        <MainCard>
-          <CardTitle>Recent Session Reports</CardTitle>
-          <CardBody>No data currently linked to this profile</CardBody>
-        </MainCard>
-        <MainCard>
-          <CardTitle>Recent Session Reports</CardTitle>
-          <CardBody>No data currently linked to this profile</CardBody>
-        </MainCard>
-      </Main>
+      {profile?.profile.loading ? (
+        <Loader size={50} />
+      ) : profile === undefined ? (
+        <Message>Couldn't find Profile with 'id'={id}</Message>
+      ) : checkNullProfile(profile.profile.data) ? (
+        <>
+          <Sidebar profile={profile} edit={false} />
+          <Main>
+            <MainMessage>
+              <Arrow2Icon />
+              <MessageTitle>Your Account</MessageTitle>
+              <MessageText>
+                Changing your profile options lets you control how others see you and your profile. These settings
+                include things like your name, personal info and school.
+              </MessageText>
+            </MainMessage>
+          </Main>
+        </>
+      ) : (
+        <>
+          <Sidebar profile={profile} />
+          <ProfileMain profile={profile} />
+        </>
+      )}
     </Root>
   );
 }
 
 export default Profile;
 
+type checkNullProfileProps = IProfile | undefined;
+
+interface RouteParams {
+  id: string;
+}
+
 const Root = styled.div`
   display: flex;
   flex: 1;
 `;
-const Main = styled.main`
-  display: flex;
-  flex: 1;
-  flex-wrap: wrap;
-  padding: 0 16px;
-  background-color: ${colors.gray2};
-  align-content: flex-start;
-`;
-const MainCard = styled.div`
-  height: fit-content;
-  width: 100%;
-  margin: 16px 0;
-  padding: 16px;
-  border-radius: 8px;
-  background-color: ${colors.white};
-`;
-const CardTitle = styled.h2`
-  font-family: 'Lato-Black', sans-serif;
-  margin: 0;
-  line-height: 1.25;
-  color: ${colors.gray3};
-  font-size: 18px;
-  font-weight: 700;
-`;
-const CardBody = styled.div`
-  width: 100%;
-  font-size: 16px;
-  color: ${colors.gray};
-  display: flex;
-`;
-const CardItem = styled.div`
-  margin-top: 16px;
-  margin-right: 24px;
-  flex-direction: column;
-  width: 33.33%;
 
-  &:last-child {
-    margin: 16px 0 0 0;
-  }
-`;
-const CardItemHeader = styled.div`
+const Message = styled.div`
+  min-height: 420px;
   display: flex;
-  width: 100%;
-  justify-content: space-between;
-`;
-const Percent = styled.span`
-  font-size: 16px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
   color: ${colors.gray};
+  font-size: 16px;
+`;
+
+const Main = styled.div`
+  padding: 0 16px;
+  background-color: ${colors.white};
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+`;
+
+const MainMessage = styled.div`
+  max-width: 420px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MessageTitle = styled.h1`
+  line-height: 1.25;
+  color: ${colors.gray};
+  font-size: 32px;
   font-weight: 700;
+  margin: 16px 0;
+`;
+
+const MessageText = styled.p`
+  font-size: 16px;
+  color: #667784;
+  text-align: center;
 `;

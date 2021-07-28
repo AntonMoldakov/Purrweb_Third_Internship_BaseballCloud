@@ -4,17 +4,24 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { FieldRenderProps } from 'react-final-form';
 
-interface CustomSelectProps
-  extends FieldRenderProps<
-    Array<{ value: string | number; label: string }> | { value: string | number; label: string },
-    HTMLSelectElement
-  > {}
-
-const CustomSelect = ({ input, meta, ...rest }: CustomSelectProps) => {
-  return <Root {...input} {...rest} />;
+const FieldSelect = ({ input, meta, ...rest }: CustomSelectProps) => {
+  return (
+    <>
+      <Root {...input} {...rest} />
+      {meta.error && meta.touched && <Error>{rest.placeholder + ' ' + meta.error}</Error>}
+    </>
+  );
 };
 
-export default CustomSelect;
+export default FieldSelect;
+
+interface CustomSelectProps
+  extends FieldRenderProps<
+    | Array<{ value: string | number; label: string | undefined; data: string }>
+    | { value: string | number; label: string | undefined; data: string }
+    | undefined,
+    HTMLSelectElement
+  > {}
 
 const Root = styled(Select)`
   & .Select__control {
@@ -34,4 +41,9 @@ const Root = styled(Select)`
   //   outline: none;
   //   border: solid 1px ${colors.lightBlue};
   // }
+`;
+
+const Error = styled.section`
+  margin-top: 8px;
+  color: ${colors.red};
 `;

@@ -1,26 +1,37 @@
 import { LockIcon, UserIcon } from 'assets/icons/components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { CustomField } from 'components';
 import { Field, Form } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { FormContainer, Button } from 'ui';
 import { AuthPages } from 'layouts';
-
-interface HandleSubmitProps {
-  email: string;
-  password: string;
-}
+import { signIn } from 'store/auth/operations';
+import { useAppDispatch } from 'store';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'store/auth/selectors';
+import validate from 'utils/validate';
 
 function SignIn() {
   const [isLoading, setLoading] = useState(false);
-  const handleSubmit = ({ email }: HandleSubmitProps) => {
-    setLoading(true);
-    alert(email);
-    setTimeout(() => setLoading(false), 30000);
-  };
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+  const user = useSelector(selectUser);
 
+  useEffect(() => {
+    user.token && history.push('/profile');
+  }, [user]);
+
+  const handleSubmit = ({ email, password }: HandleSubmitProps) => {
+    setLoading(true);
+    dispatch(signIn({ email, password })).then(response => {
+      setLoading(false);
+      if (response.meta.requestStatus === 'fulfilled') {
+        history.push('/profile');
+      }
+    });
+  };
   return (
     <AuthPages>
       <FormContainer>
@@ -41,6 +52,7 @@ function SignIn() {
                     title="Email"
                     type="email"
                     placeholder="Email"
+                    validate={validate.requiredEmail}
                     children={<UserIcon color={colors.gray} />}
                     component={CustomField}
                   />
@@ -52,6 +64,7 @@ function SignIn() {
                     name="password"
                     title="Password"
                     placeholder="Password"
+                    validate={validate.required}
                     children={<LockIcon color={colors.gray} />}
                     component={CustomField}
                   />
@@ -77,9 +90,15 @@ function SignIn() {
 
 export default SignIn;
 
+interface HandleSubmitProps {
+  email: string;
+  password: string;
+}
+
 const Header = styled.div`
   margin-bottom: 48px;
 `;
+
 const Title = styled.h2`
   margin: 0 0 8px 0;
   font-size: 24px;
@@ -87,6 +106,7 @@ const Title = styled.h2`
   font-weight: 400;
   color: ${colors.gray};
 `;
+
 const Text = styled.span`
   ont-size: 24px;
   line-height: 1.25;
@@ -94,6 +114,7 @@ const Text = styled.span`
   color: ${colors.gray};
   font-size: 16px;
 `;
+
 const FormItem = styled.div`
   margin-bottom: 15px;
 `;
