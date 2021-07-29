@@ -44,6 +44,19 @@ export const Cell = styled.td`
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
   }
+  a{
+   font-size: 14px;
+  line-height: 1;
+  font-weight: 300;
+  color: ${colors.gray3};}
+  a:hover {
+    color: ${colors.lightBlue} ;
+    text-decoration: underline;
+   }
+}
+
+
+  }
 `;
 
 export const TableMessage = styled.div`

@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-function SvgUser(props: React.SVGProps<SVGSVGElement>) {
+function SvgUserIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       aria-hidden="true"
       data-prefix="fas"
       data-icon="user"
-      className="user_svg__svg-inline--fa user_svg__fa-user user_svg__fa-w-14"
+      className="user-icon_svg__svg-inline--fa user-icon_svg__fa-user user-icon_svg__fa-w-14"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 448 512"
       width="1em"
@@ -20,4 +20,4 @@ function SvgUser(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default SvgUser;
+export default SvgUserIcon;

@@ -1,9 +1,9 @@
-interface ISchool {
+export interface ISchool {
   id: number;
   name: string;
 }
 
-interface ITeams {
+export interface ITeams {
   id: number;
   name: string;
 }
@@ -217,6 +217,51 @@ export interface IEvent {
 export interface IProfileEventsData {
   profile_events: {
     events: Array<IEvent>;
+    total_count: number;
+  };
+}
+
+export interface ILeaderboardPitchingData {
+  leaderboard_pitching: {
+    leaderboard_pitching: [
+      {
+        age: number;
+        favorite: boolean;
+        horizontal_break: number;
+        pitch_type: string;
+        pitcher_datraks_id: number;
+        pitcher_name: string;
+        school: ISchool;
+        spin_rate: number;
+        teams: Array<ITeams>;
+        velocity: number;
+        vertical_break: number;
+      },
+    ];
+  };
+}
+
+export interface ILeaderboardBattingData {
+  leaderboard_batting: {
+    leaderboard_batting: [
+      {
+        age: number;
+        favorite: boolean;
+        distance: number;
+        batter_datraks_id: number;
+        batter_name: string;
+        exit_velocity: number;
+        school: ISchool;
+        launch_angle: number;
+        teams: Array<ITeams>;
+      },
+    ];
+  };
+}
+
+export interface INetworkUsersData {
+  profiles: {
+    profiles: Array<IProfile>;
     total_count: number;
   };
 }

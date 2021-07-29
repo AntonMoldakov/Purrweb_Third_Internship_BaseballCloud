@@ -24,16 +24,16 @@ function ProfileMain({ profile }: ProfileMainProps) {
   let topValuesPitching = pitching.data?.pitching_summary.top_values;
   topValuesPitching = topValuesPitching && topValuesPitching.length > 0 ? topValuesPitching : undefined;
 
-  let exitVelocity =
+  const exitVelocity =
     topValues && topValues.reduce((acc, curr) => (acc.exit_velocity > curr.exit_velocity ? acc : curr)).exit_velocity;
-  let carryDistance =
+  const carryDistance =
     topValues && topValues.reduce((acc, curr) => (acc.distance > curr.distance ? acc : curr)).distance;
-  let launchAngle =
+  const launchAngle =
     topValues && topValues.reduce((acc, curr) => (acc.launch_angle > curr.launch_angle ? acc : curr)).launch_angle;
 
-  let velocityPitching =
+  const velocityPitching =
     topValuesPitching && topValuesPitching.reduce((acc, curr) => (acc.velocity > curr.velocity ? acc : curr)).velocity;
-  let carryDistancePitching =
+  const carryDistancePitching =
     topValuesPitching &&
     topValuesPitching.reduce((acc, curr) => (acc.spin_rate > curr.spin_rate ? acc : curr)).spin_rate;
 

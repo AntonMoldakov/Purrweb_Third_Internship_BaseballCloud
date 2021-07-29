@@ -10,7 +10,6 @@ import { IColumnsData } from 'interface';
 
 const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSize, setPage, values }: ILogProps) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => setPitcherName(e.target.value);
-
   return (
     <div>
       <CardHeader>
@@ -23,6 +22,7 @@ const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSiz
         <Loader size={50} />
       ) : values.rowsData ? (
         <AccordionTable
+          //@ts-ignore
           rowsData={values.rowsData}
           columnsData={values.columnsData}
           subColumnsData={values.subColumnsData}
@@ -48,7 +48,7 @@ interface ILogProps {
   pageSize: number;
   setPage: (value: number) => void;
   values: {
-    rowsData: IPitchingLog[] | IBattingLog[] | undefined;
+    rowsData: Array<IPitchingLog> | Array<IBattingLog> | undefined;
     columnsData: IColumnsData;
     subColumnsData: IColumnsData;
     loading: boolean;
@@ -75,5 +75,4 @@ const CardFooter = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  button: ;
 `;

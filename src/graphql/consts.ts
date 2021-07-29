@@ -299,3 +299,85 @@ export const PROFILE_EVENTS_DATA = gql`
     }
   }
 `;
+
+export const LEADERBOARD_BATTING_DATA = gql`
+  query LeaderboardBatting($input: FilterLeaderboardInput!) {
+    leaderboard_batting(input: $input) {
+      leaderboard_batting {
+        batter_name
+        exit_velocity
+        launch_angle
+        distance
+        batter_datraks_id
+        age
+        school {
+          id
+          name
+        }
+        teams {
+          id
+          name
+        }
+        favorite
+      }
+    }
+  }
+`;
+
+export const LEADERBOARD_PITCHING_DATA = gql`
+  query LeaderboardPitching($input: FilterLeaderboardInput!) {
+    leaderboard_pitching(input: $input) {
+      leaderboard_pitching {
+        pitcher_name
+        pitch_type
+        velocity
+        spin_rate
+        vertical_break
+        horizontal_break
+        pitcher_datraks_id
+        age
+        school {
+          id
+          name
+        }
+        teams {
+          id
+          name
+        }
+        favorite
+      }
+    }
+  }
+`;
+
+export const NETWORK_USERS_DATA = gql`
+  query Profiles($input: FilterProfilesInput!) {
+    profiles(input: $input) {
+      profiles {
+        id
+        first_name
+        last_name
+        position
+        position2
+        school_year
+        feet
+        inches
+        weight
+        age
+        events {
+          id
+        }
+        school {
+          id
+          name
+        }
+        teams {
+          id
+          name
+        }
+        favorite
+      }
+      total_count
+    }
+  }
+`;

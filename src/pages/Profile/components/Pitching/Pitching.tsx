@@ -6,6 +6,7 @@ import { PITCHING_GRAPH_DATA, PITCHING_LOG_DATA } from 'graphql/consts';
 import { Log, Summary, Charts } from '..';
 import styled from 'styled-components';
 import colors from 'styles/colors';
+import { columnsPitchingDataLog, subColumnsPitchingDataLog, valuesColumnsPitchingDataSummary } from 'consts';
 
 const Pitching = ({ pitching, tabPage, userId, userName }: PitchingTabProps) => {
   const [typeSelectorCharts, setTypeSelectorCharts] = useState({ value: '', label: 'None' });
@@ -43,94 +44,11 @@ const Pitching = ({ pitching, tabPage, userId, userName }: PitchingTabProps) => 
   const pitchingLog = pitchingLogData.data?.pitching_log.pitching_log;
   const pitchingLogTotalCount = pitchingLogData.data?.pitching_log.total_count;
 
-  const valuesColumnsData = [
-    {
-      Header: 'Pitch Type',
-      accessor: 'pitch_type',
-    },
-    {
-      Header: 'Velocity',
-      accessor: 'velocity',
-    },
-    {
-      Header: 'Spin Rate',
-      accessor: 'spin_rate',
-    },
-  ];
-
-  const columnsDataLog = React.useMemo(
-    () => [
-      {
-        Header: 'Date',
-        accessor: 'date',
-      },
-      {
-        Header: 'Batter Name',
-        accessor: 'batter_name',
-      },
-      {
-        Header: 'Pitch Type',
-        accessor: 'pitch_type',
-      },
-      {
-        Header: 'Pitch Call',
-        accessor: 'pitch_call',
-      },
-      {
-        Header: 'Velocity',
-        accessor: 'velocity',
-      },
-      {
-        Header: 'Spin Rate',
-        accessor: 'spin_rate',
-      },
-      {
-        Header: 'Spin Axis',
-        accessor: 'spin_axis',
-      },
-    ],
-    [],
-  );
-
-  const subColumnsDataLog = React.useMemo(
-    () => [
-      {
-        Header: 'Vertical Break',
-        accessor: 'vertical_break',
-      },
-      {
-        Header: 'Horizontal Break',
-        accessor: 'horizontal_break',
-      },
-      {
-        Header: 'Height at Plate',
-        accessor: 'height_at_plate',
-      },
-      {
-        Header: 'Release Height',
-        accessor: 'release_height',
-      },
-      {
-        Header: ' Extension',
-        accessor: 'extension',
-      },
-      {
-        Header: 'Release Side',
-        accessor: 'release_side',
-      },
-      {
-        Header: 'Tilt',
-        accessor: 'tilt',
-      },
-    ],
-    [],
-  );
-
   switch (tabPage) {
     case 'summary': {
       return (
         <Summary
-          valuesColumnsData={valuesColumnsData}
+          valuesColumnsData={valuesColumnsPitchingDataSummary}
           values={{ averageValues, topValues, loading: pitching.loading }}
         />
       );
@@ -157,8 +75,8 @@ const Pitching = ({ pitching, tabPage, userId, userName }: PitchingTabProps) => 
           setPage={setpitchingLogPage}
           values={{
             loading: pitchingLogData.loading,
-            columnsData: columnsDataLog,
-            subColumnsData: subColumnsDataLog,
+            columnsData: columnsPitchingDataLog,
+            subColumnsData: subColumnsPitchingDataLog,
             rowsData: pitchingLog,
           }}
         />

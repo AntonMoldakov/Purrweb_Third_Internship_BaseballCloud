@@ -11,18 +11,10 @@ const Footer = () => {
         <a href="#">Privacy Policy</a>
       </div>
       <div>
-        <a href="https://baseballcloud.blog" target="_blank">
-          Blog
-        </a>
-        <a href="http://twitter.com/baseballcloudus" target="_blank">
-          Twitter
-        </a>
-        <a href="http://www.instagram.com/baseballcloudus/" target="_blank">
-          Instagram
-        </a>
-        <a href="http://www.facebook.com/BaseballCloudUS/" target="_blank">
-          Facebook
-        </a>
+        <a href="https://baseballcloud.blog">Blog</a>
+        <a href="http://twitter.com/baseballcloudus">Twitter</a>
+        <a href="http://www.instagram.com/baseballcloudus/">Instagram</a>
+        <a href="http://www.facebook.com/BaseballCloudUS/">Facebook</a>
       </div>
     </Root>
   );

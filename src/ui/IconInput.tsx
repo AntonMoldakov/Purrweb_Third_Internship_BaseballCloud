@@ -27,11 +27,12 @@ const Root = styled.div`
 
 const Icon = styled.div<InputProps>`
   position: absolute;
+  margin: 0 5px;
   ${({ $right }) => ($right ? 'right: 0;' : '')}
 `;
 
 const Input = styled.input<InputProps>`
-  ${({ $right }) => ($right ? 'padding: 5px 5px 7px 0;' : 'padding: 5px 5px 7px 24px;')}
+  // ${({ $right }) => ($right ? 'padding: 5px 5px 7px 0;' : 'padding: 5px 5px 7px 24px;')}
   font-size: 16px;
   width: ${({ $width }) => $width};
   line-height: 19px;

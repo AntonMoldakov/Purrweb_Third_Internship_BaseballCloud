@@ -24,6 +24,7 @@ function Sidebar({ profile, edit = false }: SidebarProps) {
   const { data, loading } = profile.profile;
   const user = data;
   const [editMode, setEditMode] = useState(edit);
+
   const [updateProfile, { data: updatedProfileData }] = useMutation<
     IUpdateFavoriteProfile,
     IUpdateFavoriteProfileProps

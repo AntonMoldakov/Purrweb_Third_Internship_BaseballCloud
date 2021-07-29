@@ -7,9 +7,8 @@ const Paginator = ({ totalItemCount, pageSize, onChangeCurrentPage, showButtonsB
   const buttons: Array<number> = [];
   const [activeButton, setActiveButton] = useState(1);
 
-  const [showRestLeftButton, setShowRestLeftButton] = useState(false);
-  const [showRestRightButton, setShowRestRightButton] = useState(false);
-
+  let showRestLeftButton = false;
+  let showRestRightButton = false;
   const handleChangePage = (page: number) => {
     setActiveButton(page);
     onChangeCurrentPage(page);
@@ -27,9 +26,9 @@ const Paginator = ({ totalItemCount, pageSize, onChangeCurrentPage, showButtonsB
     ) {
       return true;
     } else if (item > activeButton) {
-      setShowRestRightButton(true);
+      showRestRightButton = true;
     } else if (item < activeButton) {
-      setShowRestLeftButton(false);
+      showRestLeftButton = true;
     }
     return false;
   });
@@ -44,19 +43,14 @@ const Paginator = ({ totalItemCount, pageSize, onChangeCurrentPage, showButtonsB
           {showButtons.map((item, index, buttons) => {
             return (
               <React.Fragment key={index}>
-                {index === 0 && showRestLeftButton && (
-                  <Button $rest={false} key={'rest' + (item - 1)} $active={false}>
+                {((index === 1 && showRestLeftButton) || (index === buttons.length - 1 && showRestRightButton)) && (
+                  <Button $rest={false} key={'rest' + item} $active={false}>
                     ...
                   </Button>
                 )}
                 <Button $active={activeButton === item} key={item} onClick={() => handleChangePage(item)}>
                   {item}
                 </Button>
-                {index === buttons.length - 1 && showRestRightButton && (
-                  <Button $rest={false} key={'rest' + (item + 1)} $active={false}>
-                    ...
-                  </Button>
-                )}
               </React.Fragment>
             );
           })}

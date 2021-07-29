@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-function SvgCheck(props: React.SVGProps<SVGSVGElement>) {
+function SvgCheckIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       aria-hidden="true"
       data-prefix="fas"
       data-icon="check"
-      className="check_svg__svg-inline--fa check_svg__fa-check check_svg__fa-w-16"
+      className="check-icon_svg__svg-inline--fa check-icon_svg__fa-check check-icon_svg__fa-w-16"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
       width="1em"
@@ -20,4 +20,4 @@ function SvgCheck(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default SvgCheck;
+export default SvgCheckIcon;

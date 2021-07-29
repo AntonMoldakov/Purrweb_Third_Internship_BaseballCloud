@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { useTable } from 'react-table';
 import { Table } from 'components';
-import { IBattingLog, IPitchingLog } from 'graphql/types';
 import { IColumnsData } from 'interface';
 import { Cell, ColumnTitle, Row, StyledTable, TableMessage } from '../Table/TabelStyles';
 import styled from 'styled-components';
 
-function AccordionTable({ rowsData, columnsData, subColumnsData }: IAccordionTableProps) {
+const AccordionTable = <T extends Record<string, unknown>>({
+  rowsData,
+  columnsData,
+  subColumnsData,
+}: IAccordionTableProps<T>) => {
   const data = React.useMemo(() => rowsData, [rowsData]);
   const columns = React.useMemo(() => columnsData, [columnsData]);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, visibleColumns } = useTable({
-    // @ts-ignore
     columns,
-    // @ts-ignore
     data,
   });
 
@@ -39,7 +40,7 @@ function AccordionTable({ rowsData, columnsData, subColumnsData }: IAccordionTab
                   {row.cells.map(cell => {
                     return (
                       <Cell onClick={() => setOpen(!isOpen)} {...cell.getCellProps()}>
-                        {cell.render('Cell')}
+                        {cell.value ? cell.render('Cell') : '-'}
                       </Cell>
                     );
                   })}
@@ -48,7 +49,7 @@ function AccordionTable({ rowsData, columnsData, subColumnsData }: IAccordionTab
                   ? rowsData && (
                       <tr>
                         <td colSpan={visibleColumns.length}>
-                          <Table rowsData={[row.original]} columnsData={subColumnsData} />{' '}
+                          <Table rowsData={[row.original]} columnsData={subColumnsData} />
                         </td>
                       </tr>
                     )
@@ -61,12 +62,12 @@ function AccordionTable({ rowsData, columnsData, subColumnsData }: IAccordionTab
       {rows.length === 0 && <TableMessage>There's no info yet!</TableMessage>}
     </>
   );
-}
+};
 
 export default AccordionTable;
 
-interface IAccordionTableProps {
-  rowsData: IPitchingLog[] | IBattingLog[];
+interface IAccordionTableProps<T extends Record<string, unknown>> {
+  rowsData: Array<T>;
   columnsData: IColumnsData;
   subColumnsData: IColumnsData;
 }

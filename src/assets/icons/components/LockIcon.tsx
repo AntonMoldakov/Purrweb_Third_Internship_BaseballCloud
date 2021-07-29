@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-function SvgLock(props: React.SVGProps<SVGSVGElement>) {
+function SvgLockIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       aria-hidden="true"
       data-prefix="fas"
       data-icon="lock"
-      className="lock_svg__svg-inline--fa lock_svg__fa-lock lock_svg__fa-w-14"
+      className="lock-icon_svg__svg-inline--fa lock-icon_svg__fa-lock lock-icon_svg__fa-w-14"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 448 512"
       width="1em"
@@ -20,4 +20,4 @@ function SvgLock(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default SvgLock;
+export default SvgLockIcon;

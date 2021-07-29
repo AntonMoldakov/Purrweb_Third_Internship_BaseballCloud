@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-function SvgLogo(props: React.SVGProps<SVGSVGElement>) {
+function SvgLogoIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 198 28" {...props}>
       <g fill="none" fillRule="evenodd">
@@ -27,4 +27,4 @@ function SvgLogo(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default SvgLogo;
+export default SvgLogoIcon;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import colors from 'styles/colors';
 import { DropdownMenu } from 'ui';
 
-const Selector = ({ options, onReturnValue, title }: SelectorButtonProps) => {
+const Selector = ({ options, onReturnValue, title, defaultValue }: SelectorButtonProps) => {
   const [isOpen, setOpen] = useState(false);
   const [currentValue, setCurrentValue] = useState(options[0]);
   useEffect(() => onReturnValue(currentValue), []);
@@ -12,7 +12,7 @@ const Selector = ({ options, onReturnValue, title }: SelectorButtonProps) => {
     <Root onClick={() => setOpen(!isOpen)}>
       <>
         {title}
-        {currentValue.value ? currentValue.label : 'Type'}
+        {currentValue.value ? currentValue.label : defaultValue ? defaultValue : 'Type'}
         <Arrow $isOpen={isOpen}>
           <ArrowIcon />
         </Arrow>
@@ -44,6 +44,7 @@ type Value = {
 
 interface SelectorButtonProps {
   title?: string;
+  defaultValue?: string;
   options: Array<Value>;
   onReturnValue: (value: Value) => void;
 }
@@ -63,9 +64,10 @@ const Root = styled.div`
     outline: none;
   }
 `;
+
 const Arrow = styled.span<{ $isOpen: boolean }>`
   margin-left: 6px;
-  transform: ${({ $isOpen }) => ($isOpen ? `rotate(180deg)` : `none`)};
+  transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'none')};
   &&:focus,
   &&:active {
     outline: none;

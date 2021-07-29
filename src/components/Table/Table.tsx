@@ -1,14 +1,14 @@
-import { IBatting, IBattingLog, IEvent, IPitching, IPitchingLog } from 'graphql/types';
 import React from 'react';
 import { useTable } from 'react-table';
 import { Cell, ColumnTitle, Row, StyledTable, TableMessage } from './TabelStyles';
 import { IColumnsData } from 'interface';
+import { IconButton, Loader } from 'ui';
+import { HeartRegularIcon, HeartSolidIcon } from 'assets/icons/components';
+import { Link } from 'react-router-dom';
 
-const Table = ({ rowsData, columnsData }: TableProps) => {
+const Table = <T extends Record<string, unknown>>({ rowsData, columnsData, loading, onFavorite }: TableProps<T>) => {
   const data = React.useMemo(() => rowsData, [rowsData]);
   const columns = React.useMemo(() => columnsData, [columnsData]);
-
-  // @ts-ignore
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
   return (
@@ -23,28 +23,53 @@ const Table = ({ rowsData, columnsData }: TableProps) => {
             </tr>
           ))}
         </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.length > 0 &&
-            rows.map(row => {
-              prepareRow(row);
-              return (
-                <Row {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return <Cell {...cell.getCellProps()}>{cell.render('Cell') ? cell.render('Cell') : '-'}</Cell>;
-                  })}
-                </Row>
-              );
-            })}
-        </tbody>
+        {!loading && (
+          <tbody {...getTableBodyProps()}>
+            {rows.length > 0 &&
+              rows.map((row, index) => {
+                prepareRow(row);
+                return (
+                  <Row {...row.getRowProps()}>
+                    {row.cells.map(cell => {
+                      // @ts-ignore
+                      const id = row.original.batter_datraks_id | row.original.pitcher_datraks_id | row.original.id;
+                      return (
+                        <Cell {...cell.getCellProps()}>
+                          {cell.column.id === 'favorite' ? (
+                            <IconButton onClick={() => onFavorite && onFavorite(id, !cell.value as boolean)}>
+                              {cell.value ? <HeartSolidIcon /> : <HeartRegularIcon />}
+                            </IconButton>
+                          ) : cell.column.id === 'rank' ? (
+                            index + 1
+                          ) : cell.column.id === 'player_name' ||
+                            cell.column.id === 'batter_name' ||
+                            cell.column.id === 'pitcher_name' ? (
+                            <Link to={`/profile/${id}`}>{cell.render('Cell')}</Link>
+                          ) : cell.value ? (
+                            cell.render('Cell')
+                          ) : (
+                            '-'
+                          )}
+                        </Cell>
+                      );
+                    })}
+                  </Row>
+                );
+              })}
+          </tbody>
+        )}
       </StyledTable>
-      {rows.length === 0 && <TableMessage>There's no info yet!</TableMessage>}
+      {loading && <Loader size={50} />}
+      {rows.length === 0 && !loading && <TableMessage>There's no info yet!</TableMessage>}
     </>
   );
 };
 
 export default Table;
 
-interface TableProps {
+interface TableProps<T extends Record<string, unknown>> {
   columnsData: IColumnsData;
-  rowsData: Array<IBatting> | Array<IEvent> | Array<IPitching> | Array<IPitchingLog> | Array<IBattingLog>;
+  loading?: boolean;
+  rowsData: Array<T>;
+  onFavorite?: (id: number, favorite: boolean) => void;
 }

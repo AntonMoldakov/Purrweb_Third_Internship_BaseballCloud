@@ -24,12 +24,12 @@ const Header = () => {
     {
       id: '1',
       title: 'Leaderboard',
-      src: '#',
+      src: '/leaderboard',
     },
     {
       id: '2',
       title: 'Network',
-      src: '#',
+      src: '/network',
     },
   ];
   return (

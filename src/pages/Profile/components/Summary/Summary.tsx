@@ -18,12 +18,14 @@ const Summary = ({ values, valuesColumnsData }: SummaryProps) => {
           {values.topValues && (
             <>
               <TableTitle>Top Batting Values</TableTitle>
+              {/*@ts-ignore*/}
               <Table rowsData={values.topValues} columnsData={valuesColumnsData} />
             </>
           )}
           {values.averageValues && (
             <>
               <TableTitle>Average Batting Values</TableTitle>
+              {/*@ts-ignore*/}
               <Table rowsData={values.averageValues} columnsData={valuesColumnsData} />
             </>
           )}

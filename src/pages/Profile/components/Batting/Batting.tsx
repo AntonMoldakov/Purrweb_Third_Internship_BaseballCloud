@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/client';
 import { BATTING_GRAPH_DATA, BATTING_LOG_DATA } from 'graphql/consts';
 import useDebounce from 'hooks';
 import { Charts, Log, Summary } from '..';
+import { columnsButtingDataLog, subColumnsButtingDataLog, valuesColumnsButtingDataSummary } from 'consts';
 
 const Batting = ({ batting, tabPage, userId, userName }: BattingCardTabProps) => {
   const [typeSelectorCharts, setTypeSelectorCharts] = useState({ value: '', label: 'None' });
@@ -43,86 +44,11 @@ const Batting = ({ batting, tabPage, userId, userName }: BattingCardTabProps) =>
   const battingLog = battingLogData.data?.batting_log.batting_log;
   const battingLogTotalCount = battingLogData.data?.batting_log.total_count;
 
-  const valuesColumnsData = [
-    {
-      Header: 'Pitch Type',
-      accessor: 'pitch_type',
-    },
-    {
-      Header: 'Distance',
-      accessor: 'distance',
-    },
-    {
-      Header: 'Launch Angle',
-      accessor: 'launch_angle',
-    },
-    {
-      Header: 'Exit Velocity',
-      accessor: 'exit_velocity',
-    },
-  ];
-
-  const columnsDataLog = React.useMemo(
-    () => [
-      {
-        Header: 'Date',
-        accessor: 'date',
-      },
-      {
-        Header: 'Pitcher Name',
-        accessor: 'pitcher',
-      },
-      {
-        Header: 'Pitcher Handedness',
-        accessor: 'pitcher_handedness',
-      },
-      {
-        Header: 'Pitch Type',
-        accessor: 'pitch_type',
-      },
-      {
-        Header: 'Pitch Call',
-        accessor: 'pitch_call',
-      },
-    ],
-    [],
-  );
-
-  const subColumnsDataLog = React.useMemo(
-    () => [
-      {
-        Header: 'Exit Velocity',
-        accessor: 'exit_velocity',
-      },
-      {
-        Header: 'Launch Angle',
-        accessor: 'launch_angle',
-      },
-      {
-        Header: 'Direction',
-        accessor: 'direction',
-      },
-      {
-        Header: 'Hit Spin Rate',
-        accessor: 'hit_spin_rate',
-      },
-      {
-        Header: ' Distance',
-        accessor: 'distance',
-      },
-      {
-        Header: 'Hang Time',
-        accessor: 'hang_time',
-      },
-    ],
-    [],
-  );
-
   switch (tabPage) {
     case 'summary': {
       return (
         <Summary
-          valuesColumnsData={valuesColumnsData}
+          valuesColumnsData={valuesColumnsButtingDataSummary}
           values={{ averageValues, topValues, loading: batting.loading }}
         />
       );
@@ -149,8 +75,8 @@ const Batting = ({ batting, tabPage, userId, userName }: BattingCardTabProps) =>
           setPage={setBattingLogPage}
           values={{
             loading: battingLogData.loading,
-            columnsData: columnsDataLog,
-            subColumnsData: subColumnsDataLog,
+            columnsData: columnsButtingDataLog,
+            subColumnsData: subColumnsButtingDataLog,
             rowsData: battingLog,
           }}
         />

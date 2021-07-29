@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { PROFILE_EVENTS_DATA } from 'graphql/consts';
 import { IProfileEventsData } from 'graphql/types';
 import { Paginator, Selector, Table } from 'components';
-import { sessionTypeData } from 'consts';
+import { eventsColumnsData, sessionTypeData } from 'consts';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
@@ -28,26 +28,7 @@ const SessionReports = ({ userId }: SessionReportsCardTabProps) => {
       },
     },
   });
-  const eventsColumnsData = [
-    {
-      Header: 'Date',
-      accessor: 'date',
-    },
-    {
-      Header: 'Type',
-      accessor: 'event_type',
-    },
-    {
-      Header: 'Name',
-      accessor: 'event_name',
-    },
-    {
-      Header: 'Purchased',
-      accessor: 'id',
-    },
-  ];
 
-  const events = data ? data.profile_events.events : [];
   const eventsTotalCount = data?.profile_events.total_count;
 
   const handleClearFilters = () => {
@@ -74,7 +55,14 @@ const SessionReports = ({ userId }: SessionReportsCardTabProps) => {
           </NavItem>
         </HeaderNav>
       </CardHeader>
-      <div>{loading ? <Loader size={50} /> : <Table columnsData={eventsColumnsData} rowsData={events} />}</div>
+      <div>
+        {loading ? (
+          <Loader size={50} />
+        ) : data ? (
+          // @ts-ignore
+          <Table columnsData={eventsColumnsData} rowsData={data.profile_events.events} />
+        ) : null}
+      </div>
       <Paginator onChangeCurrentPage={setEventsPage} pageSize={eventsPageSize} totalItemCount={eventsTotalCount || 0} />
     </Root>
   );
