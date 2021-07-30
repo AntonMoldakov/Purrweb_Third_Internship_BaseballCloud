@@ -20,41 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68f0b6af-b93b-4c01-af65-ab82e5142f9e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/icons/components/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/icons/components/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AccordionTable/AccordionTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AccordionTable/AccordionTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CustomField/CustomField.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomField/CustomField.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Selector/Selector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Selector/Selector.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Table/TabelStyles.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Table/TabelStyles.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AccordionTable/AccordionTable.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AccordionTable/index.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Table/Table.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Table/Table.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/consts/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/consts/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphql/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/Content/Content.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/Content/Content.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Leaderboard/Leaderboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Leaderboard/Leaderboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Network/Network.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Network/Network.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Batting/Batting.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Batting/Batting.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Charts/Charts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Charts/Charts.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Comparison/Comparison.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Comparison/Comparison.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Info/Info.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Info/Info.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Log/Log.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Log/Log.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Pitching/Pitching.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Pitching/Pitching.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/ProfileForm/ProfileForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/ProfileForm/ProfileForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/SessionReports/SessionReports.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/SessionReports/SessionReports.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Sidebar/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Sidebar/Sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Summary/Summary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Summary/Summary.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/SignIn/SignIn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/SignIn/SignIn.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/SignUp/SignUp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/SignUp/SignUp.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/rootReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/rootReducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/DropdownMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/DropdownMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/IconInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/IconInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/NavItem.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/validate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/validate.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +125,7 @@
       <workItem from="1627186968864" duration="39853000" />
       <workItem from="1627358261825" duration="59913000" />
       <workItem from="1627536708835" duration="6912000" />
-      <workItem from="1627543698955" duration="37495000" />
+      <workItem from="1627543698955" duration="38235000" />
     </task>
     <servers />
   </component>
