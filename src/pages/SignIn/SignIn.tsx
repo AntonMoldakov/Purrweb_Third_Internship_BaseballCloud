@@ -12,6 +12,7 @@ import { useAppDispatch } from 'store';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
 import validate from 'utils/validate';
+import { FORM_ERROR } from 'final-form';
 
 function SignIn() {
   const [isLoading, setLoading] = useState(false);
@@ -23,14 +24,20 @@ function SignIn() {
     user.token && history.push('/profile');
   }, [user]);
 
-  const handleSubmit = ({ email, password }: HandleSubmitProps) => {
+  const handleSubmit = async ({ email, password }: HandleSubmitProps) => {
+    let errors = {};
     setLoading(true);
-    dispatch(signIn({ email, password })).then(response => {
+    const response = await dispatch(signIn({ email, password }));
+
+    if (response.meta.requestStatus === 'fulfilled') {
       setLoading(false);
-      if (response.meta.requestStatus === 'fulfilled') {
-        history.push('/profile');
-      }
-    });
+      history.push('/profile');
+    } else {
+      setLoading(false);
+      errors = { [FORM_ERROR]: 'Invalid login credentials. Please try again.' };
+    }
+
+    return errors;
   };
   return (
     <AuthPages>
@@ -42,11 +49,12 @@ function SignIn() {
 
         <Form
           onSubmit={handleSubmit}
-          render={({ handleSubmit, submitting, pristine }) => (
+          render={({ handleSubmit, submitting, pristine, submitError }) => (
             <form onSubmit={handleSubmit}>
               <div>
                 <FormItem>
                   <Field
+                    disable={isLoading}
                     maxLength={30}
                     name="email"
                     title="Email"
@@ -59,6 +67,7 @@ function SignIn() {
                 </FormItem>
                 <FormItem>
                   <Field
+                    disable={isLoading}
                     maxLength={30}
                     type="password"
                     name="password"
@@ -69,9 +78,15 @@ function SignIn() {
                     component={CustomField}
                   />
                 </FormItem>
+                {submitError && <Error>{submitError}</Error>}
               </div>
               <FormItem>
-                <Button type="submit" isLoading={isLoading} disabled={submitting || pristine} title={'Sign In'} />
+                <Button
+                  type="submit"
+                  isLoading={isLoading}
+                  disabled={submitting || isLoading || pristine}
+                  title={'Sign In'}
+                />
               </FormItem>
             </form>
           )}
@@ -135,4 +150,11 @@ const Footer = styled.div`
     color: ${colors.lightBlue};
   }
 }
+`;
+
+const Error = styled.section`
+  width: 100%;
+  text-align: start;
+  margin-top: 8px;
+  color: ${colors.red};
 `;

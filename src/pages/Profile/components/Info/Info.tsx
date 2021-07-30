@@ -33,7 +33,7 @@ const Info = ({ profile, batting, pitching }: InfoCardProps) => {
         {userPosition === 'pitcher' && (
           <StyledTab onMouseLeave={() => setOpenMenuPitching(false)} onMouseOver={() => setOpenMenuPitching(true)}>
             Pitching
-            <DropdownMenu isOpen={isOpenMenuPitching}>
+            <DropdownMenu setOpen={setOpenMenuPitching} isOpen={isOpenMenuPitching}>
               <button
                 onClick={() => {
                   handleClosePitchingMenu('summary');
@@ -57,7 +57,7 @@ const Info = ({ profile, batting, pitching }: InfoCardProps) => {
         )}
         <StyledTab onMouseLeave={() => setOpenMenuButting(false)} onMouseOver={() => setOpenMenuButting(true)}>
           Batting
-          <DropdownMenu isOpen={isOpenMenuButting}>
+          <DropdownMenu setOpen={setOpenMenuButting} isOpen={isOpenMenuButting}>
             <button
               onClick={() => {
                 handleCloseButtingMenu('summary');
@@ -112,7 +112,7 @@ const Info = ({ profile, batting, pitching }: InfoCardProps) => {
       )}
       <TabPanel>
         <TabContent>
-          <Comparison profile={profile.profile.data} batting={{ data: batting.data, loading: batting.loading }} />
+          <Comparison profile={profile.profile.data} pitching={pitching} batting={batting} />
         </TabContent>
       </TabPanel>
     </Tabs>

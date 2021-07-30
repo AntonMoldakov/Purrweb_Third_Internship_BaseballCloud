@@ -5,6 +5,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from 'store';
 import Routes from './routes/Routes';
 import { selectUser } from './store/auth/selectors';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import ReduxToastr from 'react-redux-toastr';
 
 function App() {
   const user = useSelector(selectUser);
@@ -34,6 +36,16 @@ function App() {
   return (
     <PersistGate persistor={persistor}>
       <ApolloProvider client={client}>
+        <ReduxToastr
+          timeOut={3000}
+          newestOnTop={false}
+          preventDuplicates
+          position="top-right"
+          transitionIn="fadeIn"
+          transitionOut="fadeOut"
+          progressBar
+          closeOnToastrClick
+        />
         <Routes />
       </ApolloProvider>
     </PersistGate>

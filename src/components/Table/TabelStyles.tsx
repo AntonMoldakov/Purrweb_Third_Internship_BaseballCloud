@@ -60,6 +60,7 @@ export const Cell = styled.td`
 `;
 
 export const TableMessage = styled.div`
+  min-height: 420px;
   width: 100%;
   margin-top: 8px;
   font-weight: 300;

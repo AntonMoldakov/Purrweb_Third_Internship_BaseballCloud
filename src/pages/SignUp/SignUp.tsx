@@ -13,6 +13,7 @@ import { signUp } from 'store/auth/operations';
 import { useAppDispatch } from 'store';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
+import { FORM_ERROR } from 'final-form';
 
 function SignUp() {
   const [isLoading, setLoading] = useState(false);
@@ -25,14 +26,18 @@ function SignUp() {
     user.token && history.push('/profile');
   }, [user]);
 
-  const handleSubmit = ({ email, password, password_confirmation }: HandleSubmitProps) => {
+  const handleSubmit = async ({ email, password, password_confirmation }: HandleSubmitProps) => {
+    let errors = {};
     setLoading(true);
-    dispatch(signUp({ email, password, password_confirmation, role })).then(response => {
+    const response = await dispatch(signUp({ email, password, password_confirmation, role }));
+    if (response.meta.requestStatus === 'fulfilled') {
       setLoading(false);
-      if (response.meta.requestStatus === 'fulfilled') {
-        history.push('/profile');
-      }
-    });
+      history.push('/profile');
+    } else {
+      setLoading(false);
+      errors = { [FORM_ERROR]: 'Invalid login credentials. Please try again.' };
+    }
+    return errors;
   };
 
   return (
@@ -54,11 +59,12 @@ function SignUp() {
 
         <Form
           onSubmit={handleSubmit}
-          render={({ handleSubmit, submitting, pristine }) => (
+          render={({ handleSubmit, submitting, pristine, submitError }) => (
             <form onSubmit={handleSubmit}>
               <div>
                 <FormItem>
                   <Field
+                    disable={isLoading}
                     maxLength={30}
                     name="email"
                     title="Email"
@@ -70,6 +76,7 @@ function SignUp() {
                 </FormItem>
                 <FormItem>
                   <Field
+                    disable={isLoading}
                     minLength={6}
                     maxLength={30}
                     type="password"
@@ -82,6 +89,7 @@ function SignUp() {
                 </FormItem>
                 <FormItem>
                   <Field
+                    disable={isLoading}
                     maxLength={30}
                     type="password"
                     name="password_confirmation"
@@ -96,6 +104,7 @@ function SignUp() {
                 By clicking Sign Up, you agree to our<a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
                 .
               </Legal>
+              {submitError && <Error>{submitError}</Error>}
               <FormItem>
                 <Button type="submit" isLoading={isLoading} disabled={submitting || pristine} title={'Sign Up'} />
               </FormItem>
@@ -185,4 +194,11 @@ const Footer = styled.div`
     color: ${colors.lightBlue};
   }
 }
+`;
+
+const Error = styled.section`
+  width: 100%;
+  text-align: start;
+  margin-top: 8px;
+  color: ${colors.red};
 `;

@@ -138,9 +138,12 @@ export interface IBattingData {
 }
 
 export interface IPitching {
-  velocity: number;
-  spin_rate: number;
+  distance: number;
+  exit_velocity: number;
+  launch_angle: number;
   pitch_type: string;
+  spin_rate: number;
+  velocity: number;
 }
 
 export interface IPitchingData {

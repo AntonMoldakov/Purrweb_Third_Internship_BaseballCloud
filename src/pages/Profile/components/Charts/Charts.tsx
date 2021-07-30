@@ -31,8 +31,9 @@ const Charts = ({ Rows, userName, loading, setTypeSelector, typeSelector }: ICha
   return (
     <div>
       <CardHeader>
-        <div />
-        <Selector onReturnValue={setTypeSelector} options={pitchTypeData} />
+        <div>
+          <Selector onReturnValue={setTypeSelector} options={pitchTypeData} />
+        </div>
       </CardHeader>
       {loading ? (
         <Loader size={50} />
@@ -59,7 +60,8 @@ interface IChartsProps {
 
 const CardHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
   margin-bottom: 23px;
 `;
 

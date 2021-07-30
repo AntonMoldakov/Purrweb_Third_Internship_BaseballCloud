@@ -6,7 +6,7 @@ import { IconButton, Loader } from 'ui';
 import { HeartRegularIcon, HeartSolidIcon } from 'assets/icons/components';
 import { Link } from 'react-router-dom';
 
-const Table = <T extends Record<string, unknown>>({ rowsData, columnsData, loading, onFavorite }: TableProps<T>) => {
+const Table = <T extends Record<string, any>>({ rowsData, columnsData, loading, onFavorite }: TableProps<T>) => {
   const data = React.useMemo(() => rowsData, [rowsData]);
   const columns = React.useMemo(() => columnsData, [columnsData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
@@ -31,7 +31,6 @@ const Table = <T extends Record<string, unknown>>({ rowsData, columnsData, loadi
                 return (
                   <Row {...row.getRowProps()}>
                     {row.cells.map(cell => {
-                      // @ts-ignore
                       const id = row.original.batter_datraks_id | row.original.pitcher_datraks_id | row.original.id;
                       return (
                         <Cell {...cell.getCellProps()}>
@@ -59,7 +58,11 @@ const Table = <T extends Record<string, unknown>>({ rowsData, columnsData, loadi
           </tbody>
         )}
       </StyledTable>
-      {loading && <Loader size={50} />}
+      {loading && (
+        <TableMessage>
+          <Loader size={50} />
+        </TableMessage>
+      )}
       {rows.length === 0 && !loading && <TableMessage>There's no info yet!</TableMessage>}
     </>
   );

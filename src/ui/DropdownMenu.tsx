@@ -2,8 +2,14 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 
-const DropdownMenu = ({ isOpen, children }: IconButtonProps) => {
-  return isOpen ? <Root tabIndex={0}>{children}</Root> : <></>;
+const DropdownMenu = ({ isOpen, setOpen, children }: IconButtonProps) => {
+  return isOpen ? (
+    <Root tabIndex={1} onBlur={() => setTimeout(() => setOpen(false), 500)} ref={menu => menu && menu.focus()}>
+      {children}
+    </Root>
+  ) : (
+    <></>
+  );
 };
 
 export default DropdownMenu;
@@ -11,15 +17,15 @@ export default DropdownMenu;
 interface IconButtonProps {
   isOpen: boolean;
   children: ReactNode;
+  setOpen: (value: boolean) => void;
 }
 
 const Root = styled.div`
-  right: 5px;
-  margin-top: 10px;
-  width: 100%;
-  min-width: 100px;
+  top: 35px;
+  right: 0;
+  max-height: 200px;
+  width: fit-content;
   overflow: auto;
-  max-height: 400px;
   padding: 8px 0;
   position: absolute;
   border-radius: 5px;
@@ -45,6 +51,10 @@ const Root = styled.div`
       border: none;
       text-decoration: none;
       background-color: ${colors.opacityBlue};
+    }
+    &:focus,
+    &:focus-visible {
+      outline: none;
     }
   }
 `;

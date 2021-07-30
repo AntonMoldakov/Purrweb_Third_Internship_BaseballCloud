@@ -10,23 +10,34 @@ import { IColumnsData } from 'interface';
 
 const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSize, setPage, values }: ILogProps) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => setPitcherName(e.target.value);
+  console.log(values.rowsData);
+  console.log(values);
   return (
     <div>
       <CardHeader>
         <IconInput $right={false} placeholder={'Search'} type="text" value={pitcherName} onChange={handleSearch}>
           <SearchIcon />
         </IconInput>
-        <Selector onReturnValue={setTypeSelector} options={pitchTypeData} />
+        <div>
+          <Selector onReturnValue={setTypeSelector} options={pitchTypeData} />
+        </div>
       </CardHeader>
       {values.loading ? (
         <Loader size={50} />
       ) : values.rowsData ? (
-        <AccordionTable
-          //@ts-ignore
-          rowsData={values.rowsData}
-          columnsData={values.columnsData}
-          subColumnsData={values.subColumnsData}
-        />
+        values.type === 'pitcher' ? (
+          <AccordionTable
+            rowsData={values.rowsData as IPitchingLog[]}
+            columnsData={values.columnsData}
+            subColumnsData={values.subColumnsData}
+          />
+        ) : (
+          <AccordionTable
+            rowsData={values.rowsData as IBattingLog[]}
+            columnsData={values.columnsData}
+            subColumnsData={values.subColumnsData}
+          />
+        )
       ) : (
         <TabMessage>There's no info yet!</TabMessage>
       )}
@@ -48,6 +59,7 @@ interface ILogProps {
   pageSize: number;
   setPage: (value: number) => void;
   values: {
+    type: 'pitcher' | 'batter';
     rowsData: Array<IPitchingLog> | Array<IBattingLog> | undefined;
     columnsData: IColumnsData;
     subColumnsData: IColumnsData;

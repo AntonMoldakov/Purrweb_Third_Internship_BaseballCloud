@@ -5,7 +5,7 @@ import { IColumnsData } from 'interface';
 import { Cell, ColumnTitle, Row, StyledTable, TableMessage } from '../Table/TabelStyles';
 import styled from 'styled-components';
 
-const AccordionTable = <T extends Record<string, unknown>>({
+const AccordionTable = <T extends Record<string, any>>({
   rowsData,
   columnsData,
   subColumnsData,
@@ -66,7 +66,7 @@ const AccordionTable = <T extends Record<string, unknown>>({
 
 export default AccordionTable;
 
-interface IAccordionTableProps<T extends Record<string, unknown>> {
+interface IAccordionTableProps<T extends Record<string, any>> {
   rowsData: Array<T>;
   columnsData: IColumnsData;
   subColumnsData: IColumnsData;

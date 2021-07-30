@@ -22,6 +22,7 @@ import { profileAPI } from 'api';
 import { handData, positionData, schoolYearData } from 'consts';
 import { handleSubmitProps } from 'interface';
 import { ConvertFormData } from 'utils/ConvertFormData';
+import { toastr } from 'react-redux-toastr';
 
 function ProfileForm({ setEditMode }: ProfileFormProps) {
   const [labelState, setLabelState] = useState<boolean>(true);
@@ -69,7 +70,10 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
           avatar: requestPicture,
         },
       },
-    }).then(() => setEditMode(false));
+    }).then(() => {
+      toastr.success('Success', 'Profile has been updated successfully.');
+      setEditMode(false);
+    });
   };
   const handleSubmitImage = () => {
     if (pictureInfo) {
@@ -127,6 +131,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       <UserName>
                         <FormItem $twoItem>
                           <Field
+                            disabled={updateLoading}
                             maxLength={30}
                             name="first_name"
                             title="First Name"
@@ -137,6 +142,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                             component={CustomField}
                           />
                           <Field
+                            disabled={updateLoading}
                             maxLength={30}
                             name="last_name"
                             title="Last Name"
@@ -150,6 +156,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       </UserName>
                       <FormItem>
                         <Field
+                          disabled={updateLoading}
                           validate={validate.requiredSelect}
                           defaultValue={position}
                           name={'position'}
@@ -160,6 +167,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       </FormItem>
                       <FormItem>
                         <Field
+                          disabled={updateLoading}
                           defaultValue={position2}
                           name={'position2'}
                           placeholder={'Secondary Position in Game'}
@@ -175,6 +183,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       </Title>
                       <FormItem>
                         <Field
+                          disabled={updateLoading}
                           defaultValue={user.age}
                           validate={validate.required}
                           maxLength={3}
@@ -187,6 +196,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       </FormItem>
                       <FormItem $twoItem>
                         <Field
+                          disabled={updateLoading}
                           defaultValue={user.feet}
                           validate={validate.required}
                           maxLength={2}
@@ -197,6 +207,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           component={CustomField}
                         />
                         <Field
+                          disabled={updateLoading}
                           defaultValue={user.inches}
                           validate={validate.required}
                           maxLength={2}
@@ -209,6 +220,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       </FormItem>
                       <FormItem>
                         <Field
+                          disabled={updateLoading}
                           defaultValue={user.weight}
                           validate={validate.required}
                           maxLength={3}
@@ -222,6 +234,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       <InputContainer>
                         <InputItem>
                           <Field
+                            disabled={updateLoading}
                             validate={validate.requiredSelect}
                             defaultValue={throws_hand}
                             name="throws_hand"
@@ -234,6 +247,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                         </InputItem>
                         <InputItem>
                           <Field
+                            disabled={updateLoading}
                             validate={validate.requiredSelect}
                             defaultValue={bats_hand}
                             name="bats_hand"
@@ -253,6 +267,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       </Title>
                       <FormItem>
                         <Field
+                          disabled={updateLoading}
                           defaultValue={school}
                           name={'school'}
                           placeholder={'School'}
@@ -262,6 +277,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       </FormItem>
                       <FormItem>
                         <Field
+                          disabled={updateLoading}
                           defaultValue={school_years}
                           name={'school_year'}
                           placeholder={'School Year'}
@@ -272,6 +288,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       <FormItem>
                         <Field
                           isMulti
+                          disabled={updateLoading}
                           defaultValue={teams}
                           name={'teams'}
                           placeholder={'Team'}
@@ -288,6 +305,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       <FormItem>
                         <Field
                           isMulti
+                          disabled={updateLoading}
                           defaultValue={facilities}
                           name={'facilities'}
                           placeholder={'Facilities'}
@@ -303,6 +321,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       </Title>
                       <FormItem>
                         <Field
+                          disabled={updateLoading}
                           defaultValue={user.biography}
                           name={'biography'}
                           placeholder={'About'}

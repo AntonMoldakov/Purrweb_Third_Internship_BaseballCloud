@@ -7,25 +7,25 @@ import { IColumnsData } from 'interface';
 import { IBatting, IPitching } from 'graphql/types';
 
 const Summary = ({ values, valuesColumnsData }: SummaryProps) => {
+  const handleCheckData = (): boolean =>
+    values.topValues && values.averageValues ? values.topValues.length > 0 && values.averageValues.length > 0 : false;
   return (
     <div>
       {values.loading ? (
         <Loader size={50} />
-      ) : !values ? (
+      ) : !handleCheckData() ? (
         <TabMessage>There's no info yet!</TabMessage>
       ) : (
         <>
           {values.topValues && (
             <>
               <TableTitle>Top Batting Values</TableTitle>
-              {/*@ts-ignore*/}
               <Table rowsData={values.topValues} columnsData={valuesColumnsData} />
             </>
           )}
           {values.averageValues && (
             <>
               <TableTitle>Average Batting Values</TableTitle>
-              {/*@ts-ignore*/}
               <Table rowsData={values.averageValues} columnsData={valuesColumnsData} />
             </>
           )}

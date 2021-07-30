@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IBattingData, IProfile, IProfileById, IProfileNamesData } from 'graphql/types';
+import { IBattingData, IPitchingData, IProfile, IProfileById, IProfileNamesData } from 'graphql/types';
 import avatar from 'assets/img/avatar.png';
 import styled from 'styled-components';
 import { DropdownMenu, IconInput, Loader, TableRow } from 'ui';
@@ -8,9 +8,9 @@ import useDebounce from 'hooks';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { BATTING_DATA, FILTER_PROFILE_NAMES, PROFILE_DATA_BY_ID } from 'graphql/consts';
 import { Selector } from 'components/Selector';
-import { topValues as topValuesOptions } from 'consts';
+import { topBattingValues, topPitchingValues } from 'consts';
 
-const Comparison = ({ profile, batting }: ComparisonCardTabProps) => {
+const Comparison = ({ profile, batting, pitching }: ComparisonCardTabProps) => {
   const [typeSelectorLog, setTypeSelectorLog] = useState({ value: 'distance', label: 'Distance' });
   const [searchUser, setSearchUser] = useState('');
   const [isOpenResults, setOpenResults] = useState(false);
@@ -24,9 +24,17 @@ const Comparison = ({ profile, batting }: ComparisonCardTabProps) => {
     },
   });
   const [profileByIdData, { loading, data }] = useLazyQuery<IProfileById>(PROFILE_DATA_BY_ID);
-  const topValues = batting.data?.batting_summary.top_values;
+  const topBattValues = batting.data?.batting_summary.top_values || [];
+  const topPitchValues =
+    profile?.position === 'pitcher' && pitching?.data?.pitching_summary.top_values
+      ? pitching?.data?.pitching_summary.top_values
+      : [];
+
+  const topValues = [...topBattValues, ...topPitchValues];
   const profileById = data && data.profile;
   const searchUsers = searchUserData && searchUserData.data?.profile_names.profile_names;
+
+  const topValuesOptions = profile?.position === 'pitcher' ? topPitchingValues : topBattingValues;
 
   const [profileByIdBatting, { loading: battingLoading, data: battingData }] = useLazyQuery<IBattingData>(BATTING_DATA);
 
@@ -58,7 +66,7 @@ const Comparison = ({ profile, batting }: ComparisonCardTabProps) => {
         </UserInfoItem>
         <UserInfoItem>Age: {profile?.age ? ' ' + profile.age : ' -'}</UserInfoItem>
         <UserInfoItem>
-          Height: {profile?.feet ? ' ' + profile.feet + ' ft ' + profile.inches + ' in' : ' -'}
+          Height: {profile?.feet ? ' ' + profile.feet + ' ft ' + (profile.inches ? profile.inches : 0) + ' in' : ' -'}
         </UserInfoItem>
         <UserInfoItem>Weight: {profile?.weight ? ' ' + profile.weight + ' lbs' : ' -'}</UserInfoItem>
       </User>
@@ -70,18 +78,17 @@ const Comparison = ({ profile, batting }: ComparisonCardTabProps) => {
               <Loader size={20} />
             </LoadingContainer>
           )}
-          <IconInput
-            $width={'160px'}
-            // onBlur={() => setOpenResults(false)}
-            onFocus={() => setOpenResults(true)}
-            placeholder={'Enter player name'}
-            value={searchUser}
-            onChange={handleSearch}>
-            <SearchIcon />
-          </IconInput>
-          {searchUsers && searchUsers.length > 0 && (
-            <DropdownMenuContainer>
-              <DropdownMenu isOpen={isOpenResults}>
+          <Search>
+            <IconInput
+              $width={'160px'}
+              onFocus={() => setOpenResults(true)}
+              placeholder={'Enter player name'}
+              value={searchUser}
+              onChange={handleSearch}>
+              <SearchIcon />
+            </IconInput>
+            {searchUsers && searchUsers.length > 0 && (
+              <DropdownMenu setOpen={setOpenResults} isOpen={isOpenResults}>
                 {searchUsers.map(item => (
                   <button
                     key={item.id}
@@ -90,16 +97,21 @@ const Comparison = ({ profile, batting }: ComparisonCardTabProps) => {
                   </button>
                 ))}
               </DropdownMenu>
-            </DropdownMenuContainer>
-          )}
+            )}
+          </Search>
         </UserInfoItem>
         <UserInfoItem>Age: {profileById?.age ? ' ' + profileById.age : ' -'}</UserInfoItem>
         <UserInfoItem>
-          Height: {profileById?.feet ? ' ' + profileById.feet + ' ft ' + profileById.inches + ' in' : ' -'}
+          Height:{' '}
+          {profileById?.feet
+            ? ' ' + profileById.feet + ' ft ' + (profileById.inches ? profileById.inches : 0) + ' in'
+            : ' -'}
         </UserInfoItem>
         <UserInfoItem>Weight: {profileById?.weight ? ' ' + profileById.weight + ' lbs' : ' -'}</UserInfoItem>
       </User>
-      <Selector title={'Top Batting Values - '} onReturnValue={setTypeSelectorLog} options={topValuesOptions} />
+      <div>
+        <Selector title={'Top Batting Values - '} onReturnValue={setTypeSelectorLog} options={topValuesOptions} />
+      </div>
 
       <TableRow>
         <TableElement>Fastball</TableElement>
@@ -118,6 +130,16 @@ const Comparison = ({ profile, batting }: ComparisonCardTabProps) => {
           <>
             <TableElement>{fastballValues?.launch_angle || '-'}</TableElement>
             <TableElement>{fastballValuesSearchUser?.launch_angle || '-'}</TableElement>
+          </>
+        ) : typeSelectorLog.value === 'velocity' ? (
+          <>
+            <TableElement>{fastballValues?.velocity || '-'}</TableElement>
+            <TableElement>{fastballValuesSearchUser?.velocity || '-'}</TableElement>
+          </>
+        ) : typeSelectorLog.value === 'spin_rate' ? (
+          <>
+            <TableElement>{fastballValues?.spin_rate || '-'}</TableElement>
+            <TableElement>{fastballValuesSearchUser?.spin_rate || '-'}</TableElement>
           </>
         ) : (
           <></>
@@ -140,6 +162,16 @@ const Comparison = ({ profile, batting }: ComparisonCardTabProps) => {
             <TableElement>{curveballValues?.launch_angle || '-'}</TableElement>
             <TableElement>{curveballValuesSearchUser?.launch_angle || '-'}</TableElement>
           </>
+        ) : typeSelectorLog.value === 'velocity' ? (
+          <>
+            <TableElement>{curveballValues?.velocity || '-'}</TableElement>
+            <TableElement>{curveballValuesSearchUser?.velocity || '-'}</TableElement>
+          </>
+        ) : typeSelectorLog.value === 'spin_rate' ? (
+          <>
+            <TableElement>{curveballValues?.spin_rate || '-'}</TableElement>
+            <TableElement>{curveballValuesSearchUser?.spin_rate || '-'}</TableElement>
+          </>
         ) : (
           <></>
         )}
@@ -160,6 +192,16 @@ const Comparison = ({ profile, batting }: ComparisonCardTabProps) => {
           <>
             <TableElement>{changeupValues?.launch_angle || '-'}</TableElement>
             <TableElement>{changeupValuesSearchUser?.launch_angle || '-'}</TableElement>
+          </>
+        ) : typeSelectorLog.value === 'velocity' ? (
+          <>
+            <TableElement>{changeupValues?.velocity || '-'}</TableElement>
+            <TableElement>{changeupValuesSearchUser?.velocity || '-'}</TableElement>
+          </>
+        ) : typeSelectorLog.value === 'spin_rate' ? (
+          <>
+            <TableElement>{changeupValues?.spin_rate || '-'}</TableElement>
+            <TableElement>{changeupValuesSearchUser?.spin_rate || '-'}</TableElement>
           </>
         ) : (
           <></>
@@ -182,6 +224,16 @@ const Comparison = ({ profile, batting }: ComparisonCardTabProps) => {
             <TableElement>{sliderValues?.launch_angle || '-'}</TableElement>
             <TableElement>{sliderValuesSearchUser?.launch_angle || '-'}</TableElement>
           </>
+        ) : typeSelectorLog.value === 'velocity' ? (
+          <>
+            <TableElement>{sliderValues?.velocity || '-'}</TableElement>
+            <TableElement>{sliderValuesSearchUser?.velocity || '-'}</TableElement>
+          </>
+        ) : typeSelectorLog.value === 'spin_rate' ? (
+          <>
+            <TableElement>{sliderValues?.spin_rate || '-'}</TableElement>
+            <TableElement>{sliderValuesSearchUser?.spin_rate || '-'}</TableElement>
+          </>
         ) : (
           <></>
         )}
@@ -194,6 +246,7 @@ export default Comparison;
 
 interface ComparisonCardTabProps {
   batting: { data: IBattingData | undefined; loading: boolean };
+  pitching: { data: IPitchingData | undefined; loading: boolean } | undefined;
   profile: IProfile | undefined;
 }
 
@@ -227,10 +280,8 @@ const LoadingContainer = styled.div`
   bottom: 25px;
 `;
 
-const DropdownMenuContainer = styled.div`
-  width: 80%;
-  top: 30px;
-  position: absolute;
+const Search = styled.div`
+  position: relative;
 `;
 
 const UserPhoto = styled.img`

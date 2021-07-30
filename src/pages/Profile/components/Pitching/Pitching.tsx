@@ -74,6 +74,7 @@ const Pitching = ({ pitching, tabPage, userId, userName }: PitchingTabProps) => 
           pageSize={logPageSize}
           setPage={setpitchingLogPage}
           values={{
+            type: 'pitcher',
             loading: pitchingLogData.loading,
             columnsData: columnsPitchingDataLog,
             subColumnsData: subColumnsPitchingDataLog,

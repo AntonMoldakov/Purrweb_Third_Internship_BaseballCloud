@@ -12,6 +12,7 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import { INetworkUsersData, IUpdateFavoriteProfile, IUpdateFavoriteProfileProps } from 'graphql/types';
 import { NETWORK_USERS_DATA, UPDATE_FAVORITE_PROFILE } from 'graphql/consts';
 import { convertTableData } from 'utils/convertTableData';
+import { toastr } from 'react-redux-toastr';
 
 const Network = () => {
   const [favoriteSelector, setFavoriteSelector] = useState(leaderboardFavoriteData[0]);
@@ -59,6 +60,7 @@ const Network = () => {
       },
     }).then(() => {
       networkQuery();
+      toastr.success('Success', 'This profile added to favorite list successfully');
     });
   };
   const handleSearchAge = (e: React.ChangeEvent<HTMLInputElement>) => setUserAge(e.target.value);

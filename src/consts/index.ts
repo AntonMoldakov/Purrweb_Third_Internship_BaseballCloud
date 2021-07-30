@@ -68,10 +68,14 @@ export const pitchTypeData = [
   { value: 'Slider', label: 'Slider' },
 ];
 
-export const topValues = [
+export const topBattingValues = [
   { value: 'distance', label: 'Distance' },
   { value: 'launch_angle', label: 'Launch Angle' },
   { value: 'exit_velocity', label: 'Exit Velocity' },
+];
+export const topPitchingValues = [
+  { value: 'velocity', label: 'Pitch Velocity' },
+  { value: 'spin_rate', label: 'Spin Rate' },
 ];
 
 export const sessionTypeData = [

@@ -1,10 +1,9 @@
-import { LogoIcon } from 'assets/icons/components';
+import { LogoIcon, TriangleIcon } from 'assets/icons/components';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { signOut } from 'store/auth/operations';
 import styled from 'styled-components';
 import colors from 'styles/colors';
-import { NavItem } from 'ui';
 import { useAppDispatch } from 'store';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
@@ -13,6 +12,7 @@ import DropdownMenu from 'ui/DropdownMenu';
 import { useQuery } from '@apollo/client';
 import { ICurrentUser } from 'graphql/types';
 import { CURRENT_USER } from 'graphql/consts';
+import { Loader } from 'ui';
 
 const Header = () => {
   const [isOpenMenu, setOpenMenu] = useState(false);
@@ -37,29 +37,36 @@ const Header = () => {
       <Link to={'/profile'}>
         <LogoIcon width="198" height="28" />
       </Link>
-      {token && !loading && user && (
+      {token && user && (
         <StyledNav>
           <StyledNav>
             {navItems.map(item => (
-              <NavItem to={item.src} title={item.title} key={item.id} />
+              <NavItem to={item.src} key={item.id}>
+                {item.title}
+              </NavItem>
             ))}
           </StyledNav>
-          <Profile>
-            <AvatarLink to={'/profile'}>
-              <Avatar src={user.avatar ? user.avatar : avatar} />
-            </AvatarLink>
-            <MenuWrapper>
-              <Button onClick={() => setOpenMenu(!isOpenMenu)}>
-                {user.first_name ? user.first_name + ' ' + user.last_name : 'Profile Name'}
-              </Button>
-              <DropdownMenu isOpen={isOpenMenu}>
+          {loading ? (
+            <Loader size={20} />
+          ) : (
+            <Profile>
+              <AvatarLink to={'/profile'}>
+                <Avatar src={user.avatar ? user.avatar : avatar} />
+              </AvatarLink>
+              <MenuWrapper>
+                <Button onClick={() => setOpenMenu(!isOpenMenu)}>
+                  {user.first_name ? user.first_name + ' ' + user.last_name : 'Profile Name'}
+                  <TriangleIcon />
+                </Button>
+              </MenuWrapper>
+              <DropdownMenu setOpen={setOpenMenu} isOpen={isOpenMenu}>
                 <Link onClick={() => setOpenMenu(false)} to={'/profile'}>
                   My Profile
                 </Link>
                 <a onClick={() => dispatch(signOut()).then(() => setOpenMenu(false))}>Log Out</a>
               </DropdownMenu>
-            </MenuWrapper>
-          </Profile>
+            </Profile>
+          )}
         </StyledNav>
       )}
     </Root>
@@ -91,11 +98,46 @@ const StyledNav = styled.nav`
   display: flex;
 `;
 
-const MenuWrapper = styled.nav`
+const NavItem = styled(NavLink)`
+  display: flex;
+  align-items: center;
   position: relative;
+  font-size: 16px;
+  padding: 0 8px;
+  color: ${colors.gray2};
+  &:hover,
+  &:focus {
+    color: ${colors.gray2};
+    text-decoration: none;
+  }
+  &:hover:after,
+  &:focus:after {
+    content: '';
+    display: block;
+    left: 0;
+    right: 0;
+    position: absolute;
+    bottom: -9px;
+    border-bottom: 4px solid rgba(120, 139, 153, 0.4);
+  }
+  &.active:after {
+    content: '';
+    display: block;
+    left: 0;
+    right: 0;
+    position: absolute;
+    bottom: -9px;
+    border-bottom: 4px solid ${colors.gray2};
+  }
+`;
+
+const MenuWrapper = styled.div`
+  position: relative;
+  display: flex;
 `;
 
 const Profile = styled.nav`
+  position: relative;
   align-items: center;
   display: flex;
   margin-left: 16px;
@@ -113,6 +155,9 @@ const Avatar = styled.img`
 `;
 
 const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 10px 18px;
   border-radius: 4px;
   box-shadow: none;

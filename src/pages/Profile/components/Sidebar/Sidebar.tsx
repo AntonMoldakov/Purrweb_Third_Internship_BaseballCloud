@@ -19,6 +19,7 @@ import { DesiredProfile } from 'interface';
 import { useMutation } from '@apollo/client';
 import { UPDATE_FAVORITE_PROFILE } from 'graphql/consts';
 import { IUpdateFavoriteProfile, IUpdateFavoriteProfileProps } from 'graphql/types';
+import { toastr } from 'react-redux-toastr';
 
 function Sidebar({ profile, edit = false }: SidebarProps) {
   const { data, loading } = profile.profile;
@@ -35,6 +36,10 @@ function Sidebar({ profile, edit = false }: SidebarProps) {
       variables: {
         form: { profile_id: '' + data?.id, favorite: updateFavorite !== undefined ? !updateFavorite : !data?.favorite },
       },
+    }).then(response => {
+      response.data?.update_favorite_profile.favorite
+        ? toastr.success('Success', 'This profile added to favorite list successfully')
+        : toastr.success('Success', 'This profile removed from favorite list successfully.');
     });
   };
   const handleCheckFavorite = (): boolean | undefined =>
@@ -107,7 +112,7 @@ function Sidebar({ profile, edit = false }: SidebarProps) {
                       </Icon>
                       <div>Throws</div>
                     </div>
-                    <div>{user.throws_hand}</div>
+                    <div>{user.throws_hand && toNormalState(user.throws_hand)}</div>
                   </PersonalInfoItem>
                   <PersonalInfoItem>
                     <div>
@@ -116,7 +121,7 @@ function Sidebar({ profile, edit = false }: SidebarProps) {
                       </Icon>
                       <div>Bats</div>
                     </div>
-                    <div>{user.bats_hand}</div>
+                    <div>{user.bats_hand && toNormalState(user.bats_hand)}</div>
                   </PersonalInfoItem>
                 </PersonalInfo>
                 <SchoolInfo>

@@ -41,27 +41,26 @@ const SessionReports = ({ userId }: SessionReportsCardTabProps) => {
         <Title>Session</Title>
         <HeaderNav>
           <NavItem>
-            <Button onClick={() => handleClearFilters}>Clear Filters</Button>
+            <Button onClick={() => handleClearFilters()}>Clear Filters</Button>
           </NavItem>
           <NavItem>
             <StyledDatePicker
-              placeholderText={'Date'}
+              value={`Date ${formatData ? '(' + formatData + ')' : ''}`}
               selected={eventDate}
               onChange={(date: Date) => date && setEventDate(date)}
             />
           </NavItem>
           <NavItem>
-            <Selector onReturnValue={setTypeEvent} options={sessionTypeData} />
+            <Selector value={typeEvent} onReturnValue={setTypeEvent} options={sessionTypeData} />
           </NavItem>
         </HeaderNav>
       </CardHeader>
       <div>
         {loading ? (
           <Loader size={50} />
-        ) : data ? (
-          // @ts-ignore
-          <Table columnsData={eventsColumnsData} rowsData={data.profile_events.events} />
-        ) : null}
+        ) : (
+          <Table columnsData={eventsColumnsData} rowsData={data?.profile_events.events || []} />
+        )}
       </div>
       <Paginator onChangeCurrentPage={setEventsPage} pageSize={eventsPageSize} totalItemCount={eventsTotalCount || 0} />
     </Root>
@@ -107,6 +106,7 @@ const Button = styled.button`
 
 const HeaderNav = styled.nav`
   display: flex;
+  align-items: center;
 `;
 
 const NavItem = styled.div`
@@ -114,7 +114,7 @@ const NavItem = styled.div`
 `;
 
 const StyledDatePicker = styled(DatePicker)`
-  width: 100px;
+  max-width: 120px;
   font-size: 16px;
   color: ${colors.lightBlue};
   background: none;

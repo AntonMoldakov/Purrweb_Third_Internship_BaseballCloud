@@ -12,7 +12,8 @@ interface ContentProps {
 }
 
 const Root = styled.div`
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   grid-area: content;
   background: #fff;
   display: flex;

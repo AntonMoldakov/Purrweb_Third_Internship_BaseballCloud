@@ -24,6 +24,7 @@ import {
 } from 'graphql/types';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { convertTableData } from 'utils/convertTableData';
+import { toastr } from 'react-redux-toastr';
 
 const Leaderboard = () => {
   const [typeBattingSelector, setTypeBattingSelector] = useState(leaderboardTypeBattingData[0]);
@@ -80,6 +81,7 @@ const Leaderboard = () => {
     }).then(() => {
       battingQuery();
       pitchingQuery();
+      toastr.success('Success', 'This profile added to favorite list successfully');
     });
   };
 

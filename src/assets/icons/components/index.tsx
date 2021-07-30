@@ -15,3 +15,4 @@ export { default as Arrow2Icon } from './Arrow2Icon';
 export { default as ArrowIcon } from './ArrowIcon';
 export { default as HeightIcon } from './HeightIcon';
 export { default as UnFollowIcon } from './UnFollowIcon';
+export { default as TriangleIcon } from './TriangleIcon';

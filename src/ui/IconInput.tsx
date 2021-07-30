@@ -32,7 +32,7 @@ const Icon = styled.div<InputProps>`
 `;
 
 const Input = styled.input<InputProps>`
-  // ${({ $right }) => ($right ? 'padding: 5px 5px 7px 0;' : 'padding: 5px 5px 7px 24px;')}
+  ${({ $right }) => ($right ? 'padding: 5px 5px 7px 0;' : 'padding: 5px 5px 7px 24px;')}
   font-size: 16px;
   width: ${({ $width }) => $width};
   line-height: 19px;

@@ -74,6 +74,7 @@ const Batting = ({ batting, tabPage, userId, userName }: BattingCardTabProps) =>
           pageSize={logPageSize}
           setPage={setBattingLogPage}
           values={{
+            type: 'batter',
             loading: battingLogData.loading,
             columnsData: columnsButtingDataLog,
             subColumnsData: subColumnsButtingDataLog,
