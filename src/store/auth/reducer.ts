@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { initialStateProps } from './types';
-import { IUser } from 'interface';
+import { IUser } from 'types';
 import { signIn, signOut, signUp } from './operations';
 
 const initialState: initialStateProps = {

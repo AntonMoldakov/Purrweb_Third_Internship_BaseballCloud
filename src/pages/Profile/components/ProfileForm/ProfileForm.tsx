@@ -20,7 +20,7 @@ import { CURRENT_PROFILE, FACILITIES_DATA, SCHOOLS_DATA, TEAMS_DATA, UPDATE_PROF
 import { toNormalizeOptions } from 'utils/Normalizers';
 import { profileAPI } from 'api';
 import { handData, positionData, schoolYearData } from 'consts';
-import { handleSubmitProps } from 'interface';
+import { handleSubmitProps } from 'types';
 import { ConvertFormData } from 'utils/ConvertFormData';
 import { toastr } from 'react-redux-toastr';
 

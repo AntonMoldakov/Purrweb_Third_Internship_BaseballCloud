@@ -1,4 +1,4 @@
-import { IProfile } from './graphql/types';
+import { IProfile } from '../graphql/types';
 
 export interface IUser {
   email: string;

@@ -1,17 +1,24 @@
 import React from 'react';
 import { IconInput, Loader } from 'ui';
 import { SearchIcon } from 'assets/icons/components';
-import { Selector, AccordionTable, Paginator } from 'components';
+import { Selector, Paginator, Table } from 'components';
 import { pitchTypeData } from 'consts';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 import { IPitchingLog, IBattingLog } from 'graphql/types';
-import { IColumnsData } from 'interface';
+import { IColumnsData } from 'types';
+import { Row } from 'react-table';
 
 const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSize, setPage, values }: ILogProps) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => setPitcherName(e.target.value);
-  console.log(values.rowsData);
-  console.log(values);
+
+  const renderRowSubComponent = React.useCallback(
+    <T extends Record<string, any>>(row: Row<T>) => (
+      <Table rowsData={[row.original]} columnsData={values.subColumnsData} />
+    ),
+    [],
+  );
+
   return (
     <div>
       <CardHeader>
@@ -26,16 +33,16 @@ const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSiz
         <Loader size={50} />
       ) : values.rowsData ? (
         values.type === 'pitcher' ? (
-          <AccordionTable
+          <Table
             rowsData={values.rowsData as IPitchingLog[]}
             columnsData={values.columnsData}
-            subColumnsData={values.subColumnsData}
+            renderRowSubComponent={renderRowSubComponent}
           />
         ) : (
-          <AccordionTable
+          <Table
             rowsData={values.rowsData as IBattingLog[]}
             columnsData={values.columnsData}
-            subColumnsData={values.subColumnsData}
+            renderRowSubComponent={renderRowSubComponent}
           />
         )
       ) : (

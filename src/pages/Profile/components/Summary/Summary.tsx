@@ -3,7 +3,7 @@ import { Loader } from 'ui';
 import { Table } from 'components/Table';
 import styled from 'styled-components';
 import colors from 'styles/colors';
-import { IColumnsData } from 'interface';
+import { IColumnsData } from 'types';
 import { IBatting, IPitching } from 'graphql/types';
 
 const Summary = ({ values, valuesColumnsData }: SummaryProps) => {

@@ -4,7 +4,7 @@ import { Tab, TabList, TabPanel, TabProps, Tabs } from 'react-tabs';
 import { Comparison, SessionReports, Batting, Pitching } from '../';
 import styled from 'styled-components';
 import colors from 'styles/colors';
-import { DesiredProfile } from 'interface';
+import { DesiredProfile } from 'types';
 import { IBattingData, IPitchingData } from 'graphql/types';
 
 const Info = ({ profile, batting, pitching }: InfoCardProps) => {

@@ -17,7 +17,7 @@ export const ColumnTitle = styled.th`
   color: ${colors.gray};
 `;
 
-export const Row = styled.tr`
+export const StyledRow = styled.tr`
   height: 44px;
   align-items: center;
   background: ${colors.gray5};
@@ -34,7 +34,7 @@ export const Row = styled.tr`
   }
 `;
 
-export const Cell = styled.td`
+export const StyledCell = styled.td`
   border: none;
   &: first-child {
     border-bottom-left-radius: 4px;

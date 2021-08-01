@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Selector } from 'components/Selector';
 import { columnsDataNetwork, leaderboardFavoriteData, leaderboardPositionData, NetworkUsersCountData } from 'consts';
-import { IconInput } from 'ui';
-import { ArrowIcon, SearchIcon } from 'assets/icons/components';
+import { IconButton, IconInput } from 'ui';
+import { ArrowIcon, HeartRegularIcon, HeartSolidIcon, SearchIcon } from 'assets/icons/components';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 import useDebounce from 'hooks';
@@ -13,6 +13,8 @@ import { INetworkUsersData, IUpdateFavoriteProfile, IUpdateFavoriteProfileProps 
 import { NETWORK_USERS_DATA, UPDATE_FAVORITE_PROFILE } from 'graphql/consts';
 import { convertTableData } from 'utils/convertTableData';
 import { toastr } from 'react-redux-toastr';
+import { Cell } from 'react-table';
+import { Link } from 'react-router-dom';
 
 const Network = () => {
   const [favoriteSelector, setFavoriteSelector] = useState(leaderboardFavoriteData[0]);
@@ -66,6 +68,29 @@ const Network = () => {
   const handleSearchAge = (e: React.ChangeEvent<HTMLInputElement>) => setUserAge(e.target.value);
   const handleSearchTeam = (e: React.ChangeEvent<HTMLInputElement>) => setUserTeam(e.target.value);
   const handleSearchSchool = (e: React.ChangeEvent<HTMLInputElement>) => setUserSchool(e.target.value);
+
+  const renderCell = React.useCallback(<T extends Record<string, any>>(cell: Cell<T>) => {
+    const id = cell.row.original.batter_datraks_id | cell.row.original.pitcher_datraks_id | cell.row.original.id;
+    switch (cell.column.id) {
+      case 'favorite': {
+        return (
+          <IconButton onClick={() => handleFavorite(id, !cell.value as boolean)}>
+            {cell.value ? <HeartSolidIcon /> : <HeartRegularIcon />}
+          </IconButton>
+        );
+      }
+      case 'rank': {
+        return +cell.row.id + 1;
+      }
+      case 'player_name': {
+        return <Link to={`/profile/${id}`}>{cell.render('Cell')}</Link>;
+      }
+      default: {
+        return !cell.value ? '-' : cell.render('Cell');
+      }
+    }
+  }, []);
+
   return (
     <Root>
       <PageHeader>
@@ -114,7 +139,7 @@ const Network = () => {
         <>
           <div>
             <Table
-              onFavorite={handleFavorite}
+              renderCell={renderCell}
               loading={loading || favoriteLoading}
               columnsData={columnsDataNetwork}
               rowsData={users}

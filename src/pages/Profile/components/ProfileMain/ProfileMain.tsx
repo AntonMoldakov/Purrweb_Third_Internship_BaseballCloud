@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client';
 import { IBattingData, IPitchingData } from 'graphql/types';
 import { BATTING_DATA, PITCHING_DATA } from 'graphql/consts';
 import { Info, TopValues } from '../';
-import { DesiredProfile } from 'interface';
+import { DesiredProfile } from 'types';
 
 function ProfileMain({ profile }: ProfileMainProps) {
   const id = profile.profile.data?.id || 0;
