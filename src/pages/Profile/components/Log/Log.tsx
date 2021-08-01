@@ -6,12 +6,19 @@ import { pitchTypeData } from 'consts';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 import { IPitchingLog, IBattingLog } from 'graphql/types';
-import { IColumnsData } from 'interface';
+import { IColumnsData } from 'types';
+import { Row } from 'react-table';
 
 const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSize, setPage, values }: ILogProps) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => setPitcherName(e.target.value);
-  console.log(values.rowsData);
-  console.log(values);
+
+  const renderRowSubComponent = React.useCallback(
+    <T extends Record<string, any>>(row: Row<T>) => (
+      <Table rowsData={[row.original]} columnsData={values.subColumnsData} />
+    ),
+    [],
+  );
+
   return (
     <div>
       <CardHeader>
@@ -29,13 +36,13 @@ const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSiz
           <Table
             rowsData={values.rowsData as IPitchingLog[]}
             columnsData={values.columnsData}
-            subColumnsData={values.subColumnsData}
+            renderRowSubComponent={renderRowSubComponent}
           />
         ) : (
           <Table
             rowsData={values.rowsData as IBattingLog[]}
             columnsData={values.columnsData}
-            subColumnsData={values.subColumnsData}
+            renderRowSubComponent={renderRowSubComponent}
           />
         )
       ) : (

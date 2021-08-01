@@ -11,8 +11,8 @@ import {
   leaderboardFavoriteData,
 } from 'consts';
 import { Selector, Table } from 'components';
-import { IconInput } from 'ui';
-import { ArrowIcon } from 'assets/icons/components';
+import { IconButton, IconInput } from 'ui';
+import { ArrowIcon, HeartRegularIcon, HeartSolidIcon } from 'assets/icons/components';
 import useDebounce from 'hooks';
 import { Tab, TabList, TabPanel, TabProps, Tabs } from 'react-tabs';
 import { LEADERBOARD_PITCHING_DATA, LEADERBOARD_BATTING_DATA, UPDATE_FAVORITE_PROFILE } from 'graphql/consts';
@@ -25,6 +25,8 @@ import {
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { convertTableData } from 'utils/convertTableData';
 import { toastr } from 'react-redux-toastr';
+import { Cell } from 'react-table';
+import { Link } from 'react-router-dom';
 
 const Leaderboard = () => {
   const [typeBattingSelector, setTypeBattingSelector] = useState(leaderboardTypeBattingData[0]);
@@ -97,6 +99,29 @@ const Leaderboard = () => {
   const handleSearchTeam = (e: React.ChangeEvent<HTMLInputElement>) => setUserTeam(e.target.value);
   const handleSearchSchool = (e: React.ChangeEvent<HTMLInputElement>) => setUserSchool(e.target.value);
 
+  const renderCell = React.useCallback(<T extends Record<string, any>>(cell: Cell<T>) => {
+    const id = cell.row.original.batter_datraks_id | cell.row.original.pitcher_datraks_id | cell.row.original.id;
+    switch (cell.column.id) {
+      case 'favorite': {
+        return (
+          <IconButton onClick={() => handleFavorite(id, !cell.value as boolean)}>
+            {cell.value ? <HeartSolidIcon /> : <HeartRegularIcon />}
+          </IconButton>
+        );
+      }
+      case 'rank': {
+        return +cell.row.id + 1;
+      }
+      case 'batter_name':
+      case 'pitcher_name': {
+        return <Link to={`/profile/${id}`}>{cell.render('Cell')}</Link>;
+      }
+      default: {
+        return !cell.value ? '-' : cell.render('Cell');
+      }
+    }
+  }, []);
+
   return (
     <Root>
       <PageHeader>
@@ -142,10 +167,10 @@ const Leaderboard = () => {
                 <Selector onReturnValue={setTypeBattingSelector} options={leaderboardTypeBattingData} />
               </SelectorContainer>
               <Table
-                onFavorite={handleFavorite}
                 loading={battingData.loading}
                 columnsData={columnsBattingDataLeaderboard}
                 rowsData={usersBatting}
+                renderCell={renderCell}
               />
             </TabContent>
           </TabPanel>
@@ -155,10 +180,10 @@ const Leaderboard = () => {
                 <Selector onReturnValue={setTypePitchingSelector} options={leaderboardTypePitchingData} />
               </SelectorContainer>
               <Table
-                onFavorite={handleFavorite}
                 loading={pitchingData.loading || favoriteLoading}
                 columnsData={columnsPitchingDataLeaderboard}
                 rowsData={usersPitching}
+                renderCell={renderCell}
               />
             </TabContent>
           </TabPanel>

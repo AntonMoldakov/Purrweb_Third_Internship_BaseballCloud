@@ -1,4 +1,4 @@
-import { IUser } from 'interface';
+import { IUser } from 'types';
 
 export interface initialStateProps {
   user: IUser;

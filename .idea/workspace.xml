@@ -20,12 +20,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68f0b6af-b93b-4c01-af65-ab82e5142f9e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AccordionTable/AccordionTable.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AccordionTable/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Table/TabelStyles.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Table/TabelStyles.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Table/Table.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Table/Table.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Leaderboard/Leaderboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Leaderboard/Leaderboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Network/Network.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Network/Network.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Profile/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/Profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Info/Info.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Info/Info.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Log/Log.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Log/Log.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/ProfileForm/ProfileForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/ProfileForm/ProfileForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/ProfileMain/ProfileMain.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/ProfileMain/ProfileMain.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Sidebar/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Sidebar/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Profile/components/Summary/Summary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/components/Summary/Summary.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/auth/reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/auth/reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/auth/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/auth/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/ConvertFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ConvertFormData.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,11 +92,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\types" />
       <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\utils" />
       <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\routes" />
       <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\components\FieldSelect" />
       <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\components\Selector" />
-      <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\components" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\www\1-React\projects\baseballCloud\baseballcloud\src\store\toaster" />
@@ -125,7 +137,7 @@
       <workItem from="1627186968864" duration="39853000" />
       <workItem from="1627358261825" duration="59913000" />
       <workItem from="1627536708835" duration="6912000" />
-      <workItem from="1627543698955" duration="38235000" />
+      <workItem from="1627543698955" duration="47472000" />
     </task>
     <servers />
   </component>
@@ -157,6 +169,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1627039013717" />
+    <state x="538" y="214" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1627640395867">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="538" y="214" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1627640395867" />
     <state x="714" y="235" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1626237460703">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -177,22 +193,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="829" y="321" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1627105787962" />
-    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1627621148875">
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1627806637053">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1627621148875" />
-    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1627621148875">
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1627806637053" />
+    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1627806637052">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1627621148875" />
-    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1627621148875">
+    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1627806637052" />
+    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1627806637042">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1627621148875" />
-    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1627621148875">
+    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1627806637042" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1627806637053">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1627621148875" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1627806637053" />
     <state x="171" y="93" width="981" height="707" key="SettingsEditor" timestamp="1626240676114">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -201,10 +217,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1627628286510" />
-    <state x="425" y="187" width="672" height="677" key="run.anything.popup" timestamp="1627625568799">
+    <state x="425" y="187" width="672" height="677" key="run.anything.popup" timestamp="1627806636355">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1627625568799" />
+    <state x="425" y="187" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1627806636355" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1627025671092">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

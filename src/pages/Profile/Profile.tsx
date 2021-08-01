@@ -6,7 +6,7 @@ import { ICurrentProfile, IProfile, IProfileById } from 'graphql/types';
 import { CURRENT_PROFILE, PROFILE_DATA_BY_ID } from 'graphql/consts';
 import { useParams } from 'react-router-dom';
 import colors from 'styles/colors';
-import { DesiredProfile } from 'interface';
+import { DesiredProfile } from 'types';
 import { Arrow2Icon } from 'assets/icons/components';
 import { Loader } from 'ui';
 

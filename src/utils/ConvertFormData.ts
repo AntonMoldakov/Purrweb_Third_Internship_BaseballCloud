@@ -1,4 +1,4 @@
-import { handleSubmitProps } from 'interface';
+import { handleSubmitProps } from 'types';
 
 export const ConvertFormData = ({
   bats_hand,

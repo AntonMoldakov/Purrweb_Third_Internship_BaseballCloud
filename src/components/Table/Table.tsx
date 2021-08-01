@@ -1,25 +1,36 @@
-import React, { useState } from 'react';
-import { useTable } from 'react-table';
-import { Cell, ColumnTitle, Row, StyledTable, TableMessage } from './TabelStyles';
-import { IColumnsData } from 'interface';
-import { IconButton, Loader } from 'ui';
-import { HeartRegularIcon, HeartSolidIcon } from 'assets/icons/components';
-import { Link } from 'react-router-dom';
+import React, { ReactNode } from 'react';
+import { Cell, Row, useExpanded, useTable } from 'react-table';
+import { StyledCell, ColumnTitle, StyledRow, StyledTable, TableMessage } from './TabelStyles';
+import { IColumnsData } from 'types';
+import { Loader } from 'ui';
 import styled from 'styled-components';
+import { color } from 'highcharts';
+import colors from '../../styles/colors';
 
 const Table = <T extends Record<string, any>>({
   rowsData,
   columnsData,
   loading,
-  onFavorite,
-  subColumnsData,
+  renderCell,
+  renderRowSubComponent,
 }: TableProps<T>) => {
   const data = React.useMemo(() => rowsData, [rowsData]);
   const columns = React.useMemo(() => columnsData, [columnsData]);
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, visibleColumns } = useTable({
-    columns,
-    data,
-  });
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    visibleColumns,
+    state: { expanded },
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useExpanded,
+  );
 
   return (
     <>
@@ -36,58 +47,38 @@ const Table = <T extends Record<string, any>>({
         {!loading && (
           <tbody {...getTableBodyProps()}>
             {rows.length > 0 &&
-              rows.map((row, index) => {
+              rows.map(row => {
                 prepareRow(row);
-                if (subColumnsData) {
-                  const [isOpen, setOpen] = useState(false);
+                if (renderRowSubComponent) {
                   return (
                     <React.Fragment key={row.id}>
-                      <ButtonRow {...row.getRowProps()}>
+                      <ButtonRow>
                         {row.cells.map(cell => {
                           return (
-                            <Cell onClick={() => setOpen(!isOpen)} {...cell.getCellProps()}>
+                            <StyledCell {...row.getToggleRowExpandedProps()} {...cell.getCellProps()}>
                               {cell.value ? cell.render('Cell') : '-'}
-                            </Cell>
+                            </StyledCell>
                           );
                         })}
                       </ButtonRow>
-                      {isOpen
-                        ? rowsData && (
-                            <tr>
-                              <td colSpan={visibleColumns.length}>
-                                <Table rowsData={[row.original]} columnsData={subColumnsData} />
-                              </td>
-                            </tr>
-                          )
-                        : null}
+                      {row.isExpanded ? (
+                        <tr>
+                          <td colSpan={visibleColumns.length}>{renderRowSubComponent(row)}</td>
+                        </tr>
+                      ) : null}
                     </React.Fragment>
                   );
                 } else {
                   return (
-                    <Row {...row.getRowProps()}>
+                    <StyledRow {...row.getRowProps()}>
                       {row.cells.map(cell => {
-                        const id = row.original.batter_datraks_id | row.original.pitcher_datraks_id | row.original.id;
                         return (
-                          <Cell {...cell.getCellProps()}>
-                            {cell.column.id === 'favorite' ? (
-                              <IconButton onClick={() => onFavorite && onFavorite(id, !cell.value as boolean)}>
-                                {cell.value ? <HeartSolidIcon /> : <HeartRegularIcon />}
-                              </IconButton>
-                            ) : cell.column.id === 'rank' ? (
-                              index + 1
-                            ) : cell.column.id === 'player_name' ||
-                              cell.column.id === 'batter_name' ||
-                              cell.column.id === 'pitcher_name' ? (
-                              <Link to={`/profile/${id}`}>{cell.render('Cell')}</Link>
-                            ) : cell.value ? (
-                              cell.render('Cell')
-                            ) : (
-                              '-'
-                            )}
-                          </Cell>
+                          <StyledCell {...cell.getCellProps()}>
+                            {renderCell ? renderCell(cell) : cell.value ? cell.render('Cell') : '-'}
+                          </StyledCell>
                         );
                       })}
-                    </Row>
+                    </StyledRow>
                   );
                 }
               })}
@@ -110,10 +101,10 @@ interface TableProps<T extends Record<string, unknown>> {
   columnsData: IColumnsData;
   loading?: boolean;
   rowsData: Array<T>;
-  onFavorite?: (id: number, favorite: boolean) => void;
-  subColumnsData?: IColumnsData;
+  renderRowSubComponent?: (row: Row<T>) => JSX.Element;
+  renderCell?: (cell: Cell<T>) => JSX.Element | string | ReactNode;
 }
 
-const ButtonRow = styled(Row)`
+const ButtonRow = styled(StyledRow)`
   cursor: pointer;
 `;
