@@ -82,4 +82,4 @@ export interface ISubmitNetworkProps {
   team: string;
   name: string;
    
-}
+} 

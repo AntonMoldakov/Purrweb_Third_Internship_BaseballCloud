@@ -19,7 +19,7 @@ type toNormalizeOptionsProps =
       id: number | string;
     }
   | undefined
-  | string
+  | string 
   | Array<{
       name?: string;
       u_name?: string;

@@ -8,7 +8,7 @@ const InputField = ({ input, meta, children, ...rest }: InputFieldProps) => {
   return (
     <div>
       {children ? (
-        <IconInput  {...input} {...rest}>
+        <IconInput {...input} {...rest}>
           {children}
         </IconInput>
       ) : (

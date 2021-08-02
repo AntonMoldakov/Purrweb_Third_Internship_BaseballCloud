@@ -9,8 +9,14 @@ import colors from 'styles/colors';
 import { columnsPitchingDataLog, subColumnsPitchingDataLog, valuesColumnsPitchingDataSummary } from 'consts';
 
 const Pitching = ({ pitching, tabPage, userId, userName }: PitchingTabProps) => {
-  const [typeSelectorCharts, setTypeSelectorCharts] = useState({ value: '', label: 'None' });
-  const [typeSelectorLog, setTypeSelectorLog] = useState({ value: '', label: 'None' });
+  const [typeSelectorCharts, setTypeSelectorCharts] = useState({
+    value: '',
+    label: 'None',
+  });
+  const [typeSelectorLog, setTypeSelectorLog] = useState({
+    value: '',
+    label: 'None',
+  });
   const [pitchingLogPage, setpitchingLogPage] = useState(1);
   const [pitcherName, setPitcherName] = useState('');
   const pitcherNameDebouncedValue = useDebounce<string>(pitcherName, 500);

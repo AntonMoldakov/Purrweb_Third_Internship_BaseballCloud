@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { FieldRenderProps } from 'react-final-form';
 
-const FieldSelect = ({ input, meta,lite, ...rest }: CustomSelectProps) => {
+const FieldSelect = ({ input, meta, lite, ...rest }: CustomSelectProps) => {
   return (
     <>
       <StyledSelect $lite={lite} classNamePrefix={'Select'} {...input} {...rest} />
@@ -25,7 +25,7 @@ interface CustomSelectProps
   lite?: boolean;
 }
 
-interface StyledSelectProps extends CustomSelectProps{
+interface StyledSelectProps extends CustomSelectProps {
   $lite?: boolean;
 }
 
@@ -61,14 +61,14 @@ const StyledSelect = styled(Select)<StyledSelectProps>`
   }
   .Select__input {
     cursor: pointer;
-    caret-color: transparent;
+    caret-color: transparent; 
     color: ${colors.lightBlue};
   }
   
   .Select__menu {
   width: fit-content;
   }
-  
+   
   .Select__option {
     background-color: #fff;
     color: ${colors.gray};

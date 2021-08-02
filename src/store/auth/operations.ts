@@ -16,4 +16,4 @@ export const signUp = createAsyncThunk('auth/signUp', async (payload: SignUpProp
 
 export const signOut = createAsyncThunk('auth/signOut', async () => {
   await authAPI.signOut();
-});
+}); 

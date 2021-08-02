@@ -1,15 +1,11 @@
-import React from "react";
-import { Field, Form } from "react-final-form";
-import { ArrowIcon } from "assets/icons/components";
-import {
-  dateData,
-  leaderboardFavoriteData,
-  leaderboardPositionData,
-} from "consts";
-import styled from "styled-components";
-import { FieldSelect } from "components/FieldSelect";
-import { InputField } from "components";
-import { ISubmitLeaderboardProps } from "types";
+import React from 'react';
+import { Field, Form } from 'react-final-form';
+import { ArrowIcon } from 'assets/icons/components';
+import { dateData, leaderboardFavoriteData, leaderboardPositionData } from 'consts';
+import styled from 'styled-components';
+import { FieldSelect } from 'components/FieldSelect';
+import { InputField } from 'components';
+import { ISubmitLeaderboardProps } from 'types';
 
 const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
   return (
@@ -19,15 +15,8 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
         <StyledForm onSubmit={handleSubmit}>
           <ItemContainer>
             <FormItem>
-              <Field
-                lite
-                name="date"
-                title="Date"
-                type="date"
-                placeholder="Date"
-                options={dateData}
-              >
-                {(props) => {
+              <Field lite name="date" title="Date" type="date" placeholder="Date" options={dateData}>
+                {props => {
                   return (
                     <FieldSelect
                       {...props}
@@ -44,14 +33,8 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
               </Field>
             </FormItem>
             <FormItem>
-              <Field
-                lite
-                name="school"
-                title="School"
-                type="school"
-                placeholder="School"
-              >
-                {(props) => {
+              <Field lite name="school" title="School" type="school" placeholder="School">
+                {props => {
                   return (
                     <InputField
                       {...props}
@@ -61,8 +44,7 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
                         if (props.onChange) {
                           props.onChange(e);
                         }
-                      }}
-                    >
+                      }}>
                       <ArrowIcon />
                     </InputField>
                   );
@@ -70,14 +52,8 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
               </Field>
             </FormItem>
             <FormItem>
-              <Field
-                lite
-                name="team"
-                title="Team"
-                type="team"
-                placeholder="Team"
-              >
-                {(props) => {
+              <Field lite name="team" title="Team" type="team" placeholder="Team">
+                {props => {
                   return (
                     <InputField
                       {...props}
@@ -87,8 +63,7 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
                         if (props.onChange) {
                           props.onChange(e);
                         }
-                      }}
-                    >
+                      }}>
                       <ArrowIcon />
                     </InputField>
                   );
@@ -102,9 +77,8 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
                 title="Position"
                 type="position"
                 placeholder="Position"
-                options={leaderboardPositionData}
-              >
-                {(props) => {
+                options={leaderboardPositionData}>
+                {props => {
                   return (
                     <FieldSelect
                       {...props}
@@ -122,7 +96,7 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
             </FormItem>
             <FormItem>
               <Field lite name="age" title="Age" type="age" placeholder="Age">
-                {(props) => {
+                {props => {
                   return (
                     <InputField
                       {...props}
@@ -132,8 +106,7 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
                         if (props.onChange) {
                           props.onChange(e);
                         }
-                      }}
-                    >
+                      }}>
                       <ArrowIcon />
                     </InputField>
                   );
@@ -147,9 +120,8 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
                 title="Favorite"
                 type="favorite"
                 placeholder="All"
-                options={leaderboardFavoriteData}
-              >
-                {(props) => {
+                options={leaderboardFavoriteData}>
+                {props => {
                   return (
                     <FieldSelect
                       {...props}

@@ -101,8 +101,8 @@ function SignUp() {
                 </FormItem>
               </div>
               <Legal>
-                By clicking Sign Up, you agree to our<a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-                .
+                By clicking Sign Up, you agree to our
+                <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
               </Legal>
               {submitError && <Error>{submitError}</Error>}
               <FormItem>
@@ -147,11 +147,11 @@ const StyledTab = styled(Tab)<TabProps>`
   font-weight: 700;
   line-height: 1.13;
   margin-bottom: 15px;
-  &: first-child {
+  &:first-child {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
   }
-  &: last-child {
+  &:last-child {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
@@ -165,7 +165,7 @@ const StyledTab = styled(Tab)<TabProps>`
 `;
 
 const Text = styled.span`
-  ont-size: 24px;
+  font-size: 24px;
   line-height: 1.25;
   font-weight: 400;
   color: ${colors.gray};
@@ -193,7 +193,6 @@ const Footer = styled.div`
     padding-left: 3px;
     color: ${colors.lightBlue};
   }
-}
 `;
 
 const Error = styled.section`

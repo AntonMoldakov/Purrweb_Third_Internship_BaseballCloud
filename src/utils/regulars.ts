@@ -3,3 +3,4 @@ const regulars = {
 };
 
 export default regulars;
+ 

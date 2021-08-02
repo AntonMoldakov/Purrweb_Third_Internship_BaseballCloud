@@ -19,7 +19,7 @@ import {
   UseGroupByColumnOptions,
   UseGroupByColumnProps,
   UseGroupByHooks,
-  UseGroupByInstanceProps,
+  UseGroupByInstanceProps, 
   UseGroupByOptions,
   UseGroupByRowProps,
   UseGroupByState,

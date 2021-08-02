@@ -17,7 +17,7 @@ const initialState: initialStateProps = {
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState, 
   reducers: {},
   extraReducers: builder => {
     builder.addCase(signIn.fulfilled, (state, { payload }: { payload: IUser }) => {

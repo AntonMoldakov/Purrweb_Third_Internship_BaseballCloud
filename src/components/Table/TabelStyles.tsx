@@ -29,33 +29,27 @@ export const StyledRow = styled.tr`
   &:hover {
     background: ${colors.lightBlue3};
   }
-  &: first-child {
-
-  }
 `;
 
 export const StyledCell = styled.td`
   border: none;
-  &: first-child {
+  &:first-child {
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
   }
-  &: last-child {
+  &:last-child {
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
   }
-  a{
-   font-size: 14px;
-  line-height: 1;
-  font-weight: 300;
-  color: ${colors.gray3};}
+  a {
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 300;
+    color: ${colors.gray3};
+  }
   a:hover {
-    color: ${colors.lightBlue} ;
+    color: ${colors.lightBlue};
     text-decoration: underline;
-   }
-}
-
-
   }
 `;
 

@@ -123,7 +123,7 @@ const Title = styled.h2`
 `;
 
 const Text = styled.span`
-  ont-size: 24px;
+  font-size: 24px;
   line-height: 1.25;
   font-weight: 400;
   color: ${colors.gray};
@@ -149,7 +149,6 @@ const Footer = styled.div`
     padding-left: 3px;
     color: ${colors.lightBlue};
   }
-}
 `;
 
 const Error = styled.section`

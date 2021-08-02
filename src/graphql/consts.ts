@@ -362,7 +362,7 @@ export const NETWORK_USERS_DATA = gql`
         school_year
         feet
         inches
-        weight
+        weight  
         age
         events {
           id

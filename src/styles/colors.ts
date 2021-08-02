@@ -14,7 +14,7 @@ const colors = {
   darkGray: '#333',
   opacityWhite: '#eff1f3',
   opacityWhite2: '#eee',
-  white2: '#ffffffcc',
+  white2: '#ffffffcc', 
   green: '#35c32a',
   yellow: '#ffd01a',
   red: '#F05F62',

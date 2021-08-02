@@ -17,7 +17,7 @@ export const ConvertFormData = ({
 }: handleSubmitProps) => {
   return {
     ...values,
-    feet: +feet,
+    feet: +feet, 
     weight: +weight,
     inches: +inches,
     age: +age,

@@ -1,31 +1,22 @@
-import React from "react";
-import { IconInput, Loader } from "ui";
-import { SearchIcon } from "assets/icons/components";
-import { Selector, Paginator, Table } from "components";
-import { pitchTypeData } from "consts";
-import styled from "styled-components";
-import colors from "styles/colors";
-import { IPitchingLog, IBattingLog } from "graphql/types";
-import { IColumnsData } from "types";
-import { Row } from "react-table";
+import React from 'react';
+import { IconInput, Loader } from 'ui';
+import { SearchIcon } from 'assets/icons/components';
+import { Selector, Paginator, Table } from 'components';
+import { pitchTypeData } from 'consts';
+import styled from 'styled-components';
+import colors from 'styles/colors';
+import { IPitchingLog, IBattingLog } from 'graphql/types';
+import { IColumnsData } from 'types';
+import { Row } from 'react-table';
 
-const Log = ({
-  setTypeSelector,
-  pitcherName,
-  setPitcherName,
-  totalCount,
-  pageSize,
-  setPage,
-  values,
-}: ILogProps) => {
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPitcherName(e.target.value);
+const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSize, setPage, values }: ILogProps) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => setPitcherName(e.target.value);
 
   const renderRowSubComponent = React.useCallback(
     <T extends Record<string, any>>(row: Row<T>) => (
       <Table rowsData={[row.original]} columnsData={values.subColumnsData} />
     ),
-    []
+    [],
   );
 
   return (
@@ -34,11 +25,10 @@ const Log = ({
         <IconInput
           staticWidth
           right={false}
-          placeholder={"Search"}
+          placeholder={'Search'}
           type="text"
           value={pitcherName}
-          onChange={handleSearch}
-        >
+          onChange={handleSearch}>
           <SearchIcon />
         </IconInput>
         <div>
@@ -48,7 +38,7 @@ const Log = ({
       {values.loading ? (
         <Loader size={50} />
       ) : values.rowsData ? (
-        values.type === "pitcher" ? (
+        values.type === 'pitcher' ? (
           <Table
             rowsData={values.rowsData as IPitchingLog[]}
             columnsData={values.columnsData}
@@ -66,11 +56,7 @@ const Log = ({
       )}
 
       <CardFooter>
-        <Paginator
-          onChangeCurrentPage={setPage}
-          pageSize={pageSize}
-          totalItemCount={totalCount || 0}
-        />
+        <Paginator onChangeCurrentPage={setPage} pageSize={pageSize} totalItemCount={totalCount || 0} />
       </CardFooter>
     </div>
   );
@@ -86,7 +72,7 @@ interface ILogProps {
   pageSize: number;
   setPage: (value: number) => void;
   values: {
-    type: "pitcher" | "batter";
+    type: 'pitcher' | 'batter';
     rowsData: Array<IPitchingLog> | Array<IBattingLog> | undefined;
     columnsData: IColumnsData;
     subColumnsData: IColumnsData;

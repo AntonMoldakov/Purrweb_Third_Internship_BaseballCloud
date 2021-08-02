@@ -9,8 +9,14 @@ import { Charts, Log, Summary } from '..';
 import { columnsButtingDataLog, subColumnsButtingDataLog, valuesColumnsButtingDataSummary } from 'consts';
 
 const Batting = ({ batting, tabPage, userId, userName }: BattingCardTabProps) => {
-  const [typeSelectorCharts, setTypeSelectorCharts] = useState({ value: '', label: 'None' });
-  const [typeSelectorLog, setTypeSelectorLog] = useState({ value: '', label: 'None' });
+  const [typeSelectorCharts, setTypeSelectorCharts] = useState({
+    value: '',
+    label: 'None',
+  });
+  const [typeSelectorLog, setTypeSelectorLog] = useState({
+    value: '',
+    label: 'None',
+  });
   const [battingLogPage, setBattingLogPage] = useState(1);
   const [pitcherName, setPitcherName] = useState('');
   const pitcherNameDebouncedValue = useDebounce<string>(pitcherName, 500);

@@ -1,22 +1,20 @@
-import React from "react";
-import { Field, Form } from "react-final-form";
-import { ArrowIcon, SearchIcon } from "assets/icons/components";
+import React from 'react';
+import { Field, Form } from 'react-final-form';
+import { ArrowIcon, SearchIcon } from 'assets/icons/components';
 import {
   leaderboardFavoriteData,
   leaderboardPositionData,
   leaderboardTypeBattingData,
   leaderboardTypePitchingData,
   NetworkUsersCountData,
-} from "consts";
-import styled from "styled-components";
-import { FieldSelect } from "components/FieldSelect";
-import { InputField } from "components";
-import { ISubmitNetworkProps } from "types";
+} from 'consts';
+import styled from 'styled-components';
+import { FieldSelect } from 'components/FieldSelect';
+import { InputField } from 'components';
+import { ISubmitNetworkProps } from 'types';
 
 const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
-  const typeData = !pitching
-    ? leaderboardTypeBattingData
-    : leaderboardTypePitchingData;
+  const typeData = !pitching ? leaderboardTypeBattingData : leaderboardTypePitchingData;
   return (
     <Form
       onSubmit={onSubmit}
@@ -24,14 +22,8 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
         <StyledForm onSubmit={handleSubmit}>
           <ItemContainer>
             <FormItem>
-              <Field
-                lite
-                name="school"
-                title="School"
-                type="school"
-                placeholder="School"
-              >
-                {(props) => {
+              <Field lite name="school" title="School" type="school" placeholder="School">
+                {props => {
                   return (
                     <InputField
                       {...props}
@@ -41,8 +33,7 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                         if (props.onChange) {
                           props.onChange(e);
                         }
-                      }}
-                    >
+                      }}>
                       <ArrowIcon />
                     </InputField>
                   );
@@ -50,14 +41,8 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
               </Field>
             </FormItem>
             <FormItem>
-              <Field
-                lite
-                name="team"
-                title="Team"
-                type="team"
-                placeholder="Team"
-              >
-                {(props) => {
+              <Field lite name="team" title="Team" type="team" placeholder="Team">
+                {props => {
                   return (
                     <InputField
                       {...props}
@@ -67,8 +52,7 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                         if (props.onChange) {
                           props.onChange(e);
                         }
-                      }}
-                    >
+                      }}>
                       <ArrowIcon />
                     </InputField>
                   );
@@ -82,9 +66,8 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                 title="Position"
                 type="position"
                 placeholder="Position"
-                options={leaderboardPositionData}
-              >
-                {(props) => {
+                options={leaderboardPositionData}>
+                {props => {
                   return (
                     <FieldSelect
                       {...props}
@@ -102,7 +85,7 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
             </FormItem>
             <FormItem>
               <Field lite name="age" title="Age" type="age" placeholder="Age">
-                {(props) => {
+                {props => {
                   return (
                     <InputField
                       {...props}
@@ -112,8 +95,7 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                         if (props.onChange) {
                           props.onChange(e);
                         }
-                      }}
-                    >
+                      }}>
                       <ArrowIcon />
                     </InputField>
                   );
@@ -127,9 +109,8 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                 title="Favorite"
                 type="favorite"
                 placeholder="All"
-                options={leaderboardFavoriteData}
-              >
-                {(props) => {
+                options={leaderboardFavoriteData}>
+                {props => {
                   return (
                     <FieldSelect
                       {...props}
@@ -152,9 +133,8 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                 title="Users Count"
                 type="usersCount"
                 placeholder="10"
-                options={NetworkUsersCountData}
-              >
-                {(props) => {
+                options={NetworkUsersCountData}>
+                {props => {
                   return (
                     <FieldSelect
                       {...props}
@@ -172,14 +152,8 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
             </FormItem>
           </ItemContainer>
           <FormItem>
-            <Field
-              staticWidth
-              name="name"
-              title="Name"
-              type="name"
-              placeholder="Player name"
-            >
-              {(props) => {
+            <Field staticWidth name="name" title="Name" type="name" placeholder="Player name">
+              {props => {
                 return (
                   <InputField
                     {...props}
@@ -190,8 +164,7 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                       if (props.onChange) {
                         props.onChange(e);
                       }
-                    }}
-                  >
+                    }}>
                     <SearchIcon />
                   </InputField>
                 );

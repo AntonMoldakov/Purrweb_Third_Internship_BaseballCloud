@@ -4,8 +4,6 @@ import { StyledCell, ColumnTitle, StyledRow, StyledTable, TableMessage } from '.
 import { IColumnsData } from 'types';
 import { Loader } from 'ui';
 import styled from 'styled-components';
-import { color } from 'highcharts';
-import colors from '../../styles/colors';
 
 const Table = <T extends Record<string, any>>({
   rowsData,

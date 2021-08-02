@@ -1,51 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { columnsDataNetwork, NetworkUsersCountData } from "consts";
-import { IconButton } from "ui";
-import { HeartRegularIcon, HeartSolidIcon } from "assets/icons/components";
-import styled from "styled-components";
-import colors from "styles/colors";
-import { Paginator } from "components/Paginator";
-import { Table } from "components/Table";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import {
-  INetworkUsersData,
-  IUpdateFavoriteProfile,
-  IUpdateFavoriteProfileProps,
-} from "graphql/types";
-import { NETWORK_USERS_DATA, UPDATE_FAVORITE_PROFILE } from "graphql/consts";
-import { convertTableData } from "utils/convertTableData";
-import { toastr } from "react-redux-toastr";
-import { Cell } from "react-table";
-import { Link } from "react-router-dom";
-import { ISubmitNetworkProps } from "types";
-import { NetworkForm } from "./components";
+import React, { useEffect, useState } from 'react';
+import { columnsDataNetwork, NetworkUsersCountData } from 'consts';
+import { IconButton } from 'ui';
+import { HeartRegularIcon, HeartSolidIcon } from 'assets/icons/components';
+import styled from 'styled-components';
+import colors from 'styles/colors';
+import { Paginator } from 'components/Paginator';
+import { Table } from 'components/Table';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { INetworkUsersData, IUpdateFavoriteProfile, IUpdateFavoriteProfileProps } from 'graphql/types';
+import { NETWORK_USERS_DATA, UPDATE_FAVORITE_PROFILE } from 'graphql/consts';
+import { convertTableData } from 'utils/convertTableData';
+import { toastr } from 'react-redux-toastr';
+import { Cell } from 'react-table';
+import { Link } from 'react-router-dom';
+import { ISubmitNetworkProps } from 'types';
+import { NetworkForm } from './components';
 
 const Network = () => {
-  const limitUsers = "10";
+  const limitUsers = '10';
   const [usersCountSelector, setUsersCountSelector] = useState(limitUsers);
   const [page, setPage] = useState(0);
   const [requestData, setRequestData] = useState<IRequestData>({
     age: null,
     favorite: null,
-    position: "",
-    school: "",
-    team: "",
+    position: '',
+    school: '',
+    team: '',
     profiles_count: 10,
-    player_name: "",
+    player_name: '',
     offset: page,
   });
 
-  const [networkQuery, { loading, data }] = useLazyQuery<INetworkUsersData>(
-    NETWORK_USERS_DATA,
-    {
-      variables: {
-        input: {
-          ...requestData,
-        },
+  const [networkQuery, { loading, data }] = useLazyQuery<INetworkUsersData>(NETWORK_USERS_DATA, {
+    variables: {
+      input: {
+        ...requestData,
       },
-      fetchPolicy: "network-only",
-    }
-  );
+    },
+    fetchPolicy: 'network-only',
+  });
 
   const [updateProfile, { loading: favoriteLoading }] = useMutation<
     IUpdateFavoriteProfile,
@@ -58,29 +51,24 @@ const Network = () => {
   const handleFavorite = (id: number, favorite: boolean) => {
     updateProfile({
       variables: {
-        form: { profile_id: "" + id, favorite },
+        form: { profile_id: '' + id, favorite },
       },
     }).then(() => {
       networkQuery();
-      toastr.success(
-        "Success",
-        "This profile added to favorite list successfully"
-      );
+      toastr.success('Success', 'This profile added to favorite list successfully');
     });
   };
 
   const onSubmitFilters = (values: ISubmitNetworkProps) => {
-    setUsersCountSelector(
-      values.usersCount ? values.usersCount.value : limitUsers
-    );
+    setUsersCountSelector(values.usersCount ? values.usersCount.value : limitUsers);
     setRequestData({
       age: values.age ? +values.age : null,
       favorite: values.favorite ? +values.favorite.value : null,
-      position: values.position ? values.position.value : "",
-      school: values.school ? values.school : "",
-      team: values.team ? values.team : "",
+      position: values.position ? values.position.value : '',
+      school: values.school ? values.school : '',
+      team: values.team ? values.team : '',
       profiles_count: +values.usersCount ? +values.usersCount.value : 10,
-      player_name: values.name ? values.name : "",
+      player_name: values.name ? values.name : '',
       offset: page === 1 ? 0 : page,
     });
     networkQuery();
@@ -92,44 +80,34 @@ const Network = () => {
     networkQuery();
   };
 
-  const renderCell = React.useCallback(
-    <T extends Record<string, any>>(cell: Cell<T>) => {
-      const id =
-        cell.row.original.batter_datraks_id |
-        cell.row.original.pitcher_datraks_id |
-        cell.row.original.id;
-      switch (cell.column.id) {
-        case "favorite": {
-          return (
-            <IconButton
-              onClick={() => handleFavorite(id, !cell.value as boolean)}
-            >
-              {cell.value ? <HeartSolidIcon /> : <HeartRegularIcon />}
-            </IconButton>
-          );
-        }
-        case "rank": {
-          return +cell.row.id + 1;
-        }
-        case "player_name": {
-          return <Link to={`/profile/${id}`}>{cell.render("Cell")}</Link>;
-        }
-        default: {
-          return !cell.value ? "-" : cell.render("Cell");
-        }
+  const renderCell = React.useCallback(<T extends Record<string, any>>(cell: Cell<T>) => {
+    const id = cell.row.original.batter_datraks_id | cell.row.original.pitcher_datraks_id | cell.row.original.id;
+    switch (cell.column.id) {
+      case 'favorite': {
+        return (
+          <IconButton onClick={() => handleFavorite(id, !cell.value as boolean)}>
+            {cell.value ? <HeartSolidIcon /> : <HeartRegularIcon />}
+          </IconButton>
+        );
       }
-    },
-    []
-  );
+      case 'rank': {
+        return +cell.row.id + 1;
+      }
+      case 'player_name': {
+        return <Link to={`/profile/${id}`}>{cell.render('Cell')}</Link>;
+      }
+      default: {
+        return !cell.value ? '-' : cell.render('Cell');
+      }
+    }
+  }, []);
 
   return (
     <Root>
       <PageHeader>
         <div>
           <PageTitle>Network</PageTitle>
-          <MainTitle>
-            Available Players ({data?.profiles.total_count || "-"})
-          </MainTitle>
+          <MainTitle>Available Players ({data?.profiles.total_count || '-'})</MainTitle>
         </div>
         <NetworkForm onSubmit={onSubmitFilters} />
       </PageHeader>

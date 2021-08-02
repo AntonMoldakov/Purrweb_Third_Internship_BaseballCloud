@@ -11,7 +11,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  toastr: toastrReducer,
+  toastr: toastrReducer, 
 });
 
 export default persistReducer(persistConfig, rootReducer);
