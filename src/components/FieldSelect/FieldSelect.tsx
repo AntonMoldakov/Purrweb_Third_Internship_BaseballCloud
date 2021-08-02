@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { FieldRenderProps } from 'react-final-form';
 
-const FieldSelect = ({ input, meta, ...rest }: CustomSelectProps) => {
+const FieldSelect = ({ input, meta,lite, ...rest }: CustomSelectProps) => {
   return (
     <>
-      <Root {...input} {...rest} />
+      <StyledSelect $lite={lite} classNamePrefix={'Select'} {...input} {...rest} />
       {meta.error && meta.touched && <Error>{rest.placeholder + ' ' + meta.error}</Error>}
     </>
   );
@@ -21,26 +21,72 @@ interface CustomSelectProps
     | { value: string | number; label: string | undefined; data: string }
     | undefined,
     HTMLSelectElement
-  > {}
+  > {
+  lite?: boolean;
+}
 
-const Root = styled(Select)`
-  & .Select__control {
-    color: ${colors.gray};
-    height: 40px;
-    border-radius: 4px;
-    padding: 0 16px;
-    font-size: 16px;
-    line-height: 1.13;
-    font-weight: 400;
-    border: 1px solid transparent;
-    background-color: ${colors.opacityWhite};
+interface StyledSelectProps extends CustomSelectProps{
+  $lite?: boolean;
+}
+
+const StyledSelect = styled(Select)<StyledSelectProps>`
+  ${({ $lite }) =>
+    $lite &&
+    `.Select__control {
+    background: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    &:focus,
+    &:hover {
+      border: none;
+      outline: none;
+    }
   }
-  // &&:focus,
-  // &&:active {
-  //   background-color: ${colors.white};
-  //   outline: none;
-  //   border: solid 1px ${colors.lightBlue};
-  // }
+  .Select__indicator-separator {
+    display: none;
+  }
+  .Select__indicator {
+    padding: 0;
+    color: ${colors.lightBlue};
+    &:hover {
+      color: ${colors.lightBlue};
+    }
+  }
+  .Select__placeholder,
+  .Select__single-value {
+    color: ${colors.lightBlue};
+    position: relative;
+    transform: none;
+  }
+  .Select__input {
+    cursor: pointer;
+    caret-color: transparent;
+    color: ${colors.lightBlue};
+  }
+  
+  .Select__menu {
+  width: fit-content;
+  }
+  
+  .Select__option {
+    background-color: #fff;
+    color: ${colors.gray};
+    cursor: pointer;
+    &:hover {
+      background-color: ${colors.opacityBlue};
+    }
+  }
+
+  .Select__option.is-selected {
+    background-color: none;
+    color: ${colors.gray};
+  }
+
+  .Select__option.is-focused {
+    background-color: ${colors.opacityBlue};
+    color: ${colors.gray};
+  }`}
 `;
 
 const Error = styled.section`

@@ -62,3 +62,24 @@ export interface handleSubmitProps {
 }
 
 export type IColumnsData = Array<{ Header: string; accessor: string }>;
+
+export interface ISubmitLeaderboardProps {
+  age: string;
+  favorite: { value: string; label: string };
+  date: { value: string; label: string };
+  type: { value: string; label: string };
+  position: { value: string; label: string };
+  school: string;
+  team: string;
+}
+
+export interface ISubmitNetworkProps {
+  age: string;
+  favorite: { value: string; label: string };
+  usersCount:{ value: string; label: string };
+  position: { value: string; label: string };
+  school: string;
+  team: string;
+  name: string;
+   
+}

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 
-const DropdownMenu = ({ isOpen, setOpen, children }: IconButtonProps) => {
+const DropdownMenu = ({ isOpen, setOpen, children }: IDropdownMenuProps) => {
   return isOpen ? (
     <Root tabIndex={1} onBlur={() => setTimeout(() => setOpen(false), 500)} ref={menu => menu && menu.focus()}>
       {children}
@@ -14,7 +14,7 @@ const DropdownMenu = ({ isOpen, setOpen, children }: IconButtonProps) => {
 
 export default DropdownMenu;
 
-interface IconButtonProps {
+interface IDropdownMenuProps {
   isOpen: boolean;
   children: ReactNode;
   setOpen: (value: boolean) => void;

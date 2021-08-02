@@ -14,7 +14,7 @@ import {
 import colors from 'styles/colors';
 import avatar from 'assets/img/avatar.png';
 import { ProfileForm } from '../ProfileForm';
-import { toNormalState } from 'utils/Normalizers';
+import { toNormalState } from 'utils/normalizers';
 import { DesiredProfile } from 'types';
 import { useMutation } from '@apollo/client';
 import { UPDATE_FAVORITE_PROFILE } from 'graphql/consts';

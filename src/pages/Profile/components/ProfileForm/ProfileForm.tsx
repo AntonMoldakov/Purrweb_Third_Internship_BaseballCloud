@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import avatar from 'assets/img/avatar.png';
-import { Field, Form } from 'react-final-form';
-import { CustomField } from 'components/CustomField';
-import { FieldSelect } from 'components';
-import { Button, Loader, TextArea } from 'ui';
-import colors from 'styles/colors';
-import validate from 'utils/validate';
-import { useMutation, useQuery } from '@apollo/client';
+import React, { useState } from "react";
+import styled from "styled-components";
+import avatar from "assets/img/avatar.png";
+import { Field, Form } from "react-final-form";
+import { CustomField } from "components/CustomField";
+import { FieldSelect } from "components";
+import { Button, Loader, TextArea } from "ui";
+import colors from "styles/colors";
+import validate from "utils/validate";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   ICurrentProfile,
   IFacilitiesData,
@@ -15,25 +15,31 @@ import {
   ITeamsData,
   IUpdateProfile,
   IUpdateProfileProps,
-} from 'graphql/types';
-import { CURRENT_PROFILE, FACILITIES_DATA, SCHOOLS_DATA, TEAMS_DATA, UPDATE_PROFILE } from 'graphql/consts';
-import { toNormalizeOptions } from 'utils/Normalizers';
-import { profileAPI } from 'api';
-import { handData, positionData, schoolYearData } from 'consts';
-import { handleSubmitProps } from 'types';
-import { ConvertFormData } from 'utils/ConvertFormData';
-import { toastr } from 'react-redux-toastr';
+} from "graphql/types";
+import {
+  CURRENT_PROFILE,
+  FACILITIES_DATA,
+  SCHOOLS_DATA,
+  TEAMS_DATA,
+  UPDATE_PROFILE,
+} from "graphql/consts";
+import { profileAPI } from "api";
+import { handData, positionData, schoolYearData } from "consts";
+import { handleSubmitProps } from "types";
+import { toastr } from "react-redux-toastr";
+import { toNormalizeOptions } from "utils/normalizers";
+import { ConvertFormData } from "utils/convertFormData";
 
 function ProfileForm({ setEditMode }: ProfileFormProps) {
   const [labelState, setLabelState] = useState<boolean>(true);
   const [loadingPicture, setLoadingPicture] = useState<boolean>(false);
   const [pictureInfo, setPictureInfo] = useState<File>();
-  const [pictureUrl, setPictureUrl] = useState<string>('');
+  const [pictureUrl, setPictureUrl] = useState<string>("");
   const { data, loading } = useQuery<ICurrentProfile>(CURRENT_PROFILE);
   const user = data?.current_profile;
-  const userId = user ? '' + user.id : ' ';
+  const userId = user ? "" + user.id : " ";
   const defaultPicture = user?.avatar ? user.avatar : avatar;
-  const requestPicture = pictureUrl ? pictureUrl : user ? user.avatar : '';
+  const requestPicture = pictureUrl ? pictureUrl : user ? user.avatar : "";
 
   const position = toNormalizeOptions(user?.position);
   const position2 = toNormalizeOptions(user?.position2);
@@ -45,22 +51,25 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
   const bats_hand = toNormalizeOptions(user?.bats_hand);
 
   const schoolData = useQuery<ISchoolsData>(SCHOOLS_DATA, {
-    variables: { search: '' },
+    variables: { search: "" },
   }).data?.schools.schools;
 
   const teamsData = useQuery<ITeamsData>(TEAMS_DATA, {
-    variables: { search: '' },
+    variables: { search: "" },
   }).data?.teams.teams;
 
   const facilitiesData = useQuery<IFacilitiesData>(FACILITIES_DATA, {
-    variables: { search: '' },
+    variables: { search: "" },
   }).data?.facilities.facilities;
 
   const schoolDataNorm = toNormalizeOptions(schoolData);
   const teamsDataNorm = toNormalizeOptions(teamsData);
   const facilitiesDataNorm = toNormalizeOptions(facilitiesData);
 
-  const [updateProfile, { loading: updateLoading }] = useMutation<IUpdateProfile, IUpdateProfileProps>(UPDATE_PROFILE);
+  const [updateProfile, { loading: updateLoading }] = useMutation<
+    IUpdateProfile,
+    IUpdateProfileProps
+  >(UPDATE_PROFILE);
   const handleSubmit = (props: handleSubmitProps) => {
     updateProfile({
       variables: {
@@ -71,7 +80,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
         },
       },
     }).then(() => {
-      toastr.success('Success', 'Profile has been updated successfully.');
+      toastr.success("Success", "Profile has been updated successfully.");
       setEditMode(false);
     });
   };
@@ -98,30 +107,49 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
           <>
             <Form
               onSubmit={handleSubmit}
-              render={({ handleSubmit, submitting, pristine, hasValidationErrors }) => (
+              render={({
+                handleSubmit,
+                submitting,
+                pristine,
+                hasValidationErrors,
+              }) => (
                 <form onSubmit={handleSubmit}>
                   <div>
                     <PhotoContainer>
-                      <UserPhoto src={pictureInfo ? URL.createObjectURL(pictureInfo) : defaultPicture} />
+                      <UserPhoto
+                        src={
+                          pictureInfo
+                            ? URL.createObjectURL(pictureInfo)
+                            : defaultPicture
+                        }
+                      />
                       <div>
                         <input
-                          style={{ display: 'none' }}
+                          style={{ display: "none" }}
                           id="my-file"
                           type="file"
-                          onChange={e => {
+                          onChange={(e) => {
                             e.target.files && setPictureInfo(e.target.files[0]);
                             setLabelState(false);
                           }}
                         />
                       </div>
-                      <PhotoLabel htmlFor="my-file">{labelState && 'Choose Photo'}</PhotoLabel>
+                      <PhotoLabel htmlFor="my-file">
+                        {labelState && "Choose Photo"}
+                      </PhotoLabel>
 
                       {!labelState && (
                         <>
-                          <PhotoLabel>{pictureInfo && pictureInfo.name}</PhotoLabel>
+                          <PhotoLabel>
+                            {pictureInfo && pictureInfo.name}
+                          </PhotoLabel>
                           <div>
-                            <PhotoLabel onClick={handleSubmitImage}>Upload photo</PhotoLabel>
-                            <PhotoLabel onClick={handleCancelPhoto}>Cancel</PhotoLabel>
+                            <PhotoLabel onClick={handleSubmitImage}>
+                              Upload photo
+                            </PhotoLabel>
+                            <PhotoLabel onClick={handleCancelPhoto}>
+                              Cancel
+                            </PhotoLabel>
                           </div>
                         </>
                       )}
@@ -159,8 +187,8 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           disabled={updateLoading}
                           validate={validate.requiredSelect}
                           defaultValue={position}
-                          name={'position'}
-                          placeholder={'Position in Game *'}
+                          name={"position"}
+                          placeholder={"Position in Game *"}
                           options={positionData}
                           component={FieldSelect}
                         />
@@ -169,8 +197,8 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                         <Field
                           disabled={updateLoading}
                           defaultValue={position2}
-                          name={'position2'}
-                          placeholder={'Secondary Position in Game'}
+                          name={"position2"}
+                          placeholder={"Secondary Position in Game"}
                           options={positionData}
                           component={FieldSelect}
                         />
@@ -269,8 +297,8 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                         <Field
                           disabled={updateLoading}
                           defaultValue={school}
-                          name={'school'}
-                          placeholder={'School'}
+                          name={"school"}
+                          placeholder={"School"}
                           options={schoolDataNorm}
                           component={FieldSelect}
                         />
@@ -279,8 +307,8 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                         <Field
                           disabled={updateLoading}
                           defaultValue={school_years}
-                          name={'school_year'}
-                          placeholder={'School Year'}
+                          name={"school_year"}
+                          placeholder={"School Year"}
                           options={schoolYearData}
                           component={FieldSelect}
                         />
@@ -290,8 +318,8 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           isMulti
                           disabled={updateLoading}
                           defaultValue={teams}
-                          name={'teams'}
-                          placeholder={'Team'}
+                          name={"teams"}
+                          placeholder={"Team"}
                           options={teamsDataNorm}
                           component={FieldSelect}
                         />
@@ -307,8 +335,8 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           isMulti
                           disabled={updateLoading}
                           defaultValue={facilities}
-                          name={'facilities'}
-                          placeholder={'Facilities'}
+                          name={"facilities"}
+                          placeholder={"Facilities"}
                           options={facilitiesDataNorm}
                           component={FieldSelect}
                         />
@@ -323,27 +351,41 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                         <Field
                           disabled={updateLoading}
                           defaultValue={user.biography}
-                          name={'biography'}
-                          placeholder={'About'}
+                          name={"biography"}
+                          placeholder={"About"}
                           component={TextArea}
                         />
                       </FormItem>
                     </section>
                   </div>
-                  {hasValidationErrors && <Error>* Fill out the required fields</Error>}
+                  {hasValidationErrors && (
+                    <Error>* Fill out the required fields</Error>
+                  )}
                   <ButtonsContainer>
                     <Button
-                      $white
+                      white
                       type="reset"
-                      onClick={() => (user?.first_name ? setEditMode(false) : null)}
-                      disabled={submitting || pristine || updateLoading || loadingPicture}
-                      title={'Cancel'}
+                      onClick={() =>
+                        user?.first_name ? setEditMode(false) : null
+                      }
+                      disabled={
+                        submitting ||
+                        pristine ||
+                        updateLoading ||
+                        loadingPicture
+                      }
+                      title={"Cancel"}
                     />
                     <Button
                       type="submit"
                       isLoading={updateLoading || loadingPicture}
-                      disabled={submitting || pristine || updateLoading || loadingPicture}
-                      title={'Save'}
+                      disabled={
+                        submitting ||
+                        pristine ||
+                        updateLoading ||
+                        loadingPicture
+                      }
+                      title={"Save"}
                     />
                   </ButtonsContainer>
                 </form>
