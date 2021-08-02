@@ -1,7 +1,6 @@
 import { LockIcon, UserIcon } from 'assets/icons/components';
 import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import { CustomField } from 'components';
 import { Field, Form } from 'react-final-form';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
 import validate from 'utils/validate';
 import { FORM_ERROR } from 'final-form';
+import { TextField } from 'components/TextField';
 
 function SignIn() {
   const [isLoading, setLoading] = useState(false);
@@ -60,9 +60,10 @@ function SignIn() {
                     title="Email"
                     type="email"
                     placeholder="Email"
+                    Icon={<UserIcon color={colors.gray} />}
+                    theme={'thirdary'}
+                    component={TextField}
                     validate={validate.requiredEmail}
-                    children={<UserIcon color={colors.gray} />}
-                    component={CustomField}
                   />
                 </FormItem>
                 <FormItem>
@@ -73,9 +74,10 @@ function SignIn() {
                     name="password"
                     title="Password"
                     placeholder="Password"
+                    Icon={<LockIcon color={colors.gray} />}
+                    theme={'thirdary'}
                     validate={validate.required}
-                    children={<LockIcon color={colors.gray} />}
-                    component={CustomField}
+                    component={TextField}
                   />
                 </FormItem>
                 {submitError && <Error>{submitError}</Error>}

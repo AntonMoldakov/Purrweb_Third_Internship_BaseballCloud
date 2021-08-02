@@ -14,24 +14,25 @@ import { ICurrentUser } from 'graphql/types';
 import { CURRENT_USER } from 'graphql/consts';
 import { Loader } from 'ui';
 
+const navItems = [
+  {
+    id: '1',
+    title: 'Leaderboard',
+    src: '/leaderboard',
+  },
+  {
+    id: '2',
+    title: 'Network',
+    src: '/network',
+  },
+];
+
 const Header = () => {
   const [isOpenMenu, setOpenMenu] = useState(false);
   const dispatch = useAppDispatch();
   const { token } = useSelector(selectUser);
   const { data, loading } = useQuery<ICurrentUser>(CURRENT_USER);
   const user = data?.current_profile;
-  const navItems = [
-    {
-      id: '1',
-      title: 'Leaderboard',
-      src: '/leaderboard',
-    },
-    {
-      id: '2',
-      title: 'Network',
-      src: '/network',
-    },
-  ];
   return (
     <Root>
       <Link to={'/profile'}>

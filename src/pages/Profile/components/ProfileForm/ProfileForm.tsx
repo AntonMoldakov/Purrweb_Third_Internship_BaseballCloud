@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import avatar from 'assets/img/avatar.png';
 import { Field, Form } from 'react-final-form';
-import { CustomField } from 'components/CustomField';
-import { FieldSelect } from 'components';
-import { Button, Loader, TextArea } from 'ui';
+import { FieldSelect, TextField, TextAreaField } from 'components';
+import { Button, Loader } from 'ui';
 import colors from 'styles/colors';
 import validate from 'utils/validate';
 import { useMutation, useQuery } from '@apollo/client';
@@ -130,28 +129,32 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                     <section>
                       <UserName>
                         <FormItem $twoItem>
-                          <Field
-                            disabled={updateLoading}
-                            maxLength={30}
-                            name="first_name"
-                            title="First Name"
-                            defaultValue={user.first_name}
-                            validate={validate.required}
-                            type="firstName"
-                            placeholder="First Name *"
-                            component={CustomField}
-                          />
-                          <Field
-                            disabled={updateLoading}
-                            maxLength={30}
-                            name="last_name"
-                            title="Last Name"
-                            defaultValue={user.last_name}
-                            validate={validate.required}
-                            type="lastName"
-                            placeholder="Last Name *"
-                            component={CustomField}
-                          />
+                          <InputItem>
+                            <Field
+                              disabled={updateLoading}
+                              maxLength={30}
+                              name="first_name"
+                              title="First Name"
+                              defaultValue={user.first_name}
+                              validate={validate.required}
+                              type="firstName"
+                              placeholder="First Name *"
+                              render={props => <TextField theme={'fourth'} {...props} />}
+                            />
+                          </InputItem>
+                          <InputItem>
+                            <Field
+                              disabled={updateLoading}
+                              maxLength={30}
+                              name="last_name"
+                              title="Last Name"
+                              defaultValue={user.last_name}
+                              validate={validate.required}
+                              type="lastName"
+                              placeholder="Last Name *"
+                              render={props => <TextField theme={'fourth'} {...props} />}
+                            />
+                          </InputItem>
                         </FormItem>
                       </UserName>
                       <FormItem>
@@ -184,51 +187,55 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                       <FormItem>
                         <Field
                           disabled={updateLoading}
-                          defaultValue={user.age}
+                          defaultValue={'' + user.age}
                           validate={validate.required}
                           maxLength={3}
                           name="age"
                           title="Age"
                           type="age"
                           placeholder="Age *"
-                          component={CustomField}
+                          render={props => <TextField theme={'fourth'} {...props} />}
                         />
                       </FormItem>
                       <FormItem $twoItem>
-                        <Field
-                          disabled={updateLoading}
-                          defaultValue={user.feet}
-                          validate={validate.required}
-                          maxLength={2}
-                          name="feet"
-                          title="Feet"
-                          type="feet"
-                          placeholder="Feet *"
-                          component={CustomField}
-                        />
-                        <Field
-                          disabled={updateLoading}
-                          defaultValue={user.inches}
-                          validate={validate.required}
-                          maxLength={2}
-                          name="inches"
-                          title="Inches"
-                          type="inches"
-                          placeholder="Inches *"
-                          component={CustomField}
-                        />
+                        <InputItem>
+                          <Field
+                            disabled={updateLoading}
+                            defaultValue={'' + user.feet}
+                            validate={validate.required}
+                            maxLength={2}
+                            name="feet"
+                            title="Feet"
+                            type="feet"
+                            placeholder="Feet *"
+                            render={props => <TextField theme={'fourth'} {...props} />}
+                          />
+                        </InputItem>
+                        <InputItem>
+                          <Field
+                            disabled={updateLoading}
+                            defaultValue={'' + user.inches}
+                            validate={validate.required}
+                            maxLength={2}
+                            name="inches"
+                            title="Inches"
+                            type="inches"
+                            placeholder="Inches *"
+                            render={props => <TextField theme={'fourth'} {...props} />}
+                          />
+                        </InputItem>
                       </FormItem>
                       <FormItem>
                         <Field
                           disabled={updateLoading}
-                          defaultValue={user.weight}
+                          defaultValue={'' + user.weight}
                           validate={validate.required}
                           maxLength={3}
                           name="weight"
                           title="Weight"
                           type="weight"
                           placeholder="Weight *"
-                          component={CustomField}
+                          render={props => <TextField theme={'fourth'} {...props} />}
                         />
                       </FormItem>
                       <InputContainer>
@@ -325,7 +332,7 @@ function ProfileForm({ setEditMode }: ProfileFormProps) {
                           defaultValue={user.biography}
                           name={'biography'}
                           placeholder={'About'}
-                          component={TextArea}
+                          component={TextAreaField}
                         />
                       </FormItem>
                     </section>
@@ -412,10 +419,7 @@ const FormItem = styled.div<FormItemProps>`
     $twoItem &&
     `
       display: flex;
-      justify-content: space-between;
-      && div {
-        width: 48%;
-      }`}
+      justify-content: space-between;`}
 `;
 
 const InputContainer = styled.div`

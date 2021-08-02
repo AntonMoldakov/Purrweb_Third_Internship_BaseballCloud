@@ -4,7 +4,7 @@ import { ArrowIcon } from 'assets/icons/components';
 import { dateData, leaderboardFavoriteData, leaderboardPositionData } from 'consts';
 import styled from 'styled-components';
 import { FieldSelect } from 'components/FieldSelect';
-import { InputField } from 'components';
+import { TextField } from 'components';
 import { ISubmitLeaderboardProps } from 'types';
 
 const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
@@ -23,9 +23,6 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
                       onChange={(e: InputEvent) => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
                       }}
                     />
                   );
@@ -36,17 +33,16 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
               <Field lite name="school" title="School" type="school" placeholder="School">
                 {props => {
                   return (
-                    <InputField
+                    <TextField
                       {...props}
-                      onChange={(e: InputEvent) => {
+                      Icon={<ArrowIcon />}
+                      theme={'secondary'}
+                      position={'right'}
+                      onChange={e => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
-                      }}>
-                      <ArrowIcon />
-                    </InputField>
+                      }}
+                    />
                   );
                 }}
               </Field>
@@ -55,17 +51,16 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
               <Field lite name="team" title="Team" type="team" placeholder="Team">
                 {props => {
                   return (
-                    <InputField
+                    <TextField
                       {...props}
-                      onChange={(e: InputEvent) => {
+                      Icon={<ArrowIcon />}
+                      theme={'secondary'}
+                      position={'right'}
+                      onChange={e => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
-                      }}>
-                      <ArrowIcon />
-                    </InputField>
+                      }}
+                    />
                   );
                 }}
               </Field>
@@ -98,17 +93,16 @@ const LeaderboardForm = ({ onSubmit }: ILeaderboardFormProps) => {
               <Field lite name="age" title="Age" type="age" placeholder="Age">
                 {props => {
                   return (
-                    <InputField
+                    <TextField
                       {...props}
-                      onChange={(e: InputEvent) => {
+                      Icon={<ArrowIcon />}
+                      theme={'secondary'}
+                      position={'right'}
+                      onChange={e => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
-                      }}>
-                      <ArrowIcon />
-                    </InputField>
+                      }}
+                    />
                   );
                 }}
               </Field>

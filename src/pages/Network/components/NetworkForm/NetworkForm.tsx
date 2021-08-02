@@ -9,8 +9,7 @@ import {
   NetworkUsersCountData,
 } from 'consts';
 import styled from 'styled-components';
-import { FieldSelect } from 'components/FieldSelect';
-import { InputField } from 'components';
+import { TextField, FieldSelect } from 'components';
 import { ISubmitNetworkProps } from 'types';
 
 const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
@@ -25,17 +24,16 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
               <Field lite name="school" title="School" type="school" placeholder="School">
                 {props => {
                   return (
-                    <InputField
+                    <TextField
                       {...props}
-                      onChange={(e: InputEvent) => {
+                      Icon={<ArrowIcon />}
+                      theme={'secondary'}
+                      position={'right'}
+                      onChange={e => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
-                      }}>
-                      <ArrowIcon />
-                    </InputField>
+                      }}
+                    />
                   );
                 }}
               </Field>
@@ -44,17 +42,16 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
               <Field lite name="team" title="Team" type="team" placeholder="Team">
                 {props => {
                   return (
-                    <InputField
+                    <TextField
                       {...props}
-                      onChange={(e: InputEvent) => {
+                      Icon={<ArrowIcon />}
+                      theme={'secondary'}
+                      position={'right'}
+                      onChange={e => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
-                      }}>
-                      <ArrowIcon />
-                    </InputField>
+                      }}
+                    />
                   );
                 }}
               </Field>
@@ -74,9 +71,6 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                       onChange={(e: InputEvent) => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
                       }}
                     />
                   );
@@ -87,17 +81,16 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
               <Field lite name="age" title="Age" type="age" placeholder="Age">
                 {props => {
                   return (
-                    <InputField
+                    <TextField
                       {...props}
-                      onChange={(e: InputEvent) => {
+                      Icon={<ArrowIcon />}
+                      theme={'secondary'}
+                      position={'right'}
+                      onChange={e => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
-                      }}>
-                      <ArrowIcon />
-                    </InputField>
+                      }}
+                    />
                   );
                 }}
               </Field>
@@ -117,9 +110,6 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                       onChange={(e: InputEvent) => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
                       }}
                     />
                   );
@@ -141,9 +131,6 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
                       onChange={(e: InputEvent) => {
                         props.input.onChange(e);
                         handleSubmit();
-                        if (props.onChange) {
-                          props.onChange(e);
-                        }
                       }}
                     />
                   );
@@ -155,18 +142,14 @@ const NetworkForm = ({ onSubmit, pitching }: INetworkFormProps) => {
             <Field staticWidth name="name" title="Name" type="name" placeholder="Player name">
               {props => {
                 return (
-                  <InputField
+                  <TextField
                     {...props}
-                    right={false}
-                    onChange={(e: InputEvent) => {
+                    Icon={<SearchIcon />}
+                    onChange={e => {
                       props.input.onChange(e);
                       handleSubmit();
-                      if (props.onChange) {
-                        props.onChange(e);
-                      }
-                    }}>
-                    <SearchIcon />
-                  </InputField>
+                    }}
+                  />
                 );
               }}
             </Field>

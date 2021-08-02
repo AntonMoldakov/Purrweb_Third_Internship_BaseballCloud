@@ -3,11 +3,11 @@ import colors from 'styles/colors';
 import styled from 'styled-components';
 import { FieldRenderProps } from 'react-final-form';
 
-const TextArea = ({ input, meta, ...rest }: FieldRenderProps<string, HTMLTextAreaElement>) => {
+const TextAreaField = ({ input, meta, ...rest }: FieldRenderProps<string, HTMLTextAreaElement>) => {
   return <Root {...input} {...rest} />;
 };
 
-export default TextArea;
+export default TextAreaField;
 
 const Root = styled.textarea`
   resize: none;

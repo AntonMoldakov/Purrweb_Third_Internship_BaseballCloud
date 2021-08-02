@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconInput, Loader } from 'ui';
+import { Loader } from 'ui';
 import { SearchIcon } from 'assets/icons/components';
 import { Selector, Paginator, Table } from 'components';
 import { pitchTypeData } from 'consts';
@@ -8,6 +8,7 @@ import colors from 'styles/colors';
 import { IPitchingLog, IBattingLog } from 'graphql/types';
 import { IColumnsData } from 'types';
 import { Row } from 'react-table';
+import Input from 'ui/Input';
 
 const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSize, setPage, values }: ILogProps) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => setPitcherName(e.target.value);
@@ -22,15 +23,9 @@ const Log = ({ setTypeSelector, pitcherName, setPitcherName, totalCount, pageSiz
   return (
     <div>
       <CardHeader>
-        <IconInput
-          staticWidth
-          right={false}
-          placeholder={'Search'}
-          type="text"
-          value={pitcherName}
-          onChange={handleSearch}>
-          <SearchIcon />
-        </IconInput>
+        <InputContainer>
+          <Input placeholder={'Search'} type="text" value={pitcherName} onChange={handleSearch} Icon={<SearchIcon />} />
+        </InputContainer>
         <div>
           <Selector onReturnValue={setTypeSelector} options={pitchTypeData} />
         </div>
@@ -94,6 +89,10 @@ const TabMessage = styled.div`
   justify-content: center;
   color: ${colors.gray};
   font-size: 16px;
+`;
+
+const InputContainer = styled.div`
+  max-width: 180px;
 `;
 
 const CardFooter = styled.div`

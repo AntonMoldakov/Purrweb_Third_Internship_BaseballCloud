@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { IBattingData, IPitchingData, IProfile, IProfileById, IProfileNamesData } from 'graphql/types';
 import avatar from 'assets/img/avatar.png';
 import styled from 'styled-components';
-import { DropdownMenu, IconInput, Loader, TableRow } from 'ui';
+import { DropdownMenu, Loader, TableRow } from 'ui';
 import { SearchIcon } from 'assets/icons/components';
 import useDebounce from 'hooks';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { BATTING_DATA, FILTER_PROFILE_NAMES, PROFILE_DATA_BY_ID } from 'graphql/consts';
 import { Selector } from 'components/Selector';
 import { topBattingValues, topPitchingValues } from 'consts';
+import Input from 'ui/Input';
 
 const Comparison = ({ profile, batting, pitching }: ComparisonCardTabProps) => {
   const [typeSelectorLog, setTypeSelectorLog] = useState({
@@ -82,14 +83,13 @@ const Comparison = ({ profile, batting, pitching }: ComparisonCardTabProps) => {
             </LoadingContainer>
           )}
           <Search>
-            <IconInput
-              staticWidth
+            <Input
               onFocus={() => setOpenResults(true)}
               placeholder={'Enter player name'}
               value={searchUser}
-              onChange={handleSearch}>
-              <SearchIcon />
-            </IconInput>
+              onChange={handleSearch}
+              Icon={<SearchIcon />}
+            />
             {searchUsers && searchUsers.length > 0 && (
               <DropdownMenu setOpen={setOpenResults} isOpen={isOpenResults}>
                 {searchUsers.map(item => (

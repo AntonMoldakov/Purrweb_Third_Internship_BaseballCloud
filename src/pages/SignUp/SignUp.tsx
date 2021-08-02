@@ -1,7 +1,6 @@
 import { LockIcon, UserIcon, CheckIcon } from 'assets/icons/components';
 import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import { CustomField } from 'components';
 import { Field, Form } from 'react-final-form';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,6 +13,8 @@ import { useAppDispatch } from 'store';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'store/auth/selectors';
 import { FORM_ERROR } from 'final-form';
+import validate from 'utils/validate';
+import { TextField } from 'components/TextField';
 
 function SignUp() {
   const [isLoading, setLoading] = useState(false);
@@ -70,8 +71,10 @@ function SignUp() {
                     title="Email"
                     type="email"
                     placeholder="Email"
-                    children={<UserIcon color={colors.gray} />}
-                    component={CustomField}
+                    Icon={<UserIcon color={colors.gray} />}
+                    theme={'thirdary'}
+                    component={TextField}
+                    validate={validate.requiredEmail}
                   />
                 </FormItem>
                 <FormItem>
@@ -83,20 +86,25 @@ function SignUp() {
                     name="password"
                     title="Password"
                     placeholder="Password"
-                    children={<LockIcon color={colors.gray} />}
-                    component={CustomField}
+                    Icon={<LockIcon color={colors.gray} />}
+                    theme={'thirdary'}
+                    validate={validate.required}
+                    component={TextField}
                   />
                 </FormItem>
                 <FormItem>
                   <Field
                     disable={isLoading}
+                    minLength={6}
                     maxLength={30}
                     type="password"
                     name="password_confirmation"
                     title="Confirm Password"
                     placeholder="Confirm Password"
-                    children={<CheckIcon color={colors.gray} />}
-                    component={CustomField}
+                    Icon={<CheckIcon color={colors.gray} />}
+                    theme={'thirdary'}
+                    validate={validate.required}
+                    component={TextField}
                   />
                 </FormItem>
               </div>
