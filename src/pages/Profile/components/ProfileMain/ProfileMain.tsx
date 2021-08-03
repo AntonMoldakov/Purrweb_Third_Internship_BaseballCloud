@@ -2,13 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import colors from 'styles/colors';
 import { useQuery } from '@apollo/client';
-import { IBattingData, IPitchingData } from 'graphql/types';
-import { BATTING_DATA, PITCHING_DATA } from 'graphql/consts';
+import { IBattingData, IPitchingData, IProfileEventsData } from 'graphql/types';
+import { BATTING_DATA, PITCHING_DATA, PROFILE_EVENTS_DATA } from 'graphql/consts';
 import { Info, TopValues } from '../';
 import { DesiredProfile } from 'types';
+import { Loader } from 'ui';
+import { Table } from 'components';
+import { eventsColumnsData } from 'consts';
 
 function ProfileMain({ profile }: ProfileMainProps) {
   const id = profile.profile.data?.id || 0;
+  const eventsPageSize = 10;
+  const { data, loading } = useQuery<IProfileEventsData>(PROFILE_EVENTS_DATA, {
+    variables: {
+      input: {
+        profile_id: id,
+        count: eventsPageSize,
+        offset: 0,
+      },
+    },
+  });
 
   const batting = useQuery<IBattingData>(BATTING_DATA, {
     variables: { id },
@@ -84,7 +97,13 @@ function ProfileMain({ profile }: ProfileMainProps) {
       {profile.currentProfile && (
         <MainCard>
           <CardTitle>Recent Session Reports</CardTitle>
-          <CardBody>No data currently linked to this profile</CardBody>
+          {loading ? (
+            <Loader size={50} />
+          ) : data?.profile_events.events && data?.profile_events.events.length > 0 ? (
+            <Table columnsData={eventsColumnsData} rowsData={data?.profile_events.events || []} />
+          ) : (
+            <CardBody>No data currently linked to this profile</CardBody>
+          )}
         </MainCard>
       )}
 
